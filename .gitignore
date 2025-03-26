@@ -31,3 +31,101 @@ generated-cra-app
 .cra-template-rb
 template
 .eslintcache
+
+
+
+
+node_modules/
+/.pnp
+.pnp.js
+.yarn/*
+!.yarn/cache
+!.yarn/patches
+!.yarn/plugins
+!.yarn/releases
+!.yarn/sdks
+!.yarn/versions
+.yarn-integrity
+
+# Next.js build output
+/.next/
+/out/
+build/
+
+# Production builds
+/build
+/dist
+
+# Misc
+.DS_Store
+*.pem
+
+# Debug
+yarn-debug.log*
+yarn-error.log*
+
+# Local env files
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# Vercel
+.vercel
+
+# TypeScript
+*.tsbuildinfo
+next-env.d.ts
+
+# IDE and Editor files
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+
+# Temporary files
+.tmp/
+.temp/
+
+# Logs
+logs
+*.log
+
+# Yarn specific
+.yarn/install-state.gz
+**/node_modules
+.pnp.*
+
+# Runtime data
+pids
+*.pid
+*.seed
+*.pid.lock
+
+# Optional eslint cache
+.eslintcache
+
+# Backup files
+*.bak
+*.gho
+*.ori
+*.orig
+*.tmp
+
+# Cypress
+cypress/videos/
+cypress/screenshots/
+
+# Mac specific
+.AppleDouble
+.LSOverride
+Icon
+._*
+
+# Windows specific
+Thumbs.db
+Thumbs.db:encryptable
+ehthumbs.db
+ehthumbs_vista.db
