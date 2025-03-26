@@ -19,16 +19,6 @@ self.__BUILD_MANIFEST = {
       "static/chunks/main.js",
       "static/chunks/pages/_error.js"
     ],
-    "/dashBoard": [
-      "static/chunks/webpack.js",
-      "static/chunks/main.js",
-      "static/chunks/pages/dashBoard.js"
-    ],
-    "/fleetMangement": [
-      "static/chunks/webpack.js",
-      "static/chunks/main.js",
-      "static/chunks/pages/fleetMangement.js"
-    ],
     "/posts": [
       "static/chunks/webpack.js",
       "static/chunks/main.js",
