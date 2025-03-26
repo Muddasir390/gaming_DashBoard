@@ -1,9 +1,0 @@
-{
-  "/_app": "pages/_app.js",
-  "/_error": "pages/_error.js",
-  "/_document": "pages/_document.js",
-  "/fleetMangement": "pages/fleetMangement.js",
-  "/dashBoard": "pages/dashBoard.js",
-  "/posts": "pages/posts.js",
-  "/users": "pages/users.js"
-}
