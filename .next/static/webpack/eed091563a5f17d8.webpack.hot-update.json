@@ -1,0 +1,1 @@
+{"c":["pages/dashBoard","pages/posts","pages/users","webpack"],"r":["pages/users"],"m":["./node_modules/next/dist/build/webpack/loaders/next-client-pages-loader.js?absolutePagePath=%2Fhome%2Fakhtar%2FDocuments%2FZooverseDashBoard%2Fpages%2Fusers.tsx&page=%2Fusers!","./pages/users.tsx","./public/DashBoard/useGetAllUsers.ts"]}
