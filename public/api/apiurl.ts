@@ -10,12 +10,14 @@ export const apisEndpoint = {
   updatePostURL: `${config.BASE_URL}/api/updatePost`,
   getFleetsURL: `https://35mimtdhtl.execute-api.eu-west-1.amazonaws.com/Test-A01/GetAliases`,
   updateFleetsURL : `https://35mimtdhtl.execute-api.eu-west-1.amazonaws.com/Test-A01/StartFleets`,
-  allUsersURL: `http://ec2-63-33-169-21.eu-west-1.compute.amazonaws.com:8889/api/getUsersList`,
-  userJourneyURL: `http://ec2-63-33-169-21.eu-west-1.compute.amazonaws.com:8889/api/events/`,
-  virtaulStorePurchaseURL: `http://ec2-63-33-169-21.eu-west-1.compute.amazonaws.com:8889/api/getVirtualPurchases`,
-  getSessionURL: `http://ec2-63-33-169-21.eu-west-1.compute.amazonaws.com:8889/api/averageSessionLength`,
-  getUserCountURL: `http://ec2-63-33-169-21.eu-west-1.compute.amazonaws.com:8889/api/getUsersCount`,
-  storePurchaseURL: `http://ec2-63-33-169-21.eu-west-1.compute.amazonaws.com:8889/api/getPurchases`
+  allUsersURL: `${config.BASE_URL}/api/getUsersList`,
+  userJourneyURL: `${config.BASE_URL}/api/events/`,
+  virtaulStorePurchaseURL: `${config.BASE_URL}/api/getVirtualPurchases`,
+  getSessionURL: `${config.BASE_URL}/api/averageSessionLength`,
+  getUserCountURL: `${config.BASE_URL}/api/getUsersCount`,
+  storePurchaseURL: `${config.BASE_URL}/api/getPurchases`,
+  roomInfoURL: `${config.BASE_URL}/api/GetRoomsInfo`
+
 
 
 

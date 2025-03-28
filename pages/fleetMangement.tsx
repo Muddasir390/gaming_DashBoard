@@ -10,7 +10,7 @@ import { useUpdateFleet } from "../public/DashBoard/useUpdateFleet";
 const FleetManagement = () => {
     const [activeSection, setActiveSection] = useState("Fleets Management");
     const { fleetsData, fleetsLoading, refetchFleet } = useGetAllFleets();
-    const { updateFleet, updateFleetIsSuccess } = useUpdateFleet()
+    const { updateFleet, updateFleetIsSuccess, updateFleetLoading } = useUpdateFleet()
 
     useEffect(() => {
         if (updateFleetIsSuccess) {
@@ -70,19 +70,16 @@ const FleetManagement = () => {
         }
     };
 
-    console.log('selectedFleets(()))', selectedFleets);
-
     const SkeletonRow = () => (
         <tr className="border-b border-gray-100 animate-pulse">
             <td className="py-4 px-4">
-                <div className="h-4 bg-gray-200 rounded w-32 mb-2"></div>
-                <div className="h-3 bg-gray-200 rounded w-48"></div>
+                <div className="h-4 bg-[#94a3b8] rounded w-32 mb-2"></div>
             </td>
             <td className="py-4 px-4">
-                <div className="h-6 bg-gray-200 rounded w-16"></div>
+                <div className="h-6 bg-[#94a3b8] rounded w-16"></div>
             </td>
             <td className="py-4 px-4">
-                <div className="h-5 w-10 bg-gray-200 rounded"></div>
+                <div className="h-5 w-10 bg-[#94a3b8] rounded"></div>
             </td>
         </tr>
     );
@@ -102,7 +99,7 @@ const FleetManagement = () => {
                                     onClick={updateSelectedFleets}
                                     className="px-6 py-2 bg-white text-blue-600 rounded-lg font-medium shadow-md hover:bg-gray-100 transition-colors"
                                 >
-                                    Update Selected
+                                    {updateFleetLoading ? <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-black"></div> : "Update Fleets"}
                                 </button>
                             </div>
                         </div>

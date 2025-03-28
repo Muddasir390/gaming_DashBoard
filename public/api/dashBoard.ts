@@ -96,17 +96,17 @@ export const dailyActiveUserApi = async (payload: any) => {
     }
   };
 
-  export const getAllUsersApi = async () => {
-  
+  export const getAllUsersApi = async (payload: any) => {
     try {
-      const response = httpWithAuth.get(
-        `${apisEndpoint.allUsersURL}`,
-      );
-      return (await response).data;
+      const response = httpWithAuth.post(apisEndpoint.allUsersURL, payload);
+      const data = (await response).data;
+      return data;
     } catch (error: any) {
+      toast.error(error?.response?.data?.detail);
       throw error;
     }
   };
+
 
   export const userJourneyApi = async (payload: any) => {
     try {
@@ -161,6 +161,18 @@ export const dailyActiveUserApi = async (payload: any) => {
       );
       return (await response).data;
     } catch (error: any) {
+      throw error;
+    }
+  };
+
+
+  export const roomInfoApi = async (payload: any) => {
+    try {
+      const response = httpWithAuth.post(apisEndpoint.roomInfoURL, payload);
+      const data = (await response).data;
+      return data;
+    } catch (error: any) {
+      toast.error(error?.response?.data?.detail);
       throw error;
     }
   };

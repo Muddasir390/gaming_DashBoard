@@ -9,8 +9,7 @@ interface sideBarProps {
 }
 
 
-const sideBar: React.FC<sideBarProps> = ({ activeSection, setActiveSection }) => {
-  const router = useRouter();
+const sideBar: React.FC<sideBarProps> = ({ activeSection }) => {
   const sectionIcons: any = {
     Dashboard: <LayoutDashboard size={20} className="mr-2" />,
     Post: <FileText size={20} className="mr-2" />,
@@ -49,7 +48,7 @@ const sideBar: React.FC<sideBarProps> = ({ activeSection, setActiveSection }) =>
               <Link
                 href={route}
                 key={section}
-                // onClick={() => handleSectionClick(section)}
+                prefetch={true} 
                 className={`flex items-center w-full text-left py-3 px-4 rounded-lg transition-all text-white mb-2 ${activeSection === section
                     ? "bg-blue-600 text-white"
                     : "hover:text-black hover:bg-blue-100"

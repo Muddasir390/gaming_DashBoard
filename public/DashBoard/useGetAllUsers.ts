@@ -1,26 +1,24 @@
-import { useQuery } from '@tanstack/react-query';
-import { getAllUsersApi } from '../api/dashBoard';
-
+import { useMutation } from '@tanstack/react-query';
+import {getAllUsersApi} from '../api/dashBoard'
 
 export function useGetAllUsers() {
+
   const {
-    refetch: refetchUsers,
-    isLoading: usersLoading,
-    isSuccess: usersSuccess,
+    mutate: getUser,
+    isPending: usersLoading,
     data: usersData,
-    isRefetching: usersRefetchLoading,
-  } = useQuery({
-    queryKey: ['allUsers'],
-    queryFn: getAllUsersApi,
+    isError: usersIsError,
+    isSuccess: UserIsSuccess,
+  } = useMutation({
+    mutationFn: getAllUsersApi,
     retry: false,
-    enabled:  true
   });
 
   return {
-    refetchUsers,
+    getUser,
     usersLoading,
-    usersSuccess,
     usersData,
-    usersRefetchLoading,
+    usersIsError,
+    UserIsSuccess,
   };
 }

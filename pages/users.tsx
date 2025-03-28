@@ -1,23 +1,55 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import SideBar from "../components/SideBar";
 import NavBar from "../components/NavBar";
 import { useGetAllUsers } from "../public/DashBoard/useGetAllUsers";
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
+import moment from 'moment';
+
+
 
 const Users = () => {
   const [activeSection, setActiveSection] = useState("Users");
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage, setItemsPerPage] = useState(10);
   const [searchQuery, setSearchQuery] = useState("");
-  const { usersData, usersLoading } = useGetAllUsers();
+  const [selectedUser, setSelectedUser] = useState('')
+  const [dateRange, setDateRange] = useState<[Date | null, Date | null]>([null, null]);
+
+  const {getUser, usersData, usersLoading } = useGetAllUsers();
+  const [startDate, endDate] = dateRange;
   const router = useRouter();
 
-
   const filteredUsers = usersData?.users?.filter((user: any) =>
-    user?.username?.toLowerCase().includes(searchQuery.toLowerCase())
+    (user?.username?.toLowerCase().includes(searchQuery.toLowerCase()))
   ) || [];
+  
+
+  const getSelectedUsers=(value:any)=>{
+    setSelectedUser(value)
+    let apidata = 
+      {
+        "filter": value === "New SignUps" ? "NewSignUps" : "All",
+        "from": moment(dateRange[0]).format('YYYY-MM-DD'),
+        "to": moment(dateRange[1]).format('YYYY-MM-DD')
+      }
+      getUser(apidata)
+  }
+
+  useEffect(() => {
+    if (dateRange && dateRange[1] !== null) {
+      let apidata = 
+      {
+        "filter": selectedUser === "New SignUps" ? "NewSignUps" : "All",
+        "from": moment(dateRange[0]).format('YYYY-MM-DD'),
+        "to": moment(dateRange[1]).format('YYYY-MM-DD')
+      }
+      getUser(apidata)
+    }
+  }, [dateRange[1]])
 
   const totalUsers = filteredUsers.length;
   const totalPages = Math.ceil(totalUsers / itemsPerPage);
@@ -25,12 +57,25 @@ const Users = () => {
   const endIndex = startIndex + itemsPerPage;
   const displayedUsers = filteredUsers.slice(startIndex, endIndex);
 
+
+  useEffect(() => {
+    getTimestamps()
+  }, [])
+
+
+  function getTimestamps() {
+    const currentDate = new Date();
+    const pastDate = new Date(currentDate);
+    pastDate.setDate(currentDate.getDate() - 15);
+    setDateRange([pastDate, currentDate])
+  }
+
+
   const handlePageChange = (newPage: number) => {
     if (newPage >= 1 && newPage <= totalPages) {
       setCurrentPage(newPage);
     }
   };
-
 
   const getPageNumbers = () => {
     const pages = [];
@@ -48,6 +93,24 @@ const Users = () => {
     return pages;
   };
 
+  function selectDays(data: string,) {
+    const currentDate = new Date();
+    const pastDate = new Date(currentDate);
+    if (data === 'Last 7 days') {
+      pastDate.setDate(currentDate.getDate() - 7);
+    }
+    else if (data === 'Last 15 days') {
+      pastDate.setDate(currentDate.getDate() - 15);
+    }
+    else if (data === 'Today') {
+      pastDate.setDate(currentDate.getDate());
+    }
+    else if (data === 'Yesterday') {
+      pastDate.setDate(currentDate.getDate() - 1);
+    }
+    setDateRange([pastDate, currentDate])
+  }
+
   return (
     <div className="flex h-screen overflow-hidden bg-gradient-to-br from-blue-50 to-purple-100">
       <SideBar activeSection={activeSection} setActiveSection={setActiveSection} />
@@ -55,84 +118,162 @@ const Users = () => {
         <NavBar />
         <div className="flex-1 overflow-y-auto p-6">
           <div className="bg-white rounded-2xl shadow-xl p-6">
-
             <div className="mb-6">
               <h1 className="text-2xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
                 Players List
               </h1>
             </div>
 
-
-            <div className="mb-6">
+            <div className="mb-6 flex row flex-wrap">
               <input
                 type="text"
                 placeholder="Search players..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                className="w-full px-4 py-2 border-2 border-purple-100 rounded-lg focus:outline-none focus:border-purple-500 focus:ring-2 focus:ring-purple-200 transition-all placeholder:text-purple-300"
+                className="w-full px-4 py-2 border-2 max-w-44 border-purple-100 rounded-lg focus:outline-none focus:border-purple-500 text-purple-500 focus:ring-2 focus:ring-purple-200 transition-all placeholder:text-purple-300"
               />
+              <select
+                onChange={(e) => getSelectedUsers(e.target.value)}
+                className="w-full ml-6 bg-transparent px-4 py-2 border-2 max-w-44 border-purple-100 rounded-lg focus:outline-none focus:border-purple-500 text-purple-500 focus:ring-2 focus:ring-purple-200 transition-all placeholder:text-purple-300"
+                defaultValue=""
+              >
+                <option value="" disabled>Select User Type</option>
+                <option>New SignUps</option>
+                <option>All</option>
+              </select>
+
+              {selectedUser === 'New SignUps' && <> <DatePicker
+                selectsRange
+                startDate={startDate}
+                endDate={endDate}
+                onChange={(update) => {
+                  setDateRange(update as [Date | null, Date | null]);
+                }}
+                isClearable
+                placeholderText="Select Date Range"
+                className="w-full ml-6 bg-transparent px-4 py-2 border-2 max-w-64 border-purple-100 rounded-lg focus:outline-none focus:border-purple-500 text-purple-500 focus:ring-2 focus:ring-purple-200 transition-all placeholder:text-purple-300"
+              />
+                <select
+                  onChange={(e) => selectDays(e.target.value)}
+                  className="w-full ml-6 bg-transparent px-4 py-2 border-2 max-w-64 border-purple-100 rounded-lg focus:outline-none focus:border-purple-500 text-purple-500 focus:ring-2 focus:ring-purple-200 transition-all placeholder:text-purple-300"
+                  defaultValue=""
+                >
+                  <option value="" disabled>Please select days</option>
+                  <option>Today</option>
+                  <option>Yesterday</option>
+                  <option>Last 7 days</option>
+                  <option>Last 15 days</option>
+                </select>
+
+
+              </>}
             </div>
 
-
-            <div className="border-2 border-purple-50 rounded-lg overflow-hidden shadow-sm mb-4">
-              <div className="grid grid-cols-2 bg-gradient-to-r from-blue-500 to-purple-600 p-3">
-                <span className="font-semibold text-white text-sm">Player</span>
-                <span className="font-semibold text-white text-sm">Journey</span>
-              </div>
-
-
-              {usersLoading ? (
-                Array.from({ length: itemsPerPage }).map((_, index) => (
-                  <div key={index} className="grid grid-cols-2 p-3 border-b border-purple-50 animate-pulse">
-                    <div className="flex items-center space-x-3">
-                      <div className="h-6 w-6 bg-purple-100 rounded-full"></div>
-                      <div className="h-3 bg-purple-100 rounded w-32"></div>
-                    </div>
-                    <div className="h-3 bg-purple-100 rounded w-24"></div>
-                  </div>
-                ))
-              ) : (
-                <div className="divide-y divide-purple-50">
-                  {displayedUsers.map((user: any) => (
-                    <div
-                      key={user.id}
-                      className="grid grid-cols-2 p-3 hover:bg-purple-50 transition-colors"
-                    >
-                      <div className="flex items-center space-x-3">
-                        <div className="relative">
-                          <div className="w-8 h-8 rounded-full bg-gradient-to-r from-blue-500 to-purple-600 flex items-center justify-center text-white text-xs font-bold">
-                            {user?.username?.[0]?.toUpperCase()}
+            <div className="overflow-x-auto">
+              <table className="min-w-full divide-y divide-purple-50">
+                <thead className="bg-gradient-to-r from-blue-500 to-purple-600">
+                  <tr>
+                    <th scope="col" className="px-6 py-3 text-left text-xs font-semibold text-white uppercase tracking-wider">
+                      Player
+                    </th>
+                    <th scope="col" className="px-6 py-3 text-left text-xs font-semibold text-white uppercase tracking-wider">
+                      Email
+                    </th>
+                    <th scope="col" className="px-6 py-3 text-left text-xs font-semibold text-white uppercase tracking-wider">
+                      Time Spent
+                    </th>
+                    <th scope="col" className="px-6 py-3 text-left text-xs font-semibold text-white uppercase tracking-wider">
+                      Points
+                    </th>
+                    <th scope="col" className="px-6 py-3 text-right text-xs font-semibold text-white uppercase tracking-wider">
+                      Actions
+                    </th>
+                  </tr>
+                </thead>
+                <tbody className="bg-white divide-y divide-purple-50">
+                  {usersLoading ? (
+                    Array.from({ length: itemsPerPage }).map((_, index) => (
+                      <tr key={index} className="animate-pulse">
+                        <td className="px-6 py-4 whitespace-nowrap">
+                          <div className="flex items-center">
+                            <div className="flex-shrink-0 h-8 w-8 bg-purple-100 rounded-full"></div>
+                            <div className="ml-4">
+                              <div className="h-3 bg-purple-100 rounded w-32"></div>
+                            </div>
                           </div>
-                          <span
-                            className={`absolute bottom-0 right-0 w-3 h-3 rounded-full border-2 border-white ${user.online ? "bg-green-500" : "bg-gray-200"
-                              }`}
-                          ></span>
-                        </div>
-                        <span className="text-gray-800 text-sm font-medium">
-                          {user.username}
-                        </span>
-                      </div>
-                      <button
-                        onClick={() => router.push(`userDetail?name=${user.username}`)}
-                        className="flex items-center justify-end space-x-1 group"
-                      >
-                        <span className="text-purple-600 group-hover:text-purple-800 text-sm font-medium transition-colors">
-                          View Journey
-                        </span>
-                        <svg
-                          className="w-3 h-3 text-purple-600 group-hover:text-purple-800 transition-colors"
-                          fill="none"
-                          stroke="currentColor"
-                          viewBox="0 0 24 24"
-                        >
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-                        </svg>
-                      </button>
-                    </div>
-                  ))}
-                </div>
-
-              )}
+                        </td>
+                        <td className="px-6 py-4 whitespace-nowrap">
+                          <div className="h-3 bg-purple-100 rounded w-full"></div>
+                        </td>
+                        <td className="px-6 py-4 whitespace-nowrap">
+                          <div className="h-3 bg-purple-100 rounded w-full"></div>
+                        </td>
+                        <td className="px-6 py-4 whitespace-nowrap">
+                          <div className="h-3 bg-purple-100 rounded w-full"></div>
+                        </td>
+                        <td className="px-6 py-4 whitespace-nowrap text-right">
+                          <div className="h-3 bg-purple-100 rounded w-24 float-right"></div>
+                        </td>
+                      </tr>
+                    ))
+                  ) : (
+                    displayedUsers.map((user: any) => (
+                      <tr key={user.id} className="hover:bg-purple-50 transition-colors">
+                        <td className="px-6 py-4 whitespace-nowrap">
+                          <div className="flex items-center">
+                            <div className="flex-shrink-0 relative">
+                              <div className="w-8 h-8 rounded-full bg-gradient-to-r from-blue-500 to-purple-600 flex items-center justify-center text-white text-xs font-bold">
+                                {user?.username?.[0]?.toUpperCase()}
+                              </div>
+                              <span
+                                className={`absolute bottom-0 right-0 w-3 h-3 rounded-full border-2 border-white ${user.online ? "bg-green-500" : "bg-gray-200"}`}
+                              ></span>
+                            </div>
+                            <div className="ml-4">
+                              <div className="text-sm font-medium text-gray-800">
+                                {user.username}
+                              </div>
+                            </div>
+                          </div>
+                        </td>
+                        <td className="px-6 py-4 whitespace-nowrap">
+                          <div className="text-sm text-gray-700">
+                            {user?.email ? user?.email : "--"}
+                          </div>
+                        </td>
+                        <td className="px-6 py-4 whitespace-nowrap">
+                          <div className="text-sm text-gray-700">
+                            {user?.timeSpentPastWeek} Hours
+                          </div>
+                        </td>
+                        <td className="px-6 py-4 whitespace-nowrap">
+                          <div className="text-sm text-gray-700">
+                            {user?.points}
+                          </div>
+                        </td>
+                        <td className="px-6 py-4 whitespace-nowrap text-right">
+                          <button
+                            onClick={() => router.push(`userDetail?name=${user.username}`)}
+                            className="inline-flex items-center space-x-1 group text-purple-600 hover:text-purple-800 transition-colors"
+                          >
+                            <span className="text-sm font-medium">
+                              View Journey
+                            </span>
+                            <svg
+                              className="w-3 h-3"
+                              fill="none"
+                              stroke="currentColor"
+                              viewBox="0 0 24 24"
+                            >
+                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                            </svg>
+                          </button>
+                        </td>
+                      </tr>
+                    ))
+                  )}
+                </tbody>
+              </table>
             </div>
 
             <div className="flex flex-col sm:flex-row justify-between items-center gap-4">
@@ -168,8 +309,8 @@ const Users = () => {
                     key={page}
                     onClick={() => handlePageChange(page)}
                     className={`px-3 py-1 rounded-lg transition-all text-sm ${currentPage === page
-                        ? 'bg-gradient-to-r from-blue-500 to-purple-600 text-white'
-                        : 'border-2 border-purple-100 hover:bg-purple-50'
+                      ? 'bg-gradient-to-r from-blue-500 to-purple-600 text-white'
+                      : 'border-2 border-purple-100 hover:bg-purple-50'
                       }`}
                   >
                     {page}

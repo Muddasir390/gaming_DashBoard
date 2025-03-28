@@ -209,7 +209,7 @@ const UserDetail = () => {
                   ) : currentData.map((event: any, index: number) => (
                     <tr key={index} className="hover:bg-purple-50 transition-colors">
                       <td className="px-4 py-2 whitespace-nowrap text-xs text-gray-700 font-mono">
-                        {event?.eventTime || "--"}
+                        {moment(event?.eventTime).format('YYYY-MM-DD') || "--"}
                       </td>
                       <td className="px-4 py-2 text-xs text-gray-600">
                         {event?.eventData?.eventName || "--"}
@@ -226,7 +226,7 @@ const UserDetail = () => {
                         </span>
                       </td>
                       <td className="px-4 py-2 text-xs text-gray-600">
-                        {event?.eventData?.RoomName || "--"}
+                        { event?.eventData?.RoomName || "--"}
                       </td>
                     </tr>
                   ))}

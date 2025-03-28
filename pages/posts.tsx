@@ -17,7 +17,7 @@ const PostSkeleton = () => {
     <tr className="animate-pulse">
       {[1, 2, 3, 4, 5, 6, 7, 8].map((item) => (
         <td key={item} className="px-6 py-4">
-          <div className="bg-gray-200 h-4 rounded w-full"></div>
+          <div className="bg-[#94a3b8] h-4 rounded w-full"></div>
         </td>
       ))}
     </tr>
@@ -92,11 +92,7 @@ const Post = () => {
                     </tr>
                   </thead>
                   <tbody className="divide-y divide-blue-50">
-                    {postLoading 
-                      ? Array.from({ length: 10 }).map((_, index) => (
-                          <PostSkeleton key={index} />
-                        ))
-                      : currentItems.map((post:any) => (
+                    {currentItems && currentItems?.length ? currentItems.map((post:any) => (
                       <tr key={post._id} className="hover:bg-blue-50/30 transition-all duration-200 group">
                         <td className="px-6 py-4 text-sm font-semibold text-gray-900">{post.title}</td>
                         <td className="px-6 py-4 text-sm text-gray-700">{post.subject}</td>
@@ -112,7 +108,10 @@ const Post = () => {
                           <button onClick={()=> setShowConfirmationModal(post?._id)}  className="text-red-500 hover:text-red-700"><Trash2 size={18} /></button>
                         </td>
                       </tr>
-                    ))}
+                    )) : postLoading ? Array.from({ length: 10 }).map((_, index) => (
+                      <PostSkeleton key={index} />
+                    ))
+                  : <div>No Record Found.</div> }
                   </tbody>
                 </table>
               </div>

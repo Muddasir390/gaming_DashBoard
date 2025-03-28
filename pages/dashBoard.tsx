@@ -16,12 +16,15 @@ import { dailyActiveUsers } from "../public/DashBoard/dailyActiveUsers";
 import { getVirtualStorePurchase } from "../public/DashBoard/getVirtualStorePurchase";
 import { useGetSession } from "../public/DashBoard/useGetSession";
 import { getStorePurchase } from "../public/DashBoard/getStorePurchase";
+import { getRoomInfo } from "../public/DashBoard/getRoomInfo";
+import { useRouter } from 'next/router';
 
 
 const Dashboard = () => {
   const { activeUsers, activeUserLoading, activeUsersData } = dailyActiveUsers()
   const { virtualStore, virtualStoreData, virtualStoreLoading } = getVirtualStorePurchase()
   const { storePurchase, storePurchaseLoading, storePurchaseData } = getStorePurchase()
+  const { roomINfo, roomInfoData } = getRoomInfo()
   const { sessionData } = useGetSession()
   const { userCountData } = getUserCount()
 
@@ -31,15 +34,22 @@ const Dashboard = () => {
   const [dateRange, setDateRange] = useState<[Date | null, Date | null]>([null, null]);
   const [virtualStoreDateRange, setVirtualStoreDateRange] = useState<[Date | null, Date | null]>([null, null]);
   const [storeDateRange, setStoreDateRange] = useState<[Date | null, Date | null]>([null, null]);
+  const [roomDateRange, setRoomDateRange] = useState<[Date | null, Date | null]>([null, null]);
 
   const [selectedKey, setSelectedKey] = useState(null);
-
   const [startDate, endDate] = dateRange;
   const [virtualStoreStartDate, virtualStoreEndDate] = virtualStoreDateRange;
   const [storeStartDate, storeEndDate] = storeDateRange;
+  const [roomStartDate, roomEndDate] = roomDateRange;
+  const route = useRouter()
+  const scrollToId = (id: string, behavior: ScrollBehavior = 'smooth') => {
+    if (typeof window === 'undefined') return;
 
-  console.log('storePurchaseData*****', storePurchaseData);
-
+    const element = document.getElementById(id);
+    if (element) {
+      element.scrollIntoView({ behavior });
+    }
+  }
 
   useEffect(() => {
     getTimestamps()
@@ -53,6 +63,7 @@ const Dashboard = () => {
     setDateRange([pastDate, currentDate])
     setVirtualStoreDateRange([pastDate, currentDate])
     setStoreDateRange([pastDate, currentDate])
+    setRoomDateRange([pastDate, currentDate])
   }
 
   function selectDays(data: string, type: string) {
@@ -64,13 +75,33 @@ const Dashboard = () => {
     else if (data === 'Last 15 days') {
       pastDate.setDate(currentDate.getDate() - 15);
     }
-    type === "activeUsers" ? setDateRange([pastDate, currentDate]) : type === 'storePurchase' ? setStoreDateRange([pastDate, currentDate]) : setVirtualStoreDateRange([pastDate, currentDate])
+    else if (data === 'Today') {
+      pastDate.setDate(currentDate.getDate());
+    }
+    else if (data === 'Yesterday') {
+      pastDate.setDate(currentDate.getDate() - 1);
+    }
+    type === "activeUsers" ? setDateRange([pastDate, currentDate]) : type === 'storePurchase' ? setStoreDateRange([pastDate, currentDate]) : type === 'roominfo' ? setRoomDateRange([pastDate, currentDate]) : setVirtualStoreDateRange([pastDate, currentDate])
   }
 
   const handleSelectChange = (event: any) => {
     const key = event.target.value;
     setSelectedKey(key);
   };
+
+  const selectDateDropDown = (type: string) => {
+    return (<select
+      onChange={(e) => selectDays(e.target.value, type)}
+      className="border rounded-lg p-2 w-full md:max-w-52 bg-white shadow-sm"
+      defaultValue=""
+    >
+      <option value="" disabled>Please select days</option>
+      <option>Today</option>
+      <option>Yesterday</option>
+      <option>Last 7 days</option>
+      <option>Last 15 days</option>
+    </select>)
+  }
 
   useEffect(() => {
     if (dateRange && dateRange[1] !== null) {
@@ -82,6 +113,17 @@ const Dashboard = () => {
     }
 
   }, [dateRange[1]])
+
+  useEffect(() => {
+    if (roomDateRange && roomDateRange[1] !== null) {
+      let apiData = {
+        "from": moment(roomDateRange[0]).format('YYYY-MM-DD'),
+        "to": moment(roomDateRange[1]).format('YYYY-MM-DD')
+      }
+      roomINfo(apiData)
+    }
+
+  }, [roomDateRange[1]])
 
   useEffect(() => {
     if (virtualStoreDateRange && virtualStoreDateRange[1] !== null) {
@@ -105,10 +147,11 @@ const Dashboard = () => {
 
   }, [storeDateRange[1]])
 
+
   useEffect(() => {
     if (activeUsersData) {
-      let chartData = activeUsersData?.res?.map((item: any) => {
-        return ({ date: moment(item?.time).format('YYYY-MM-DD'), users: item?.users?.length })
+      let chartData = activeUsersData?.userData?.map((item: any) => {
+        return ({ date: moment(item?.time).format('YYYY-MM-DD'), "Daily Active Users": item?.users?.length, "New Sign Ups": item?.newSignUP?.length })
       })
       setDailyUsers(chartData)
     }
@@ -134,13 +177,15 @@ const Dashboard = () => {
               {[
                 { label: "Total Players", value: userCountData?.totalUsers },
                 { label: "Online Players", value: userCountData?.onlineUsers },
+                { label: "Total Revenue", value: storePurchaseData?.lifeTimeRevenue },
                 { label: "Average Session Length", value: `${sessionData?.averageLength} mins` },
               ].map((item, index) => (
                 <motion.div
                   key={index}
-                  className="bg-white rounded-lg shadow-2xl p-6 px-20 transition-all duration-300 transform hover:scale-105 hover:shadow-xl cursor-pointer "
+                  className={`bg-white rounded-lg shadow-2xl p-6 px-20 transition-all duration-300 transform hover:scale-105 hover:shadow-xl ${item?.label === 'Average Session Length' ? 'cursor-not-allowed opacity-60' : 'cursor-pointer'}`}
                   whileHover={{ y: -5 }}
                   whileTap={{ scale: 0.95 }}
+                  onClick={() => item?.label === 'Total Players' ? route.push('/users') : item?.label === "Total Revenue" ? scrollToId("revenueGraph") : null}
                 >
                   <h3 className="text-lg font-semibold mb-2 text-center text-gray-700">
                     {item.label}
@@ -158,8 +203,8 @@ const Dashboard = () => {
             <h2 className="text-2xl font-bold mb-6">Analytics Dashboard</h2>
             <div className="flex flex-wrap gap-6 w-full flex-row">
               <div className="bg-white rounded-2xl shadow-2xl p-6 w-full md:w-[calc(50%-12px)]">
-                <h3 className="text-lg font-semibold mb-4">Daily Active Users</h3>
-                <div className="mb-8 flex  md:flex-col flex-row gap-4 md:gap-10">
+                <h3 className="text-lg font-semibold mb-4">Users Data</h3>
+                <div className="flex flex-wrap gap-6 flex-row">
                   <DatePicker
                     selectsRange
                     startDate={startDate}
@@ -190,20 +235,12 @@ const Dashboard = () => {
                   </div>
 
                   <div className="max-w-64">
-                    <select
-                      onChange={(e) => selectDays(e.target.value, "activeUsers")}
-                      className="border rounded-lg p-2 w-full md:max-w-52 bg-white shadow-sm"
-                      defaultValue=""
-                    >
-                      <option value="" disabled>Please select days</option>
-                      <option>Last 7 days</option>
-                      <option>Last 15 days</option>
-                    </select>
+                    {selectDateDropDown("activeUsers")}
                   </div>
                 </div>
                 {dailyUsers && dailyUsers?.length ? <div>
                   {linkClicks === 'Line Chart' && <LineChartComp data={dailyUsers ? dailyUsers : []} isLoading={activeUserLoading} />}
-                  {linkClicks === 'Bar Chart' && <BarChatComp data={dailyUsers ? dailyUsers : []} name={"date"} value={"users"} />}
+                  {linkClicks === 'Bar Chart' && <BarChatComp data={dailyUsers ? dailyUsers : []} name={"date"} value={["Daily Active Users", "New Sign Ups"]} />}
                   {linkClicks === 'Pie Chart' && <PieChartComp data={dailyUsers ? dailyUsers : []} />}
                 </div> : activeUserLoading ? <div className="w-full h-[300px] flex flex-col items-center justify-center space-y-4">
                   <div className="w-full h-[250px] bg-gradient-to-br from-[#f8fafc] to-[#e2e8f0] rounded-lg relative overflow-hidden shadow-md animate-pulse">
@@ -227,11 +264,11 @@ const Dashboard = () => {
 
           {/* virtual  store purchses section */}
 
-          <section id="dailyUsers" className="mb-8">
+          <section id="Virtual Store Purchases" className="mb-8">
             <div className="flex flex-wrap gap-6 w-full flex-row">
               <div className="bg-white rounded-2xl shadow-2xl p-6 w-full md:w-[calc(50%-12px)]">
-                <h3 className="text-lg font-semibold mb-4">Virtual Store Purchases</h3>
-                <div className="mb-8 flex  md:flex-col flex-row gap-4 md:gap-10">
+                <h3 className="text-lg font-semibold mb-4">In Game Items</h3>
+                <div className="flex flex-wrap gap-6 flex-row">
                   <DatePicker
                     selectsRange
                     startDate={virtualStoreStartDate}
@@ -259,21 +296,11 @@ const Dashboard = () => {
                   </div>
                   <div className="max-w-64">
 
-                    <select
-                      onChange={(e) => selectDays(e.target.value, 'virtualStorePurchase')}
-                      className="border rounded-lg p-2 w-full md:max-w-52 bg-white shadow-sm"
-                      defaultValue=""
-                    >
-                      <option value="" disabled>
-                        Please select days
-                      </option>
-                      <option>Last 7 days</option>
-                      <option>Last 15 days</option>
-                    </select>
+                    {selectDateDropDown("virtualStorePurchase")}
                   </div>
                 </div>
                 {virtualStoreData && selectedKey && virtualStoreData[selectedKey]?.length ? <div>
-                  <BarChatComp data={virtualStoreData[selectedKey] ? virtualStoreData[selectedKey] : []} name={"name"} value={"purchaseCount"} loading={virtualStoreLoading} />
+                  <BarChatComp data={virtualStoreData[selectedKey] ? virtualStoreData[selectedKey] : []} name={"name"} value={["purchaseCount"]} loading={virtualStoreLoading} />
                 </div> : virtualStoreLoading ? <div className="w-full h-[300px] flex flex-col items-center justify-center space-y-4">
                   <div className="w-full h-[250px] bg-gradient-to-br from-[#f8fafc] to-[#e2e8f0] rounded-lg relative overflow-hidden shadow-md animate-pulse">
                     <div className="absolute inset-0 bg-gradient-to-r from-[#f1f5f9] via-[#e2e8f0] to-[#f1f5f9] animate-[shimmer_1.8s_infinite]"></div>
@@ -295,12 +322,12 @@ const Dashboard = () => {
 
           {/* store purchases */}
 
-          <section id="dailyUsers" className="mb-8">
+          <section id="revenueGraph" className="mb-8">
             <div className="flex flex-wrap gap-6 w-full flex-row">
               <div className="bg-white rounded-2xl shadow-2xl p-6 w-full md:w-[calc(50%-12px)]">
-                <h3 className="text-lg font-semibold mb-4">Store Purchases</h3>
+                <h3 className="text-lg font-semibold mb-4">Bundle Purchases</h3>
                 <div className="flex row  items-center justify-between">
-                  <div className="mb-8 flex  md:flex-col flex-row gap-4 md:gap-10">
+                  <div className="flex flex-wrap gap-6 flex-row">
                     <DatePicker
                       selectsRange
                       startDate={storeStartDate}
@@ -315,18 +342,7 @@ const Dashboard = () => {
                     />
 
                     <div className="max-w-64">
-
-                      <select
-                        onChange={(e) => selectDays(e.target.value, 'storePurchase')}
-                        className="border rounded-lg p-2 w-full md:max-w-52 bg-white shadow-sm"
-                        defaultValue=""
-                      >
-                        <option value="" disabled>
-                          Please select days
-                        </option>
-                        <option>Last 7 days</option>
-                        <option>Last 15 days</option>
-                      </select>
+                      {selectDateDropDown("storePurchase")}
                     </div>
                   </div>
                   <motion.div
@@ -343,7 +359,7 @@ const Dashboard = () => {
                   </motion.div>
                 </div>
                 {virtualStoreData && selectedKey && virtualStoreData[selectedKey]?.length ? <div>
-                  <BarChatComp data={storePurchaseData?.packsData && storePurchaseData?.packsData?.length ? storePurchaseData?.packsData : []} name={"packName"} value={"packPrice"} loading={storePurchaseLoading} />
+                  <BarChatComp data={storePurchaseData?.packsData && storePurchaseData?.packsData?.length ? storePurchaseData?.packsData : []} name={"packName"} value={["packPrice"]} loading={storePurchaseLoading} />
                 </div> : <div className="h-[300px] w-full flex items-center justify-center">
                   No Record Found.
                 </div>}
@@ -352,9 +368,40 @@ const Dashboard = () => {
           </section>
 
 
+          {/* Room Information */}
 
+          <section id="storePurchase" className="mb-8">
+            <div className="flex flex-wrap gap-6 w-full flex-row">
+              <div className="bg-white rounded-2xl shadow-2xl p-6 w-full md:w-[calc(50%-12px)]">
+                <h3 className="text-lg font-semibold mb-4">Room Information</h3>
+                <div className="flex row  items-center justify-between">
+                  <div className="flex flex-wrap gap-6 flex-row">
+                    <DatePicker
+                      selectsRange
+                      startDate={roomStartDate}
+                      endDate={roomEndDate}
+                      onChange={(update) => {
+                        const [start, end] = update as [Date | null, Date | null];
+                        setRoomDateRange(update as [Date | null, Date | null]);
+                      }}
+                      isClearable
+                      placeholderText="Select Date Range"
+                      className="border p-2 rounded w-full md:w-auto"
+                    />
 
-
+                    <div className="max-w-64">
+                      {selectDateDropDown("roominfo")}
+                    </div>
+                  </div>
+                </div>
+                {virtualStoreData && selectedKey && virtualStoreData[selectedKey]?.length ? <div>
+                  <BarChatComp data={roomInfoData?.eventRes && roomInfoData?.eventRes?.length ? roomInfoData?.eventRes : []} name={"time"} value={roomInfoData?.roomNames?.length ? roomInfoData?.roomNames : []} loading={storePurchaseLoading} />
+                </div> : <div className="h-[300px] w-full flex items-center justify-center">
+                  No Record Found.
+                </div>}
+              </div>
+            </div>
+          </section>
         </main>
       </div>
     </div>
