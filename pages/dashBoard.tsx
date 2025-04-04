@@ -35,6 +35,7 @@ const Dashboard = () => {
   const [virtualStoreDateRange, setVirtualStoreDateRange] = useState<[Date | null, Date | null]>([null, null]);
   const [storeDateRange, setStoreDateRange] = useState<[Date | null, Date | null]>([null, null]);
   const [roomDateRange, setRoomDateRange] = useState<[Date | null, Date | null]>([null, null]);
+  
 
   const [selectedKey, setSelectedKey] = useState(null);
   const [startDate, endDate] = dateRange;
@@ -42,6 +43,8 @@ const Dashboard = () => {
   const [storeStartDate, storeEndDate] = storeDateRange;
   const [roomStartDate, roomEndDate] = roomDateRange;
   const route = useRouter()
+
+
   const scrollToId = (id: string, behavior: ScrollBehavior = 'smooth') => {
     if (typeof window === 'undefined') return;
 
@@ -51,10 +54,12 @@ const Dashboard = () => {
     }
   }
 
-  useEffect(() => {
-    getTimestamps()
-  }, [])
-
+  const cardsData = [
+    { label: "Total Players", value: userCountData?.totalUsers },
+    { label: "Online Players", value: userCountData?.onlineUsers },
+    { label: "Total Revenue", value: storePurchaseData?.lifeTimeRevenue },
+    { label: "Average Session Length", value: `${sessionData?.averageLength} mins` },
+  ]
 
   function getTimestamps() {
     const currentDate = new Date();
@@ -92,7 +97,7 @@ const Dashboard = () => {
   const selectDateDropDown = (type: string) => {
     return (<select
       onChange={(e) => selectDays(e.target.value, type)}
-      className="border rounded-lg p-2 w-full md:max-w-52 bg-white shadow-sm"
+      className="border rounded-lg cursor-pointer p-2 w-full md:max-w-52 bg-white shadow-sm"
       defaultValue=""
     >
       <option value="" disabled>Please select days</option>
@@ -104,6 +109,10 @@ const Dashboard = () => {
   }
 
   useEffect(() => {
+    getTimestamps()
+  }, [])
+
+  useEffect(() => {
     if (dateRange && dateRange[1] !== null) {
       let apiData = {
         "from": moment(dateRange[0]).format('YYYY-MM-DD'),
@@ -112,7 +121,7 @@ const Dashboard = () => {
       activeUsers(apiData)
     }
 
-  }, [dateRange[1]])
+  }, [dateRange])
 
   useEffect(() => {
     if (roomDateRange && roomDateRange[1] !== null) {
@@ -123,7 +132,7 @@ const Dashboard = () => {
       roomINfo(apiData)
     }
 
-  }, [roomDateRange[1]])
+  }, [roomDateRange])
 
   useEffect(() => {
     if (virtualStoreDateRange && virtualStoreDateRange[1] !== null) {
@@ -134,7 +143,7 @@ const Dashboard = () => {
       virtualStore(apiData)
     }
 
-  }, [virtualStoreDateRange[1]])
+  }, [virtualStoreDateRange])
 
   useEffect(() => {
     if (storeDateRange && storeDateRange[1] !== null) {
@@ -145,8 +154,7 @@ const Dashboard = () => {
       storePurchase(apiData)
     }
 
-  }, [storeDateRange[1]])
-
+  }, [storeDateRange])
 
   useEffect(() => {
     if (activeUsersData) {
@@ -174,12 +182,7 @@ const Dashboard = () => {
           <section id="overview" className="mb-8">
             <h3 className="text-10xl font-bold mb-6">Overview</h3>
             <div className="flex flex-wrap gap-6 flex-row justify-center">
-              {[
-                { label: "Total Players", value: userCountData?.totalUsers },
-                { label: "Online Players", value: userCountData?.onlineUsers },
-                { label: "Total Revenue", value: storePurchaseData?.lifeTimeRevenue },
-                { label: "Average Session Length", value: `${sessionData?.averageLength} mins` },
-              ].map((item, index) => (
+              {cardsData.map((item, index) => (
                 <motion.div
                   key={index}
                   className={`bg-white rounded-lg shadow-2xl p-6 px-20 transition-all duration-300 transform hover:scale-105 hover:shadow-xl ${item?.label === 'Average Session Length' ? 'cursor-not-allowed opacity-60' : 'cursor-pointer'}`}
@@ -198,13 +201,13 @@ const Dashboard = () => {
             </div>
           </section>
 
-          {/* Two Graphs in a Row Section */}
+          
           <section id="dailyUsers" className="mb-8">
             <h2 className="text-2xl font-bold mb-6">Analytics Dashboard</h2>
             <div className="flex flex-wrap gap-6 w-full flex-row">
               <div className="bg-white rounded-2xl shadow-2xl p-6 w-full md:w-[calc(50%-12px)]">
                 <h3 className="text-lg font-semibold mb-4">Users Data</h3>
-                <div className="flex flex-wrap gap-6 flex-row">
+                <div className="flex flex-wrap gap-6 flex-row sm:justify-center">
                   <DatePicker
                     selectsRange
                     startDate={startDate}
@@ -226,7 +229,7 @@ const Dashboard = () => {
                   <div className="max-w-64 ">
                     <select
                       onChange={(e) => setLinkClicks(e.target.value)}
-                      className="border rounded-lg p-2 w-full md:max-w-52 bg-white shadow-sm"
+                      className="border rounded-lg p-2 cursor-pointer w-full md:max-w-52 bg-white shadow-sm"
                     >
                       <option>Line Chart</option>
                       <option>Bar Chart</option>
@@ -268,7 +271,7 @@ const Dashboard = () => {
             <div className="flex flex-wrap gap-6 w-full flex-row">
               <div className="bg-white rounded-2xl shadow-2xl p-6 w-full md:w-[calc(50%-12px)]">
                 <h3 className="text-lg font-semibold mb-4">In Game Items</h3>
-                <div className="flex flex-wrap gap-6 flex-row">
+                <div className="flex flex-wrap gap-6 flex-row sm:justify-center">
                   <DatePicker
                     selectsRange
                     startDate={virtualStoreStartDate}
@@ -327,7 +330,7 @@ const Dashboard = () => {
               <div className="bg-white rounded-2xl shadow-2xl p-6 w-full md:w-[calc(50%-12px)]">
                 <h3 className="text-lg font-semibold mb-4">Bundle Purchases</h3>
                 <div className="flex row  items-center justify-between">
-                  <div className="flex flex-wrap gap-6 flex-row">
+                  <div className="flex flex-wrap gap-6 flex-row sm:justify-center">
                     <DatePicker
                       selectsRange
                       startDate={storeStartDate}
@@ -346,14 +349,14 @@ const Dashboard = () => {
                     </div>
                   </div>
                   <motion.div
-                    className="bg-green-400 rounded-lg shadow-2xl p-6 px-10 transition-all duration-300 transform hover:scale-105 hover:shadow-xl cursor-pointer "
+                    className="bg-[#4F518C] rounded-lg shadow-2xl p-6 px-10 transition-all duration-300 transform hover:scale-105 hover:shadow-xl cursor-pointer "
                     whileHover={{ y: -5 }}
                     whileTap={{ scale: 0.95 }}
                   >
-                    <h3 className="text-lg font-semibold mb-2 text-center text-gray-700">
+                    <h3 className="text-lg font-semibold mb-2 text-center text-white">
                       Total Revenue
                     </h3>
-                    <p className="text-4xl font-bold text-blue-600 text-center">
+                    <p className="text-4xl font-bold text-white text-center">
                       {storePurchaseData?.totalRevenue}
                     </p>
                   </motion.div>
@@ -375,7 +378,7 @@ const Dashboard = () => {
               <div className="bg-white rounded-2xl shadow-2xl p-6 w-full md:w-[calc(50%-12px)]">
                 <h3 className="text-lg font-semibold mb-4">Room Information</h3>
                 <div className="flex row  items-center justify-between">
-                  <div className="flex flex-wrap gap-6 flex-row">
+                  <div className="flex flex-wrap gap-6 flex-row sm:justify-center">
                     <DatePicker
                       selectsRange
                       startDate={roomStartDate}

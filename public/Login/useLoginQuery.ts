@@ -2,10 +2,8 @@ import { useMutation } from '@tanstack/react-query';
 import {
   loginApi
 } from '../api/login';
-import { useRouter } from "next/router";
 
 export function useLoginQuery() {
-  const route = useRouter()
 
   const {
     mutate: userLogin,
@@ -16,9 +14,6 @@ export function useLoginQuery() {
   } = useMutation({
     mutationFn: loginApi,
     retry: false,
-    onSuccess: success => {
-      route.push('/dashBoard')
-    },
   });
 
   return {

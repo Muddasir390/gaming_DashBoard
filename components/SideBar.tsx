@@ -1,4 +1,4 @@
-import { useRouter } from "next/router";
+
 import { useEffect, useState } from "react";
 import { LayoutDashboard, FileText, Users, Image } from 'lucide-react';
 import Link from "next/link";
@@ -42,13 +42,12 @@ const sideBar: React.FC<sideBarProps> = ({ activeSection }) => {
     <>
       {!isMobile ? <aside className="w-64 bg-gray-900 text-white overflow-y-auto">
         <div className="p-6">
-          <h2 className="text-2xl font-bold mb-6">Game Analytics</h2>
+          <h2 className="text-3xl font-bold mb-6">Performance Tracker</h2>
           <nav className="space-y-2">
             {Object.entries(routes).map(([section, route]) => (
               <Link
                 href={route}
                 key={section}
-                prefetch={true} 
                 className={`flex items-center w-full text-left py-3 px-4 rounded-lg transition-all text-white mb-2 ${activeSection === section
                     ? "bg-blue-600 text-white"
                     : "hover:text-black hover:bg-blue-100"

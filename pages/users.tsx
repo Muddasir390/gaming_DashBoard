@@ -221,7 +221,7 @@ const Users = () => {
                       <tr key={user.id} className="hover:bg-purple-50 transition-colors">
                         <td className="px-6 py-4 whitespace-nowrap">
                           <div className="flex items-center">
-                            <div className="flex-shrink-0 relative">
+                            <div onClick={()=> router.push(`/specificUserDetail?name=${user?.username}`)} className="flex-shrink-0 cursor-pointer relative">
                               <div className="w-8 h-8 rounded-full bg-gradient-to-r from-blue-500 to-purple-600 flex items-center justify-center text-white text-xs font-bold">
                                 {user?.username?.[0]?.toUpperCase()}
                               </div>

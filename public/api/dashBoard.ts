@@ -176,3 +176,15 @@ export const dailyActiveUserApi = async (payload: any) => {
       throw error;
     }
   };
+
+
+  export const getSpecificUserApi = async (data:any) => {
+    try {
+      const response = httpWithAuth.get(
+        `${apisEndpoint.specificUserDetailURL}/${data?.queryKey[1]?.id}`,
+      );
+      return (await response).data;
+    } catch (error: any) {
+      throw error;
+    }
+  };

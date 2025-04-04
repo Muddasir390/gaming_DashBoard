@@ -1,27 +1,27 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
-  content: [
+    content: [
     "./pages/**/*.{js,ts,jsx,tsx}",
     "./components/**/*.{js,ts,jsx,tsx}",
   ],
   
   theme: {
-    extend: {
-      colors: {
-        gray: {
+  	extend: {
+  		colors: {
+  			gray: {
           "100": "#131313",
           "200": "rgba(19, 19, 19, 0.8)",
           "300": "rgba(255, 255, 255, 0)",
           "400": "rgba(19, 19, 19, 0.6)",
-        },
-        whitesmoke: {
+  			},
+  			whitesmoke: {
           "100": "#ededed",
           "200": "rgba(237, 237, 237, 0.1)",
           "300": "rgba(237, 237, 237, 0.05)",
           "400": "rgba(237, 237, 237, 0.7)",
           "500": "rgba(237, 237, 237, 0.3)",
           "600": "rgba(237, 237, 237, 0.5)",
-        },
+  			},
         skyblue: "#45b7db",
         goldenrod: "#e5c839",
         gainsboro: "#d9d9d9",
@@ -29,13 +29,13 @@ module.exports = {
         dimgray: "#505050",
         tomato: "#ff6060",
         springgreen: "#60ff70",
-      },
-      spacing: {},
-      fontFamily: {
+  		},
+  		spacing: {},
+  		fontFamily: {
         thesans: "TheSans",
         poppins: "Poppins",
-      },
-      borderRadius: {
+  		},
+  		borderRadius: {
         "31xl": "50px",
         "81xl": "100px",
         "3xs": "10px",
@@ -44,8 +44,8 @@ module.exports = {
         xl: "20px",
         "8xs": "5px",
       },
-    },
-    fontSize: {
+  	},
+  	fontSize: {
       sm: "14px",
       xl: "20px",
       lg: "18px",
@@ -70,36 +70,36 @@ module.exports = {
       "69xl": "88px",
       "25xl": "44px",
       inherit: "inherit",
-    },
-    screens: {
-      mq1600: {
+  	},
+  	screens: {
+  		mq1600: {
         raw: "screen and (max-width: 1600px)",
-      },
-      mq1325: {
+  		},
+  		mq1325: {
         raw: "screen and (max-width: 1325px)",
-      },
-      mq1275: {
+  		},
+  		mq1275: {
         raw: "screen and (max-width: 1275px)",
-      },
-      lg: {
+  		},
+  		lg: {
         max: "1200px",
-      },
-      mq1125: {
+  		},
+  		mq1125: {
         raw: "screen and (max-width: 1125px)",
-      },
-      mq1050: {
+  		},
+  		mq1050: {
         raw: "screen and (max-width: 1050px)",
-      },
-      mq900: {
+  		},
+  		mq900: {
         raw: "screen and (max-width: 900px)",
-      },
-      mq800: {
+  		},
+  		mq800: {
         raw: "screen and (max-width: 800px)",
-      },
-      mq750: {
+  		},
+  		mq750: {
         raw: "screen and (max-width: 750px)",
-      },
-      mq450: {
+  		},
+  		mq450: {
         raw: "screen and (max-width: 450px)",
       },
     },
@@ -150,5 +150,5 @@ module.exports = {
         },
       });
     },
-  ],
+],
 };

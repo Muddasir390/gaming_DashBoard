@@ -2,7 +2,7 @@
 
 import { useForm, SubmitHandler } from "react-hook-form";
 import { useLoginQuery } from '../public/Login/useLoginQuery';
-import { FaEye, FaEyeSlash } from "react-icons/fa";
+// import { FaEye, FaEyeSlash } from "react-icons/fa";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 
@@ -13,10 +13,15 @@ interface LoginFormInputs {
 }
 
 const LoginForm: React.FC = () => {
-  const { userLogin, loading } = useLoginQuery();
+  const { userLogin, loading, isSuccessLogin } = useLoginQuery();
   const [showPassword, setShowPassword] = useState(false);
   const router = useRouter();
 
+  useEffect(()=>{
+    if(isSuccessLogin){
+      router.push('/dashBoard')
+    }
+  },[isSuccessLogin])
 
   const {
     register,
@@ -36,29 +41,21 @@ const LoginForm: React.FC = () => {
     setShowPassword(!showPassword);
   };
 
-  useEffect(() => {
-    router.prefetch("/dashBoard");
-  }, []);
-
   return (
-    <div className="flex items-center justify-center min-h-screen bg-gradient-to-br from-blue-50 to-purple-50 px-4">
+    <div className="flex items-center  justify-center min-h-screen bg-gradient-to-br from-blue-50 to-purple-50 px-4">
       <div className="bg-white shadow-2xl rounded-2xl p-8 sm:p-10 w-full max-w-md">
-        {/* Logo or Branding */}
         <div className="flex justify-center mb-6">
           <img
             src="/AppIconBlack.png"
             alt="Logo"
           />
         </div>
-
-        {/* Heading */}
         <h2 className="text-3xl font-bold text-center text-gray-800 mb-8">
           Welcome Back!
         </h2>
 
         {/* Login Form */}
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
-          {/* Email Field */}
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-2">
               Email
@@ -79,14 +76,12 @@ const LoginForm: React.FC = () => {
               <p className="text-red-500 text-sm mt-2">{errors.email.message}</p>
             )}
           </div>
-
-          {/* Password Field */}
           <div className="relative">
             <label className="block text-sm font-medium text-gray-700 mb-2">
               Password
             </label>
             <input
-              type={showPassword ? "text" : "password"} // Toggle input type
+              type={showPassword ? "text" : "password"} 
               className={`w-full p-3 border-2 ${
                 errors.password
                   ? "border-red-500 focus:border-red-500"
@@ -97,13 +92,12 @@ const LoginForm: React.FC = () => {
                 required: "Password is required",
               })}
             />
-            {/* Eye Icon */}
             <button
               type="button"
               onClick={togglePasswordVisibility}
               className="absolute right-3 top-11 transform -translate-y-1/2 text-gray-500 hover:text-gray-700 focus:outline-none"
             >
-              {showPassword ? <FaEyeSlash size={20} /> : <FaEye size={20} />}
+              {/* {showPassword ? <FaEyeSlash size={20} /> : <FaEye size={20} />} */}
             </button>
             {errors.password && (
               <p className="text-red-500 text-sm mt-2">
@@ -111,8 +105,6 @@ const LoginForm: React.FC = () => {
               </p>
             )}
           </div>
-
-          {/* Submit Button */}
           <button
             type="submit"
             className="w-full bg-gradient-to-r from-blue-600 to-purple-600 text-white p-3 rounded-lg font-semibold hover:from-blue-700 hover:to-purple-700 transition-all flex items-center justify-center"

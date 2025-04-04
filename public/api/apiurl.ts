@@ -16,7 +16,9 @@ export const apisEndpoint = {
   getSessionURL: `${config.BASE_URL}/api/averageSessionLength`,
   getUserCountURL: `${config.BASE_URL}/api/getUsersCount`,
   storePurchaseURL: `${config.BASE_URL}/api/getPurchases`,
-  roomInfoURL: `${config.BASE_URL}/api/GetRoomsInfo`
+  roomInfoURL: `${config.BASE_URL}/api/GetRoomsInfo`,
+  specificUserDetailURL: `${config.BASE_URL}/api/users`
+
 
 
 

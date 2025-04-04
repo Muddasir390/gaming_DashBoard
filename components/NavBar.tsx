@@ -34,7 +34,6 @@ const NavBar = () => {
   return (
     <nav className="bg-gradient-to-r from-gray-900 via-blue-900 to-slate-900 shadow-md">
       <div className="container mx-auto">
-        {/* Fixed height header */}
         <div className="flex justify-between items-center h-16 px-4">
           <div className="flex items-center">
             {isMobile ? (
@@ -59,7 +58,12 @@ const NavBar = () => {
                 </svg>
               </button>
             ) : (
-              <h2 className="text-xl text-white font-bold">Zoaverse Analytics Dashboard</h2>
+              <img
+              src="/AppIconBlack.png"
+              alt="Logo"
+              className="mix-blend-lighten"
+            />
+              // <h2 className="text-xl text-white font-bold">Zoaverse Analytics Dashboard</h2>
             )}
           </div>
 
@@ -71,13 +75,10 @@ const NavBar = () => {
             Log Out
           </Link>
         </div>
-
-        {/* Mobile Menu - Only blurs content beneath the menu */}
         {isMobile && mobileMenuOpen && (
           <div className="md:hidden fixed inset-0 z-50 mt-16">
-            {/* Menu content with backdrop-filter */}
             <div className="relative">
-              <div 
+              <div
                 className="bg-black bg-opacity-70 backdrop-blur-sm"
                 onClick={toggleMobileMenu}
               >
@@ -87,11 +88,10 @@ const NavBar = () => {
                       <Link
                         key={name}
                         href={path}
-                        className={`px-4 py-3 rounded-md text-base font-medium transition-colors ${
-                          router.pathname === path
+                        className={`px-4 py-3 rounded-md text-base font-medium transition-colors ${router.pathname === path
                             ? 'bg-gradient-to-r from-gray-900 via-blue-900 to-slate-900 shadow-2xl text-white'
                             : 'bg-gradient-to-r from-gray-900 via-blue-900 to-slate-900 shadow-2xl text-white hover:bg-gray-700 hover:bg-opacity-50 hover:text-white'
-                        }`}
+                          }`}
                         onClick={() => setMobileMenuOpen(false)}
                       >
                         {name}
@@ -111,11 +111,10 @@ const NavBar = () => {
               <Link
                 key={name}
                 href={path}
-                className={`px-3 py-2 rounded-md text-sm font-medium transition-colors ${
-                  router.pathname === path
+                className={`px-3 py-2 rounded-md text-sm font-medium transition-colors ${router.pathname === path
                     ? 'bg-blue-800 text-white'
                     : 'text-gray-300 hover:bg-gray-700 hover:text-white'
-                }`}
+                  }`}
               >
                 {name}
               </Link>
