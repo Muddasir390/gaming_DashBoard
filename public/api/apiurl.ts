@@ -17,7 +17,9 @@ export const apisEndpoint = {
   getUserCountURL: `${config.BASE_URL}/api/getUsersCount`,
   storePurchaseURL: `${config.BASE_URL}/api/getPurchases`,
   roomInfoURL: `${config.BASE_URL}/api/GetRoomsInfo`,
-  specificUserDetailURL: `${config.BASE_URL}/api/users`
+  specificUserDetailURL: `${config.BASE_URL}/api/users`,
+  getRetentionURL: `${config.BASE_URL}/api/retention`
+
 
 
 

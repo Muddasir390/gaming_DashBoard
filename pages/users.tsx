@@ -218,10 +218,10 @@ const Users = () => {
                     ))
                   ) : (
                     displayedUsers.map((user: any) => (
-                      <tr key={user.id} className="hover:bg-purple-50 transition-colors">
+                      <tr onClick={()=> router.push(`/specificUserDetail?name=${user?.username}`)}  key={user.id} className="hover:bg-purple-50 transition-colors cursor-pointer">
                         <td className="px-6 py-4 whitespace-nowrap">
                           <div className="flex items-center">
-                            <div onClick={()=> router.push(`/specificUserDetail?name=${user?.username}`)} className="flex-shrink-0 cursor-pointer relative">
+                            <div className="flex-shrink-0 cursor-pointer relative">
                               <div className="w-8 h-8 rounded-full bg-gradient-to-r from-blue-500 to-purple-600 flex items-center justify-center text-white text-xs font-bold">
                                 {user?.username?.[0]?.toUpperCase()}
                               </div>
@@ -253,7 +253,7 @@ const Users = () => {
                         </td>
                         <td className="px-6 py-4 whitespace-nowrap text-right">
                           <button
-                            onClick={() => router.push(`userDetail?name=${user.username}`)}
+                            onClick={(e) => [ e.stopPropagation(), router.push(`userDetail?name=${user.username}`)]}
                             className="inline-flex items-center space-x-1 group text-purple-600 hover:text-purple-800 transition-colors"
                           >
                             <span className="text-sm font-medium">

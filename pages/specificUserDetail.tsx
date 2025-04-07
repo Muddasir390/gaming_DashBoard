@@ -67,16 +67,16 @@ function SpecificUserDetail() {
                 <div className="px-10 mt-10 mx-auto space-y-6">
                     <div className="bg-white rounded-xl shadow p-2 flex gap-2 overflow-x-auto">
                         {[...Array(2)].map((_, index) => (
-                            <div key={index} className="h-10 w-24 bg-gray-300 rounded"></div>
+                            <div key={index} className="h-10 w-24 bg-purple-100 rounded"></div>
                         ))}
                     </div>
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                         {[...Array(2)].map((_, index) => (
                             <div key={index} className="bg-white rounded-2xl shadow-lg p-6">
-                                <div className="h-6 bg-gray-300 w-40 rounded mb-4"></div>
+                                <div className="h-6 bg-purple-100 w-40 rounded mb-4"></div>
                                 <div className="grid grid-cols-2 gap-4">
                                     {[...Array(4)].map((_, subIndex) => (
-                                        <div key={subIndex} className="h-16 bg-gray-500 rounded"></div>
+                                        <div key={subIndex} className="h-16 bg-purple-100 rounded"></div>
                                     ))}
                                 </div>
                             </div>

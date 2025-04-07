@@ -18,7 +18,7 @@ const sideBar: React.FC<sideBarProps> = ({ activeSection }) => {
   };
 
   const routes = {
-    'Dashboard': '/dashBoard',
+    'Dashboard': '/DashBoard',
     'Users': '/users',
     'Post': '/posts',
     'Fleets Management': '/fleetMangement',

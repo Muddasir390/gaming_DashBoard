@@ -12,10 +12,11 @@ import { useRouter } from "next/navigation";
 interface chartProps {
   data?: any[]
   isLoading?: boolean
+  rentation?: boolean
 }
 
 
-const LineChartComp = ({ data, isLoading }: chartProps) => {
+const LineChartComp = ({ data, isLoading, rentation }: chartProps) => {
 
   const router = useRouter()
 
@@ -35,7 +36,7 @@ const LineChartComp = ({ data, isLoading }: chartProps) => {
           <div className="w-1/3 h-6 bg-[#e2e8f0] rounded-md animate-pulse shadow-sm"></div>
         </div> :
         <ResponsiveContainer width="100%" height={300}>
-          <LineChart data={data} onClick={(data)=>  router.push(`users?date=${data?.activePayload?.[1]?.payload?.date}`)}>
+          <LineChart data={data} onClick={(data) => router.push(`users?date=${data?.activePayload?.[1]?.payload?.date}`)}>
             <defs>
               <linearGradient
                 id="colorGradient"
@@ -56,8 +57,8 @@ const LineChartComp = ({ data, isLoading }: chartProps) => {
             <YAxis allowDecimals={false} />
             <Tooltip />
             <Legend />
-            <Line type="monotone" dataKey="Daily Active Users" stroke="#8884d8" strokeWidth={8} />
-            <Line type="monotone" dataKey="New Sign Ups" stroke="red" strokeWidth={8} />
+            {rentation ? <Line type="monotone" dataKey="Retention" stroke="#8884d8" strokeWidth={6} /> : <><Line type="monotone" dataKey="Daily Active Users" stroke="#8884d8" strokeWidth={6} />
+              <Line type="monotone" dataKey="New Sign Ups" stroke="red" strokeWidth={6} /></>}
           </LineChart>
         </ResponsiveContainer>}
     </>

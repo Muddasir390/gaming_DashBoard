@@ -3,7 +3,7 @@ import { NextResponse } from 'next/server';
 
 export function middleware(request : any) {
   const token = request.cookies.get('token')?.value;
-  const protectedPaths = ['/dashBoard', '/profile', '/settings'];
+  const protectedPaths = ['/DashBoard', '/profile', '/settings'];
   const path = request.nextUrl.pathname;
   const isProtectedPath = protectedPaths.some((pp) => path.startsWith(pp));
   if (isProtectedPath && !token) {
@@ -12,5 +12,5 @@ export function middleware(request : any) {
   return NextResponse.next();
 }
 export const config = {
-  matcher: ['/dashBoard/:path*', '/profile/:path*', '/settings/:path*'],
+  matcher: ['/DashBoard/:path*', '/profile/:path*', '/settings/:path*'],
 };

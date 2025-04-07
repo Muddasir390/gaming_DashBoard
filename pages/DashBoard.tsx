@@ -15,27 +15,30 @@ import NavBar from "../components/NavBar";
 import { dailyActiveUsers } from "../public/DashBoard/dailyActiveUsers";
 import { getVirtualStorePurchase } from "../public/DashBoard/getVirtualStorePurchase";
 import { useGetSession } from "../public/DashBoard/useGetSession";
+import {useGetRetentionData} from '../public/DashBoard/useGetRetentionData'
 import { getStorePurchase } from "../public/DashBoard/getStorePurchase";
 import { getRoomInfo } from "../public/DashBoard/getRoomInfo";
 import { useRouter } from 'next/router';
 
 
 const Dashboard = () => {
+  const [selectedDay, setSelectedDay] = useState('weekly')
   const { activeUsers, activeUserLoading, activeUsersData } = dailyActiveUsers()
   const { virtualStore, virtualStoreData, virtualStoreLoading } = getVirtualStorePurchase()
   const { storePurchase, storePurchaseLoading, storePurchaseData } = getStorePurchase()
   const { roomINfo, roomInfoData } = getRoomInfo()
   const { sessionData } = useGetSession()
   const { userCountData } = getUserCount()
+  const {retentionData} =useGetRetentionData(selectedDay?.toLowerCase())
+  
 
   const [activeSection, setActiveSection] = useState("Dashboard");
   const [linkClicks, setLinkClicks] = useState('Line Chart')
-  const [dailyUsers, setDailyUsers] = useState([])
   const [dateRange, setDateRange] = useState<[Date | null, Date | null]>([null, null]);
   const [virtualStoreDateRange, setVirtualStoreDateRange] = useState<[Date | null, Date | null]>([null, null]);
   const [storeDateRange, setStoreDateRange] = useState<[Date | null, Date | null]>([null, null]);
   const [roomDateRange, setRoomDateRange] = useState<[Date | null, Date | null]>([null, null]);
-  
+
 
   const [selectedKey, setSelectedKey] = useState(null);
   const [startDate, endDate] = dateRange;
@@ -157,20 +160,29 @@ const Dashboard = () => {
   }, [storeDateRange])
 
   useEffect(() => {
-    if (activeUsersData) {
-      let chartData = activeUsersData?.userData?.map((item: any) => {
-        return ({ date: moment(item?.time).format('YYYY-MM-DD'), "Daily Active Users": item?.users?.length, "New Sign Ups": item?.newSignUP?.length })
-      })
-      setDailyUsers(chartData)
-    }
-  }, [activeUsersData])
-
-  useEffect(() => {
     if (virtualStoreData && selectedKey === null) {
       let objectsData = virtualStoreData && Object.keys(virtualStoreData)
       setSelectedKey(objectsData?.[0])
     }
   }, [virtualStoreData])
+
+  const DailyUsersData=()=>{
+    if(activeUsersData){
+      let chartData = activeUsersData?.userData?.map((item: any) => {
+        return ({ date: moment(item?.time).format('YYYY-MM-DD'), "Daily Active Users": item?.users?.length, "New Sign Ups": item?.newSignUP?.length })
+      })
+      return chartData
+    }
+  }
+
+  const RetentionData=()=>{
+    if(retentionData){
+      let chartData = retentionData?.retention && retentionData?.retention?.length &&  retentionData?.retention?.map((item: any) => {
+        return ({ date: moment(item?.intervalKey).format('YYYY-MM-DD'), "Retention": item?.retentionRate })
+      })
+      return chartData
+    }
+  }
 
   return (
     <div className="flex h-screen bg-gradient-to-br from-blue-50 to-purple-100">
@@ -201,7 +213,7 @@ const Dashboard = () => {
             </div>
           </section>
 
-          
+
           <section id="dailyUsers" className="mb-8">
             <h2 className="text-2xl font-bold mb-6">Analytics Dashboard</h2>
             <div className="flex flex-wrap gap-6 w-full flex-row">
@@ -241,10 +253,10 @@ const Dashboard = () => {
                     {selectDateDropDown("activeUsers")}
                   </div>
                 </div>
-                {dailyUsers && dailyUsers?.length ? <div>
-                  {linkClicks === 'Line Chart' && <LineChartComp data={dailyUsers ? dailyUsers : []} isLoading={activeUserLoading} />}
-                  {linkClicks === 'Bar Chart' && <BarChatComp data={dailyUsers ? dailyUsers : []} name={"date"} value={["Daily Active Users", "New Sign Ups"]} />}
-                  {linkClicks === 'Pie Chart' && <PieChartComp data={dailyUsers ? dailyUsers : []} />}
+                {DailyUsersData() && DailyUsersData()?.length ? <div>
+                  {linkClicks === 'Line Chart' && <LineChartComp data={DailyUsersData() ? DailyUsersData() : []} isLoading={activeUserLoading} />}
+                  {linkClicks === 'Bar Chart' && <BarChatComp data={DailyUsersData() ? DailyUsersData() : []} name={"date"} value={["Daily Active Users", "New Sign Ups"]} />}
+                  {linkClicks === 'Pie Chart' && <PieChartComp data={DailyUsersData() ? DailyUsersData() : []} />}
                 </div> : activeUserLoading ? <div className="w-full h-[300px] flex flex-col items-center justify-center space-y-4">
                   <div className="w-full h-[250px] bg-gradient-to-br from-[#f8fafc] to-[#e2e8f0] rounded-lg relative overflow-hidden shadow-md animate-pulse">
                     <div className="absolute inset-0 bg-gradient-to-r from-[#f1f5f9] via-[#e2e8f0] to-[#f1f5f9] animate-[shimmer_1.8s_infinite]"></div>
@@ -357,7 +369,7 @@ const Dashboard = () => {
                       Total Revenue
                     </h3>
                     <p className="text-4xl font-bold text-white text-center">
-                      {storePurchaseData?.totalRevenue}
+                      {storePurchaseData?.totalRevenue && storePurchaseData?.totalRevenue?.toFixed(2)}
                     </p>
                   </motion.div>
                 </div>
@@ -405,6 +417,55 @@ const Dashboard = () => {
               </div>
             </div>
           </section>
+
+
+          
+          {/* Retention Graph */}
+
+          <section id="Retention Graph" className="mb-8">
+            <div className="flex flex-wrap gap-6 w-full flex-row">
+              <div className="bg-white rounded-2xl shadow-2xl p-6 w-full md:w-[calc(50%-12px)]">
+                <section id="Virtual Store Purchases" className="mb-8">
+                  <div className="flex flex-wrap gap-6 w-full flex-row">
+                    <div className="bg-white rounded-2xl shadow-2xl p-6 w-full md:w-[calc(50%-12px)]">
+                      <h3 className="text-lg font-semibold mb-4">Retention</h3>
+                      <div className="flex flex-wrap gap-6 flex-row sm:justify-center">
+                        <div className="max-w-64 mb-16">
+                          <select
+                            onChange={(e) => setSelectedDay(e.target.value)}
+                            className="border rounded-lg cursor-pointer p-2 w-full md:max-w-52 bg-white shadow-sm"
+                            defaultValue=""
+                          >
+                            <option>Weekly</option>
+                            <option>Monthly</option>
+                          </select>
+                        </div>
+                      </div>
+                      {RetentionData() && RetentionData()?.length ? <div>
+                        <LineChartComp data={RetentionData() ? RetentionData() : []} isLoading={virtualStoreLoading} rentation />
+                        {/* <BarChatComp data={RetentionData() ? RetentionData() : []} name={"date"} value={["Retention"]} loading={virtualStoreLoading} /> */}
+                      </div> : virtualStoreLoading ? <div className="w-full h-[300px] flex flex-col items-center justify-center space-y-4">
+                        <div className="w-full h-[250px] bg-gradient-to-br from-[#f8fafc] to-[#e2e8f0] rounded-lg relative overflow-hidden shadow-md animate-pulse">
+                          <div className="absolute inset-0 bg-gradient-to-r from-[#f1f5f9] via-[#e2e8f0] to-[#f1f5f9] animate-[shimmer_1.8s_infinite]"></div>
+
+                          <div className="absolute bottom-0 left-[10%] w-[12%] h-[50%] bg-[#cbd5e1] opacity-60 rounded-lg"></div>
+                          <div className="absolute bottom-0 left-[30%] w-[12%] h-[70%] bg-[#94a3b8] opacity-50 rounded-lg"></div>
+                          <div className="absolute bottom-0 left-[50%] w-[12%] h-[40%] bg-[#cbd5e1] opacity-60 rounded-lg"></div>
+                          <div className="absolute bottom-0 left-[70%] w-[12%] h-[80%] bg-[#94a3b8] opacity-50 rounded-lg"></div>
+                          <div className="absolute bottom-0 left-[90%] w-[12%] h-[60%] bg-[#cbd5e1] opacity-60 rounded-lg"></div>
+                        </div>
+                        <div className="w-1/3 h-6 bg-[#e2e8f0] rounded-md animate-pulse shadow-sm"></div>
+                      </div> : <div className="h-[300px] w-full flex items-center justify-center">
+                        No Record Found.
+                      </div>}
+                    </div>
+                  </div>
+                </section>
+              </div>
+            </div>
+          </section>
+
+
         </main>
       </div>
     </div>

@@ -19,7 +19,7 @@ const LoginForm: React.FC = () => {
 
   useEffect(()=>{
     if(isSuccessLogin){
-      router.push('/dashBoard')
+      router.push('/DashBoard')
     }
   },[isSuccessLogin])
 

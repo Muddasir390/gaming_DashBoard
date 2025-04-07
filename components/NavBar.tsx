@@ -9,7 +9,7 @@ const NavBar = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   const routes = {
-    'Dashboard': '/dashBoard',
+    'Dashboard': '/DashBoard',
     'Users': '/users',
     'Post': '/posts',
     'Fleets Management': '/fleetMangement',
@@ -59,9 +59,9 @@ const NavBar = () => {
               </button>
             ) : (
               <img
-              src="/AppIconBlack.png"
+              src="/zoaverWhiteIcon.png"
               alt="Logo"
-              className="mix-blend-lighten"
+              className="h-12 w-auto "
             />
               // <h2 className="text-xl text-white font-bold">Zoaverse Analytics Dashboard</h2>
             )}

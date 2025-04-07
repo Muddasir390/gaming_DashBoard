@@ -188,3 +188,15 @@ export const dailyActiveUserApi = async (payload: any) => {
       throw error;
     }
   };
+
+  export const getRetentionAPi = async (data: any) => {
+  
+    try {
+      const response = httpWithAuth.get(
+        `${apisEndpoint.getRetentionURL}/${data?.queryKey[1]}`,
+      );
+      return (await response).data;
+    } catch (error: any) {
+      throw error;
+    }
+  };
