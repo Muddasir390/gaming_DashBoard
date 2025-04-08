@@ -16,33 +16,36 @@ const Users = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage, setItemsPerPage] = useState(10);
   const [searchQuery, setSearchQuery] = useState("");
-  const [selectedUser, setSelectedUser] = useState('')
-  const [dateRange, setDateRange] = useState<[Date | null, Date | null]>([null, null]);
+  const [selectedUser, setSelectedUser] = useState('');
+  const [dateRange, setDateRange] = useState<[Date | null | any, Date | null | any]>([null, null]);
+  const [selectedSort, setSelectedSort] = useState<string>('default');
 
-  const {getUser, usersData, usersLoading } = useGetAllUsers();
+  const { getUser, usersData, usersLoading } = useGetAllUsers();
   const [startDate, endDate] = dateRange;
   const router = useRouter();
+  const { date } = router.query;
 
   const filteredUsers = usersData?.users?.filter((user: any) =>
-    (user?.username?.toLowerCase().includes(searchQuery.toLowerCase()))
-  ) || [];
-  
+  user?.username?.toLowerCase().includes(searchQuery.toLowerCase())
+).sort((a: any, b: any) => {
+  if (selectedSort === 'lowToHigh') return a.points - b.points;
+  if (selectedSort === 'highToLow') return b.points - a.points;
+  return 0;
+})
 
-  const getSelectedUsers=(value:any)=>{
+  const getSelectedUsers = (value: any) => {
     setSelectedUser(value)
-    let apidata = 
-      {
-        "filter": value === "New SignUps" ? "NewSignUps" : "All",
-        "from": moment(dateRange[0]).format('YYYY-MM-DD'),
-        "to": moment(dateRange[1]).format('YYYY-MM-DD')
-      }
-      getUser(apidata)
+    let apidata = {
+      "filter": value === "New SignUps" ? "NewSignUps" : "All",
+      "from": moment(dateRange[0]).format('YYYY-MM-DD'),
+      "to": moment(dateRange[1]).format('YYYY-MM-DD')
+    }
+    getUser(apidata)
   }
 
   useEffect(() => {
     if (dateRange && dateRange[1] !== null) {
-      let apidata = 
-      {
+      let apidata = {
         "filter": selectedUser === "New SignUps" ? "NewSignUps" : "All",
         "from": moment(dateRange[0]).format('YYYY-MM-DD'),
         "to": moment(dateRange[1]).format('YYYY-MM-DD')
@@ -51,17 +54,15 @@ const Users = () => {
     }
   }, [dateRange[1]])
 
-  const totalUsers = filteredUsers.length;
+  const totalUsers = filteredUsers?.length;
   const totalPages = Math.ceil(totalUsers / itemsPerPage);
   const startIndex = (currentPage - 1) * itemsPerPage;
   const endIndex = startIndex + itemsPerPage;
-  const displayedUsers = filteredUsers.slice(startIndex, endIndex);
-
+  const displayedUsers = filteredUsers?.slice(startIndex, endIndex);
 
   useEffect(() => {
     getTimestamps()
   }, [])
-
 
   function getTimestamps() {
     const currentDate = new Date();
@@ -69,7 +70,6 @@ const Users = () => {
     pastDate.setDate(currentDate.getDate() - 15);
     setDateRange([pastDate, currentDate])
   }
-
 
   const handlePageChange = (newPage: number) => {
     if (newPage >= 1 && newPage <= totalPages) {
@@ -93,7 +93,7 @@ const Users = () => {
     return pages;
   };
 
-  function selectDays(data: string,) {
+  function selectDays(data: string) {
     const currentDate = new Date();
     const pastDate = new Date(currentDate);
     if (data === 'Last 7 days') {
@@ -124,7 +124,7 @@ const Users = () => {
               </h1>
             </div>
 
-            <div className="mb-6 flex row flex-wrap">
+            <div className="mb-6 flex flex-row flex-wrap gap-2 justify-start items-start md:justify-center md:items-center">
               <input
                 type="text"
                 placeholder="Search players..."
@@ -140,6 +140,16 @@ const Users = () => {
                 <option value="" disabled>Select User Type</option>
                 <option>New SignUps</option>
                 <option>All</option>
+              </select>
+
+              <select
+                value={selectedSort}
+                onChange={(e) => setSelectedSort(e.target.value)}
+                className="w-full ml-6 bg-transparent px-4 py-2 border-2 max-w-52 border-purple-100 rounded-lg focus:outline-none focus:border-purple-500 text-purple-500 focus:ring-2 focus:ring-purple-200 transition-all"
+              >
+                <option value="default">Sort by Points</option>
+                <option value="lowToHigh">Low to High</option>
+                <option value="highToLow">High to Low</option>
               </select>
 
               {selectedUser === 'New SignUps' && <> <DatePicker
@@ -164,8 +174,6 @@ const Users = () => {
                   <option>Last 7 days</option>
                   <option>Last 15 days</option>
                 </select>
-
-
               </>}
             </div>
 
@@ -217,8 +225,8 @@ const Users = () => {
                       </tr>
                     ))
                   ) : (
-                    displayedUsers.map((user: any) => (
-                      <tr onClick={()=> router.push(`/specificUserDetail?name=${user?.username}`)}  key={user.id} className="hover:bg-purple-50 transition-colors cursor-pointer">
+                    displayedUsers?.map((user: any) => (
+                      <tr onClick={() => router.push(`/specificUserDetail?name=${user?.username}`)} key={user.id} className="hover:bg-purple-50 transition-colors cursor-pointer">
                         <td className="px-6 py-4 whitespace-nowrap">
                           <div className="flex items-center">
                             <div className="flex-shrink-0 cursor-pointer relative">
@@ -253,7 +261,7 @@ const Users = () => {
                         </td>
                         <td className="px-6 py-4 whitespace-nowrap text-right">
                           <button
-                            onClick={(e) => [ e.stopPropagation(), router.push(`userDetail?name=${user.username}`)]}
+                            onClick={(e) => [e.stopPropagation(), router.push(`userDetail?name=${user.username}`)]}
                             className="inline-flex items-center space-x-1 group text-purple-600 hover:text-purple-800 transition-colors"
                           >
                             <span className="text-sm font-medium">

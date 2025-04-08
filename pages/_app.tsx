@@ -34,7 +34,7 @@ const queryClient = new QueryClient();
           content="minimum-scale=1, initial-scale=1, width=device-width"
         />
         {/* Add the favicon link here */}
-        <link rel="icon" href="/AppIconBlack.png"/>
+        <link rel="icon" href="/AppIconBlack.ico"/>
         {/* <div aria-hidden="true">
         <span className="font-preloader preload-thin">.</span>
         <span className="font-preloader preload-bold">.</span>

@@ -36,7 +36,9 @@ const LineChartComp = ({ data, isLoading, rentation }: chartProps) => {
           <div className="w-1/3 h-6 bg-[#e2e8f0] rounded-md animate-pulse shadow-sm"></div>
         </div> :
         <ResponsiveContainer width="100%" height={300}>
-          <LineChart data={data} onClick={(data) => router.push(`users?date=${data?.activePayload?.[1]?.payload?.date}`)}>
+          <LineChart data={data}
+          //  onClick={(data) => router.push(`users?date=${data?.activePayload?.[1]?.payload?.date}`)}
+           >
             <defs>
               <linearGradient
                 id="colorGradient"
@@ -57,8 +59,8 @@ const LineChartComp = ({ data, isLoading, rentation }: chartProps) => {
             <YAxis allowDecimals={false} />
             <Tooltip />
             <Legend />
-            {rentation ? <Line type="monotone" dataKey="Retention" stroke="#8884d8" strokeWidth={6} /> : <><Line type="monotone" dataKey="Daily Active Users" stroke="#8884d8" strokeWidth={6} />
-              <Line type="monotone" dataKey="New Sign Ups" stroke="red" strokeWidth={6} /></>}
+            {rentation ? <Line type="monotone" dataKey="Retention" stroke="#8884d8" strokeWidth={4} /> : <><Line type="monotone" dataKey="Daily Active Users" stroke="#8884d8" strokeWidth={4} />
+              <Line type="monotone" dataKey="New Sign Ups" stroke="red" strokeWidth={4} /></>}
           </LineChart>
         </ResponsiveContainer>}
     </>

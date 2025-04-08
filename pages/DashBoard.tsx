@@ -29,7 +29,7 @@ const Dashboard = () => {
   const { roomINfo, roomInfoData } = getRoomInfo()
   const { sessionData } = useGetSession()
   const { userCountData } = getUserCount()
-  const {retentionData} =useGetRetentionData(selectedDay?.toLowerCase())
+  const {retentionData, retentionLoading} =useGetRetentionData(selectedDay?.toLowerCase())
   
 
   const [activeSection, setActiveSection] = useState("Dashboard");
@@ -110,6 +110,30 @@ const Dashboard = () => {
       <option>Last 15 days</option>
     </select>)
   }
+
+  const updatedVirtualStoreData = () => {
+    if(virtualStoreData){
+      const transformedData: any = {};
+      Object.keys(virtualStoreData).forEach(category => {
+        transformedData[category] = virtualStoreData[category].map((item: any) => {
+          const transformedItem = { ...item };
+          transformedItem["Purchase Count"] = transformedItem.purchaseCount;
+          delete transformedItem.purchaseCount;
+          return transformedItem;
+        });
+      });
+      return transformedData;
+    }
+  };
+
+  const transformPackPrice = () => {
+    return storePurchaseData?.packsData &&  storePurchaseData?.packsData.map((item : any) => {
+      const transformedItem = { ...item };
+      transformedItem["Pack Price"] = transformedItem.packPrice;
+      delete transformedItem.packPrice;
+      return transformedItem;
+    });
+  };
 
   useEffect(() => {
     getTimestamps()
@@ -314,8 +338,8 @@ const Dashboard = () => {
                     {selectDateDropDown("virtualStorePurchase")}
                   </div>
                 </div>
-                {virtualStoreData && selectedKey && virtualStoreData[selectedKey]?.length ? <div>
-                  <BarChatComp data={virtualStoreData[selectedKey] ? virtualStoreData[selectedKey] : []} name={"name"} value={["purchaseCount"]} loading={virtualStoreLoading} />
+                {updatedVirtualStoreData() && selectedKey && updatedVirtualStoreData()[selectedKey]?.length ? <div>
+                  <BarChatComp data={updatedVirtualStoreData() && updatedVirtualStoreData()[selectedKey] ? updatedVirtualStoreData()[selectedKey] : []} name={"name"} value={["Purchase Count"]} loading={virtualStoreLoading} />
                 </div> : virtualStoreLoading ? <div className="w-full h-[300px] flex flex-col items-center justify-center space-y-4">
                   <div className="w-full h-[250px] bg-gradient-to-br from-[#f8fafc] to-[#e2e8f0] rounded-lg relative overflow-hidden shadow-md animate-pulse">
                     <div className="absolute inset-0 bg-gradient-to-r from-[#f1f5f9] via-[#e2e8f0] to-[#f1f5f9] animate-[shimmer_1.8s_infinite]"></div>
@@ -374,7 +398,7 @@ const Dashboard = () => {
                   </motion.div>
                 </div>
                 {virtualStoreData && selectedKey && virtualStoreData[selectedKey]?.length ? <div>
-                  <BarChatComp data={storePurchaseData?.packsData && storePurchaseData?.packsData?.length ? storePurchaseData?.packsData : []} name={"packName"} value={["packPrice"]} loading={storePurchaseLoading} />
+                  <BarChatComp data={transformPackPrice() && transformPackPrice()?.length ? transformPackPrice() : []} name={"packName"} value={["Pack Price"]} loading={storePurchaseLoading} />
                 </div> : <div className="h-[300px] w-full flex items-center justify-center">
                   No Record Found.
                 </div>}
@@ -442,9 +466,8 @@ const Dashboard = () => {
                         </div>
                       </div>
                       {RetentionData() && RetentionData()?.length ? <div>
-                        <LineChartComp data={RetentionData() ? RetentionData() : []} isLoading={virtualStoreLoading} rentation />
-                        {/* <BarChatComp data={RetentionData() ? RetentionData() : []} name={"date"} value={["Retention"]} loading={virtualStoreLoading} /> */}
-                      </div> : virtualStoreLoading ? <div className="w-full h-[300px] flex flex-col items-center justify-center space-y-4">
+                        <LineChartComp data={RetentionData() ? RetentionData() : []} isLoading={retentionLoading} rentation />
+                      </div> : retentionLoading ? <div className="w-full h-[300px] flex flex-col items-center justify-center space-y-4">
                         <div className="w-full h-[250px] bg-gradient-to-br from-[#f8fafc] to-[#e2e8f0] rounded-lg relative overflow-hidden shadow-md animate-pulse">
                           <div className="absolute inset-0 bg-gradient-to-r from-[#f1f5f9] via-[#e2e8f0] to-[#f1f5f9] animate-[shimmer_1.8s_infinite]"></div>
 

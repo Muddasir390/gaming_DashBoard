@@ -3,9 +3,8 @@ import { useRouter } from "next/router";
 import NavBar from "../components/NavBar";
 import { specificUserDetail } from "../public/DashBoard/specificUserDetail";
 import * as Tooltip from "@radix-ui/react-tooltip";
-
 import React, { useState } from 'react';
-import { Trophy, Users, Star, TowerControl as GameController, Gift, Clock, Award, History, ShoppingBag, CheckCircle, Timer, UserPlus, User, Ban, FileStackIcon } from 'lucide-react';
+import { Trophy, Users, Star, TowerControl as GameController, Gift, Clock, History, ShoppingBag, CheckCircle, Timer, UserPlus, User, Ban, FileStackIcon } from 'lucide-react';
 
 function SpecificUserDetail() {
     const [activeTab, setActiveTab] = useState('profile');
@@ -89,7 +88,29 @@ function SpecificUserDetail() {
                 <div className="px-10 mt-10 mx-auto space-y-6">
                     {/* Header */}
                     <div className="bg-white rounded-2xl shadow-lg p-6">
+                    <div className="mb-4">
+    <button
+      onClick={() => router.back()}
+      className="flex items-center gap-1 text-purple-600 hover:text-purple-800 transition-colors"
+    >
+      <svg
+        className="w-4 h-4"
+        fill="none"
+        stroke="currentColor"
+        viewBox="0 0 24 24"
+      >
+        <path
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          strokeWidth={2}
+          d="M10 19l-7-7m0 0l7-7m-7 7h18"
+        />
+      </svg>
+      {/* <span className="text-sm font-medium">Back</span> */}
+    </button>
+  </div>
                         <div className="flex items-center gap-4">
+                       
                             <div className="w-20 h-20 bg-gradient-to-br from-purple-500 to-indigo-600 rounded-full flex items-center justify-center md:hidden">
                                 <span className="text-3xl font-bold text-white">{user?.username[0].toUpperCase()}</span>
                             </div>
