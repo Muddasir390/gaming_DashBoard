@@ -23,7 +23,6 @@ const Users = () => {
   const { getUser, usersData, usersLoading } = useGetAllUsers();
   const [startDate, endDate] = dateRange;
   const router = useRouter();
-  const { date } = router.query;
 
   const filteredUsers = usersData?.users?.filter((user: any) =>
   user?.username?.toLowerCase().includes(searchQuery.toLowerCase())
@@ -191,6 +190,9 @@ const Users = () => {
                       Time Spent
                     </th>
                     <th scope="col" className="px-6 py-3 text-left text-xs font-semibold text-white uppercase tracking-wider">
+                      Creation Date
+                    </th>
+                    <th scope="col" className="px-6 py-3 text-left text-xs font-semibold text-white uppercase tracking-wider">
                       Points
                     </th>
                     <th scope="col" className="px-6 py-3 text-right text-xs font-semibold text-white uppercase tracking-wider">
@@ -225,7 +227,7 @@ const Users = () => {
                       </tr>
                     ))
                   ) : (
-                    displayedUsers?.map((user: any) => (
+                    displayedUsers && displayedUsers?.length ? displayedUsers?.map((user: any) => (
                       <tr onClick={() => router.push(`/specificUserDetail?name=${user?.username}`)} key={user.id} className="hover:bg-purple-50 transition-colors cursor-pointer">
                         <td className="px-6 py-4 whitespace-nowrap">
                           <div className="flex items-center">
@@ -256,6 +258,11 @@ const Users = () => {
                         </td>
                         <td className="px-6 py-4 whitespace-nowrap">
                           <div className="text-sm text-gray-700">
+                         {moment(user?.creationDate).format('YYYY-MM-DD')}
+                          </div>
+                        </td>
+                        <td className="px-6 py-4 whitespace-nowrap">
+                          <div className="text-sm text-gray-700">
                             {user?.points}
                           </div>
                         </td>
@@ -279,6 +286,15 @@ const Users = () => {
                         </td>
                       </tr>
                     ))
+                    : (
+                      <tr>
+                        <td colSpan={6} className="text-center py-8">
+                          <div className="flex items-center justify-center">
+                            <span className=" font-medium">No Record Found.</span>
+                          </div>
+                        </td>
+                      </tr>
+                    )
                   )}
                 </tbody>
               </table>

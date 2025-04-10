@@ -42,7 +42,7 @@ const ConfirmationModal = ({ isOpen, onClose, onConfirm, loading }: Confirmation
                   </Dialog.Title>
                 </div>
                 <p className="text-gray-700 text-lg mb-4">
-                  Are you sure you want to delete this post? This action cannot be undone.
+                Are you sure you want to delete this post? This action is permanent and cannot be reversed.
                 </p>
                 <div className="mt-4 flex justify-end gap-3">
                   <button

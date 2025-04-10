@@ -3,18 +3,42 @@ import { useRouter } from "next/router";
 import NavBar from "../components/NavBar";
 import { specificUserDetail } from "../public/DashBoard/specificUserDetail";
 import * as Tooltip from "@radix-ui/react-tooltip";
-import React, { useState } from 'react';
-import { Trophy, Users, Star, TowerControl as GameController, Gift, Clock, History, ShoppingBag, CheckCircle, Timer, UserPlus, User, Ban, FileStackIcon } from 'lucide-react';
+import React, { useState, useMemo } from 'react';
+import { Trophy, Users, Star, TowerControl as GameController, Gift, Shield, Clock, History, ShoppingBag, CheckCircle, Timer, UserPlus, User, Ban, FileStackIcon, ArrowUp, ArrowDown, Globe, MapPin, Smartphone } from 'lucide-react';
 
 function SpecificUserDetail() {
     const [activeTab, setActiveTab] = useState('profile');
     const [purchaseId, setPurchaseId] = useState('all');
+    const [searchQuery, setSearchQuery] = useState("");
+    const [sortDirection, setSortDirection] = useState('asc')
+
 
     const router = useRouter();
     const { name } = router.query;
     const { specificUserData, specificUserIsLoading } = specificUserDetail({ id: name })
     const user = specificUserData?.user
-    
+
+
+    const filteredFriends = useMemo(() => {
+        const filtered = user?.friends?.filter((user: any) =>
+            user?.username?.toLowerCase().includes(searchQuery.toLowerCase()));
+        if (filtered) {
+            return [...filtered].sort((a, b) => {
+                const nameA = a?.username?.toLowerCase() || '';
+                const nameB = b?.username?.toLowerCase() || '';
+
+                if (sortDirection === 'asc') {
+                    return nameA.localeCompare(nameB);
+                } else {
+                    return nameB.localeCompare(nameA);
+                }
+            });
+        }
+
+        return [];
+    }, [user?.friends, searchQuery, sortDirection]);
+
+
 
 
     const formatTime = (minutes: any) => {
@@ -88,29 +112,29 @@ function SpecificUserDetail() {
                 <div className="px-10 mt-10 mx-auto space-y-6">
                     {/* Header */}
                     <div className="bg-white rounded-2xl shadow-lg p-6">
-                    <div className="mb-4">
-    <button
-      onClick={() => router.back()}
-      className="flex items-center gap-1 text-purple-600 hover:text-purple-800 transition-colors"
-    >
-      <svg
-        className="w-4 h-4"
-        fill="none"
-        stroke="currentColor"
-        viewBox="0 0 24 24"
-      >
-        <path
-          strokeLinecap="round"
-          strokeLinejoin="round"
-          strokeWidth={2}
-          d="M10 19l-7-7m0 0l7-7m-7 7h18"
-        />
-      </svg>
-      {/* <span className="text-sm font-medium">Back</span> */}
-    </button>
-  </div>
+                        <div className="mb-4">
+                            <button
+                                onClick={() => router.back()}
+                                className="flex items-center gap-1 text-purple-600 hover:text-purple-800 transition-colors"
+                            >
+                                <svg
+                                    className="w-4 h-4"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    viewBox="0 0 24 24"
+                                >
+                                    <path
+                                        strokeLinecap="round"
+                                        strokeLinejoin="round"
+                                        strokeWidth={2}
+                                        d="M10 19l-7-7m0 0l7-7m-7 7h18"
+                                    />
+                                </svg>
+                                {/* <span className="text-sm font-medium">Back</span> */}
+                            </button>
+                        </div>
                         <div className="flex items-center gap-4">
-                       
+
                             <div className="w-20 h-20 bg-gradient-to-br from-purple-500 to-indigo-600 rounded-full flex items-center justify-center md:hidden">
                                 <span className="text-3xl font-bold text-white">{user?.username[0].toUpperCase()}</span>
                             </div>
@@ -281,7 +305,7 @@ function SpecificUserDetail() {
                         {activeTab === 'stats' && (
                             <>
                                 {/* Game Stats */}
-                                {user?.gameProfiles.map((profile: any) => (
+                                {user?.gameProfiles && user?.gameProfiles?.length ? user?.gameProfiles.map((profile: any) => (
                                     <div key={profile?.gameName} className="bg-white rounded-2xl shadow-lg p-6">
                                         <h2 className="text-xl font-semibold text-gray-800 mb-4 flex items-center gap-2">
                                             <GameController className="w-5 h-5 text-indigo-500" />
@@ -332,7 +356,7 @@ function SpecificUserDetail() {
                                             </div>
                                         </div>
                                     </div>
-                                ))}
+                                )) : <div className="h-96 text-center flex items-center justify-center">No Record Found.</div> }
                             </>
                         )}
 
@@ -362,7 +386,7 @@ function SpecificUserDetail() {
                                         )}
                                         {user?.equipedItems?.headwear && (
                                             <>
-                                                <div className="text-3xl font-bold px-3">HeadWare</div>
+                                                <div className="text-3xl font-bold px-3">HeadWear</div>
 
                                                 <div className="flex items-center justify-between p-3 bg-blue-50 rounded-lg">
                                                     <div>
@@ -388,7 +412,9 @@ function SpecificUserDetail() {
                                             <FilterButton id={"all"} label="All" />
                                             <FilterButton id={'emote'} label="Emote" />
                                             <FilterButton id={'pet'} label="Pet" />
-                                            <FilterButton id={'headwear'} label="HeadWare" />
+                                            <FilterButton id={'headwear'} label="HeadWear" />
+                                            <FilterButton id={'backDecoration'} label="Back Decoration" />
+
                                         </div>
                                         {filterPurchasedItems() && filterPurchasedItems()?.length ? filterPurchasedItems()?.map((item: any, index: any) => (
                                             <div key={index} className="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
@@ -414,31 +440,52 @@ function SpecificUserDetail() {
 
                         {activeTab === 'friends' && (
                             <div className="bg-white rounded-2xl shadow-lg p-6 mb-10">
-                                <h2 className="text-xl font-semibold text-gray-800 mb-4 flex items-center gap-2">
-                                    <UserPlus className="w-5 h-5 text-blue-500" />
-                                    Friends List
-                                </h2>
+                                <div className="mb-6 flex flex-row flex-wrap gap-2 justify-start items-center md:justify-center md:items-center">
+                                    <h2 className="text-xl font-semibold text-gray-800 flex items-center gap-2">
+                                        <UserPlus className="w-5 h-5 text-blue-500" />
+                                        Friends List
+                                    </h2>
+                                    <input
+                                        type="text"
+                                        placeholder="Search friend..."
+                                        value={searchQuery}
+                                        onChange={(e) => setSearchQuery(e.target.value)}
+                                        className="w-full px-4 ml-4 py-2 border-2 max-w-44 border-purple-100 rounded-lg focus:outline-none focus:border-purple-500 text-purple-500 focus:ring-2 focus:ring-purple-200 transition-all placeholder:text-purple-300"
+                                    />
+                                    <button
+                                        onClick={() => setSortDirection(prev => prev === 'asc' ? 'desc' : 'asc')}
+                                        className="px-3 py-2 bg-purple-100 text-purple-700 rounded-lg flex items-center gap-1 hover:bg-purple-200 transition-all"
+                                    >
+                                        Sort
+                                        {sortDirection === 'asc' ?
+                                            <ArrowUp className="w-4 h-4" /> :
+                                            <ArrowDown className="w-4 h-4" />
+                                        }
+                                    </button>
+                                </div>
                                 <div className="space-y-3">
-                                    {user?.friends.map((friend: any, index: any) => (
+                                    {filteredFriends && filteredFriends?.length ? filteredFriends?.map((friend: any, index: any) => (
                                         <div key={index} className="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
                                             <div>
-                                            <p className="font-medium text-gray-800">{friend?.username}</p>
-                                            <p className="font-medium text-gray-800">{friend?.userId?.email}</p>
+                                                <p className="font-medium text-gray-800">{friend?.username}</p>
+                                                <p className="font-medium text-gray-800">{friend?.userId?.email}</p>
                                             </div>
                                             <div>
-                                            <div className={`ml-3 inline-flex items-center px-2.5 py-2 rounded-full text-xs font-medium ${friend.status === 'accepted'
-                                                ? 'bg-green-100 text-green-800'
-                                                : 'bg-red-100 text-red-800'
-                                                }`}>
-                                                {friend.status}
-                                            </div>
-                                            <div className={`ml-3 inline-flex items-center px-2.5 py-2 rounded-full text-xs font-medium ${friend?.userId?.online ? 'bg-green-100 text-green-800' : 'bg-gray-100 text-white'
-                                        }`}>
-                                        {friend?.userId?.online ? 'Online' : 'Offline'}
-                                    </div>
+                                                <div className={`ml-3 inline-flex items-center px-2.5 py-2 rounded-full text-xs font-medium ${friend.status === 'accepted'
+                                                    ? 'bg-green-100 text-green-800'
+                                                    : 'bg-red-100 text-red-800'
+                                                    }`}>
+                                                    {friend.status}
+                                                </div>
+                                                <div className={`ml-3 inline-flex items-center px-2.5 py-2 rounded-full text-xs font-medium ${friend?.userId?.online ? 'bg-green-100 text-green-800' : 'bg-gray-100 text-white'
+                                                    }`}>
+                                                    {friend?.userId?.online ? 'Online' : 'Offline'}
+                                                </div>
                                             </div>
                                         </div>
-                                    ))}
+                                    )) : <div className="flex items-center justify-center">
+                                        <span className="font-medium">No Record Found.</span>
+                                    </div>}
                                 </div>
                             </div>
                         )}
@@ -452,7 +499,7 @@ function SpecificUserDetail() {
                                         Tasks In Progress
                                     </h2>
                                     <div className="space-y-4">
-                                        {user?.tasksInProgress.map((task: any, index: any) => (
+                                        {user?.tasksInProgress && user?.tasksInProgress?.length ? user?.tasksInProgress.map((task: any, index: any) => (
                                             <div key={index} className="p-4 bg-amber-50 rounded-lg">
                                                 <div className="flex justify-between items-start mb-2">
                                                     <div>
@@ -473,7 +520,9 @@ function SpecificUserDetail() {
                                                     {task.progress.current} / {task.progress.rewardAt}
                                                 </p>
                                             </div>
-                                        ))}
+                                        )) : <div className="h-[100px] w-full flex items-center justify-center">
+                                        No Record Found.
+                                      </div>}
                                     </div>
                                 </div>
 
@@ -484,7 +533,7 @@ function SpecificUserDetail() {
                                         Completed Tasks
                                     </h2>
                                     <div className="space-y-3">
-                                        {user?.tasksClaimed.map((task: any, index: any) => (
+                                        {user?.tasksClaimed && user?.tasksClaimed?.length ? user?.tasksClaimed.map((task: any, index: any) => (
                                             <div key={index} className="flex items-center justify-between p-3 bg-green-50 rounded-lg">
                                                 <div>
                                                     <p className="font-medium text-gray-800">{task.name}</p>
@@ -494,41 +543,45 @@ function SpecificUserDetail() {
                                                     {task.points} points
                                                 </span>
                                             </div>
-                                        ))}
+                                        )) : <div className="h-[100px] w-full flex items-center justify-center">
+                                        No Record Found.
+                                      </div>}
                                     </div>
                                 </div>
 
                                 {/* UnClaimed Tasks */}
                                 <div className="bg-white rounded-2xl shadow-lg p-6 mb-10">
                                     <h2 className="text-xl font-semibold text-gray-800 mb-4 flex items-center gap-2">
-                                        <Ban className="w-5 h-5 text-green-500" />
+                                        <Ban className="w-5 h-5 text-pink-300" />
                                         UnClaimed Tasks
                                     </h2>
                                     <div className="space-y-3">
-                                        {user?.tasksUnclaimed?.map((task: any, index: any) => (
-                                            <div key={index} className="flex items-center justify-between p-3 bg-green-50 rounded-lg">
+                                        {user?.tasksUnclaimed && user?.tasksUnclaimed?.length ? user?.tasksUnclaimed?.map((task: any, index: any) => (
+                                            <div key={index} className="flex items-center justify-between p-3 bg-pink-100 rounded-lg">
                                                 <div>
                                                     <p className="font-medium text-gray-800">{task?.name}</p>
                                                     <p className="text-sm text-gray-600">{task?.description}</p>
                                                 </div>
-                                                <span className="px-2 py-1 bg-green-100 text-green-800 rounded-full text-xs font-medium">
+                                                <span className="px-2 py-1 bg-pink-200 text-pink-400 rounded-full text-xs font-medium">
                                                     {task?.points} points
                                                 </span>
                                             </div>
-                                        ))}
+                                        )) : <div className="h-[100px] w-full flex items-center justify-center">
+                                        No Record Found.
+                                      </div>}
                                     </div>
                                 </div>
                             </>
                         )}
 
                         {activeTab === 'history' && (
-                            <div className="bg-white rounded-2xl shadow-lg p-6">
+                            <div className="bg-white rounded-2xl shadow-lg p-6 mb-10">
                                 <h2 className="text-xl font-semibold text-gray-800 mb-4 flex items-center gap-2">
                                     <History className="w-5 h-5 text-indigo-500" />
                                     Recent Matches
                                 </h2>
                                 <div className="space-y-4">
-                                    {user?.gameProfiles[0]?.history.map((match: any, index: any) => (
+                                    {user?.gameProfiles[0]?.history && user?.gameProfiles[0]?.history?.length ? user?.gameProfiles[0]?.history.map((match: any, index: any) => (
                                         <div key={index} className={`p-4 ${match.currentUserData.win ? 'bg-green-50' : 'bg-red-50'
                                             } rounded-lg`}>
                                             <div className="flex justify-between items-start mb-2">
@@ -555,54 +608,76 @@ function SpecificUserDetail() {
                                                 </div>
                                             </div>
                                         </div>
-                                    ))}
+                                    )) : <div className="h-[100px] w-full flex items-center justify-center">
+                                    No Record Found.
+                                  </div>}
                                 </div>
                             </div>
                         )}
 
                         {activeTab === 'loginhistory' && (
-                            <div className="bg-white rounded-2xl shadow-lg p-6">
-                            <h2 className="text-xl font-semibold text-gray-800 mb-4 flex items-center gap-2">
-                                <History className="w-5 h-5 text-indigo-500" />
-                                Recent IP Logs
-                            </h2>
-                            <div className="space-y-4">
-                                {user?.loginHistory?.map((log:any, index:any) => (
-                                    <div key={index} className="p-4 bg-indigo-50 rounded-lg">
-                                        <div className="flex justify-between items-start mb-2">
-                                            <div>
-                                                <h3 className="font-medium text-gray-800">{log.ipLogId.city}, {log.ipLogId.region}</h3>
-                                                <p className="text-sm text-gray-600">
-                                                    <span className="font-medium text-gray-600">Country:</span> {log.ipLogId.country} ({log.ipLogId.countryFlag.emoji})
-                                                </p>
-                                                <p className="text-sm text-gray-600">
-                                                    <span className="font-medium text-gray-600">IP Address:</span> {log.ipLogId.ip}
-                                                </p>
+                            <div className="bg-white rounded-2xl shadow-lg p-6 mb-10">
+                                <h2 className="text-xl font-semibold text-gray-800 mb-4 flex items-center gap-2">
+                                    <Shield className="w-5 h-5 text-indigo-500" /> {/* Changed to more relevant icon */}
+                                   <div className=""> Login History </div>
+                                </h2>
+                                <div className="space-y-4">
+                                    {user?.loginHistory && user?.loginHistory?.length ? user?.loginHistory?.map((log: any, index: any) => (
+                                        <div
+                                            key={index}
+                                            className="p-4 bg-gray-50 rounded-lg border-l-4 border-r-4 border-indigo-500 hover:bg-green-50 transition-colors"
+                                        >
+                                            <div className="flex justify-between items-start mb-2">
+                                                <div>
+                                                    <h3 className="font-medium text-gray-800 flex items-center gap-2">
+                                                        {log.ipLogId.city}, {log.ipLogId.region}
+                                                        <span className="text-xs font-normal text-gray-500">
+                                                            ({log.ipLogId.countryFlag.emoji})
+                                                        </span>
+                                                    </h3>
+                                                    <p className="text-sm text-gray-600 mt-1">
+                                                        {log.ipLogId.isp}
+                                                    </p>
+                                                </div>
+                                                <span className={`px-2 py-1 rounded-full text-xs font-medium ${log.ipLogId.continent.code === 'EU' ? 'bg-indigo-100 text-indigo-800' :
+                                                        log.ipLogId.continent.code === 'AS' ? 'bg-green-100 text-green-800' :
+                                                            'bg-purple-100 text-purple-800'
+                                                    }`}>
+                                                    {log.ipLogId.continent.name}
+                                                </span>
                                             </div>
-                                            <span className="px-2 py-1 bg-blue-100 text-blue-800 rounded-full text-xs font-medium">
-                                                {log.ipLogId.continent.name}
-                                            </span>
-                                        </div>
-                                        <div className="mt-2 flex gap-4 text-sm">
-                                            <div>
-                                                <p className="text-gray-600">
-                                                    <span className="font-medium text-gray-600">Timezone:</span> {log.ipLogId.timezone}
-                                                </p>
+
+                                            <div className="mt-3 flex flex-wrap gap-4 text-sm">
+                                                <div className="flex items-center gap-1">
+                                                    <Globe className="w-4 h-4 text-gray-500" />
+                                                    <p className="text-gray-600">
+                                                        {log.ipLogId.country} ({log.ipLogId.countryCode})
+                                                    </p>
+                                                </div>
+                                                <div className="flex items-center gap-1">
+                                                    <Clock className="w-4 h-4 text-gray-500" />
+                                                    <p className="text-gray-600">
+                                                        {new Date(log.time).toLocaleString()}
+                                                    </p>
+                                                </div>
+                                                <div className="flex items-center gap-1">
+                                                    <MapPin className="w-4 h-4 text-gray-500" />
+                                                    <p className="text-gray-600">
+                                                        {log.ipLogId.postal} • {log.ipLogId.timezone}
+                                                    </p>
+                                                </div>
                                             </div>
-                                            <div>
-                                                <p className="text-gray-600">
-                                                    <span className="font-medium text-gray-600">Postal Code:</span> {log.ipLogId.postal}
-                                                </p>
-                                            </div>
+
+                                            {log.device && (
+                                                <div className="mt-3 text-sm text-gray-600 flex items-center gap-2">
+                                                    <Smartphone className="w-4 h-4 text-gray-500" />
+                                                    {log.device} • {log.browser}
+                                                </div>
+                                            )}
                                         </div>
-                                        <div className="mt-4 text-sm text-gray-500">
-                                            <span className="font-medium text-gray-600">Time:</span> {new Date(log.time).toLocaleString()}
-                                        </div>
-                                    </div>
-                                ))}
+                                    )) : <div className="h-96 text-center flex items-center justify-center">No Record Found.</div>}
+                                </div>
                             </div>
-                        </div>
-                        
                         )}
 
                     </div>

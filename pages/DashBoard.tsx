@@ -60,7 +60,7 @@ const Dashboard = () => {
   const cardsData = [
     { label: "Total Players", value: userCountData?.totalUsers },
     { label: "Online Players", value: userCountData?.onlineUsers },
-    { label: "Total Revenue", value: storePurchaseData?.lifeTimeRevenue },
+    { label: "Total Revenue", value: `${storePurchaseData?.lifeTimeRevenue ? `${storePurchaseData?.lifeTimeRevenue} SAR` : ''}` },
     { label: "Average Session Length", value: `${sessionData?.averageLength} mins` },
   ]
 
@@ -129,7 +129,7 @@ const Dashboard = () => {
   const transformPackPrice = () => {
     return storePurchaseData?.packsData &&  storePurchaseData?.packsData.map((item : any) => {
       const transformedItem = { ...item };
-      transformedItem["Pack Price"] = transformedItem.packPrice;
+      transformedItem["Pack Price"] = `${transformedItem?.packPrice?.toFixed(2)}`;
       delete transformedItem.packPrice;
       return transformedItem;
     });
@@ -393,7 +393,7 @@ const Dashboard = () => {
                       Total Revenue
                     </h3>
                     <p className="text-4xl font-bold text-white text-center">
-                      {storePurchaseData?.totalRevenue && storePurchaseData?.totalRevenue?.toFixed(2)}
+                      {storePurchaseData?.totalRevenue && storePurchaseData?.totalRevenue?.toFixed(2)} SAR
                     </p>
                   </motion.div>
                 </div>

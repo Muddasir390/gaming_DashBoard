@@ -58,7 +58,7 @@ const LoginForm: React.FC = () => {
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-2">
-              Email
+              Email/User Name
             </label>
             <input
               type="text"
@@ -69,7 +69,7 @@ const LoginForm: React.FC = () => {
               } rounded-lg outline-none transition-colors`}
               placeholder="Enter your email"
               {...register("email", {
-                required: "Email is required",
+                required: "Email/User Name is required",
               })}
             />
             {errors.email && (

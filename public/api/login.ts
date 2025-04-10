@@ -12,6 +12,7 @@ export const loginApi = async (payload: any) => {
       const data = (await response).data;
       httpWithAuth.setAuthorizationHeader(data?.token);
       Cookies.set('token', data?.token, { expires: 100, secure: true });
+      Cookies.set('user', data?.userData?.character)
       return data;
     } catch (error: any) {
       toast.error(error?.response?.data?.detail);

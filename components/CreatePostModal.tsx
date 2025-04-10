@@ -28,7 +28,7 @@ interface CreatePostModalProps {
 
 const CreatePostModal = ({ isOpen, onClose, refetchPost }: CreatePostModalProps) => {
   const { register, handleSubmit, control, setValue, reset, formState: { errors } } = useForm<FormData>()
-  const [selectedDate, setSelectedDate] = useState<any>('')
+  const [selectedDate, setSelectedDate] = useState<any>(new Date())
   const [previewIMage, setPreVIewImage] = useState<any>(null)
   const fileInputRef = useRef<HTMLInputElement>(null)
   const { addPost, addPostIsSuccess, addPostLoading } = useAddPost()
@@ -44,7 +44,7 @@ const CreatePostModal = ({ isOpen, onClose, refetchPost }: CreatePostModalProps)
     }
 
   }, [addPostIsSuccess])
-
+  
   const onSubmit = (data: FormData) => {
     const formData = new FormData();
     formData.append("title", data.title);
@@ -121,7 +121,7 @@ const CreatePostModal = ({ isOpen, onClose, refetchPost }: CreatePostModalProps)
                     <div className="space-y-4">
                       <div>
                         <label className="block text-sm font-medium text-gray-700 mb-1">
-                          Title
+                          Title <span className="text-red-500">*</span>
                         </label>
                         <input
                           {...register('title', { required: 'Title is required' })}
@@ -136,7 +136,7 @@ const CreatePostModal = ({ isOpen, onClose, refetchPost }: CreatePostModalProps)
 
                       <div>
                         <label className="block text-sm font-medium text-gray-700 mb-1">
-                          Username
+                          Username <span className="text-red-500">*</span>
                         </label>
                         <input
                           {...register('username', { required: 'Username is required' })}
@@ -151,7 +151,7 @@ const CreatePostModal = ({ isOpen, onClose, refetchPost }: CreatePostModalProps)
 
                       <div>
                         <label className="block text-sm font-medium text-gray-700 mb-1">
-                          Subject
+                          Subject <span className="text-red-500">*</span>
                         </label>
                         <input
                           {...register('subject', { required: 'Subject is required' })}
@@ -166,7 +166,7 @@ const CreatePostModal = ({ isOpen, onClose, refetchPost }: CreatePostModalProps)
 
                       <div>
                         <label className="block text-sm font-medium text-gray-700 mb-1">
-                          Date
+                          Date <span className="text-red-500">*</span>
                         </label>
                         <DatePicker
                           selected={selectedDate}
@@ -182,7 +182,7 @@ const CreatePostModal = ({ isOpen, onClose, refetchPost }: CreatePostModalProps)
                     <div className="space-y-4">
                       <div>
                         <label className="block text-sm font-medium text-gray-700 mb-1">
-                          Image Upload
+                          Image Upload <span className="text-red-500">*</span>
                         </label>
                         <div
                           className={`border-2 border-dashed rounded-lg p-4 text-center cursor-pointer
@@ -232,7 +232,7 @@ const CreatePostModal = ({ isOpen, onClose, refetchPost }: CreatePostModalProps)
 
                   <div>
                     <label className="block text-sm font-medium text-gray-700 mb-1">
-                      Description
+                      Description <span className="text-red-500">*</span>
                     </label>
                     <textarea
                       {...register('description', {
@@ -252,7 +252,7 @@ const CreatePostModal = ({ isOpen, onClose, refetchPost }: CreatePostModalProps)
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div>
                       <label className="block text-sm font-medium text-gray-700 mb-1">
-                        Type
+                        Type <span className="text-red-500">*</span>
                       </label>
                       <select
                         {...register('type', { required: 'Type is required' })}
