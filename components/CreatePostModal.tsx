@@ -28,13 +28,14 @@ interface CreatePostModalProps {
 }
 
 const CreatePostModal = ({ isOpen, onClose, refetchPost }: CreatePostModalProps) => {
-  const { register, handleSubmit, control, setValue, reset, formState: { errors } } = useForm<FormData>()
+  const { register, handleSubmit, control, setValue, getValues, reset, formState: { errors } } = useForm<FormData>()
   const [selectedDate, setSelectedDate] = useState<any>(new Date())
   const [previewIMage, setPreVIewImage] = useState<any>(null)
   const fileInputRef = useRef<HTMLInputElement>(null)
   const { addPost, addPostIsSuccess, addPostLoading } = useAddPost()
   const userName = Cookies.get("user")
   setValue('username', userName || "")
+  const value = getValues()
 
   useEffect(() => {
     if (addPostIsSuccess) {
@@ -43,7 +44,7 @@ const CreatePostModal = ({ isOpen, onClose, refetchPost }: CreatePostModalProps)
       refetchPost()
       reset()
       setPreVIewImage(null)
-      setSelectedDate('')
+      setSelectedDate(new Date())
     }
 
   }, [addPostIsSuccess])
@@ -197,7 +198,7 @@ const CreatePostModal = ({ isOpen, onClose, refetchPost }: CreatePostModalProps)
                           <input
                             type="file"
                             accept="image/*"
-                            {...register('image')}
+                            {...register('image', { required: 'Image is required' })}
                             onChange={handleImageChange}
                             ref={fileInputRef}
                             className="hidden"
@@ -231,6 +232,9 @@ const CreatePostModal = ({ isOpen, onClose, refetchPost }: CreatePostModalProps)
                           )}
                         </div>
                       </div>
+                      {errors.image && value?.image === null &&  (
+                          <p className="text-red-500 text-sm mt-1">{"Image is required."}</p>
+                        )}
                     </div>
                   </div>
 

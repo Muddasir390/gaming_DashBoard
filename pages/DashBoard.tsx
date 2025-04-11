@@ -243,7 +243,7 @@ const Dashboard = () => {
             <div className="flex flex-wrap gap-6 w-full flex-row">
               <div className="bg-white rounded-2xl shadow-2xl p-6 w-full md:w-[calc(50%-12px)]">
                 <h3 className="text-lg font-semibold mb-4">Users Data</h3>
-                <div className="flex flex-wrap gap-6 flex-row sm:justify-center">
+                <div className="flex flex-wrap gap-6 flex-row sm:justify-center mb-5">
                   <DatePicker
                     selectsRange
                     startDate={startDate}
@@ -260,7 +260,7 @@ const Dashboard = () => {
                     }}
                     isClearable
                     placeholderText="Select Date Range"
-                    className="border p-2 rounded w-full md:w-auto"
+                    className="border py-2 px-5 rounded w-full md:w-auto"
                   />
 
                   <div className="max-w-64 ">
@@ -308,7 +308,7 @@ const Dashboard = () => {
             <div className="flex flex-wrap gap-6 w-full flex-row">
               <div className="bg-white rounded-2xl shadow-2xl p-6 w-full md:w-[calc(50%-12px)]">
                 <h3 className="text-lg font-semibold mb-4">In Game Items</h3>
-                <div className="flex flex-wrap gap-6 flex-row sm:justify-center">
+                <div className="flex flex-wrap gap-6 flex-row sm:justify-center mb-5">
                   <DatePicker
                     selectsRange
                     startDate={virtualStoreStartDate}
@@ -320,10 +320,10 @@ const Dashboard = () => {
                     }}
                     isClearable
                     placeholderText="Select Date Range"
-                    className="border p-2 rounded w-full md:w-auto"
+                    className="border py-2 px-5 rounded w-full md:w-auto"
                   />
 
-                  <div className="max-w-64">
+                  {virtualStoreLoading ? <div className=" w-52 h-10 bg-[#cbd5e1] opacity-60 rounded-lg animate-pulse" /> : <div className="max-w-64">
                     <select
                       onChange={handleSelectChange}
                       className="border rounded-lg p-2 w-full md:max-w-52 bg-white shadow-sm"
@@ -334,7 +334,7 @@ const Dashboard = () => {
                         </option>
                       ))}
                     </select>
-                  </div>
+                  </div>}
                   <div className="max-w-64">
 
                     {selectDateDropDown("virtualStorePurchase")}
@@ -380,7 +380,7 @@ const Dashboard = () => {
                       }}
                       isClearable
                       placeholderText="Select Date Range"
-                      className="border p-2 rounded w-full md:w-auto"
+                      className="border py-2 px-5 rounded w-full md:w-auto"
                     />
 
                     <div className="max-w-64">
@@ -388,7 +388,7 @@ const Dashboard = () => {
                     </div>
                   </div>
                   <motion.div
-                    className="bg-[#4F518C] rounded-lg shadow-2xl p-6 px-10 transition-all duration-300 transform hover:scale-105 hover:shadow-xl cursor-pointer "
+                    className="bg-[#4F518C] rounded-lg mb-20 shadow-2xl p-6 px-10 transition-all duration-300 transform hover:scale-105 hover:shadow-xl cursor-pointer "
                     whileHover={{ y: -5 }}
                     whileTap={{ scale: 0.95 }}
                   >
@@ -416,7 +416,7 @@ const Dashboard = () => {
             <div className="flex flex-wrap gap-6 w-full flex-row">
               <div className="bg-white rounded-2xl shadow-2xl p-6 w-full md:w-[calc(50%-12px)]">
                 <h3 className="text-lg font-semibold mb-4">Room Information</h3>
-                <div className="flex row  items-center justify-between">
+                <div className="flex row  items-center justify-between mb-5">
                   <div className="flex flex-wrap gap-6 flex-row sm:justify-center">
                     <DatePicker
                       selectsRange
@@ -429,7 +429,7 @@ const Dashboard = () => {
                       }}
                       isClearable
                       placeholderText="Select Date Range"
-                      className="border p-2 rounded w-full md:w-auto"
+                      className="border py-2 px-5 rounded w-full md:w-auto"
                     />
 
                     <div className="max-w-64">

@@ -55,10 +55,12 @@ const ConfirmationModal = ({ isOpen, onClose, onConfirm, loading }: Confirmation
                   <button
                     type="button"
                     onClick={onConfirm}
-                    className="px-6 py-2 bg-red-600 hover:bg-red-700 text-white rounded-lg transition-colors shadow-sm transform hover:scale-105 active:scale-95"
+                    className="px-6 py-2 bg-red-600 w-32 hover:bg-red-700 text-white rounded-lg transition-colors shadow-sm transform hover:scale-105 active:scale-95"
                   >
                     {loading ? (
+                      <div className='flex items-center justify-center'>
                         <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-white"></div>
+                        </div>
                       ) : (
                         "Confirm"
                       )}

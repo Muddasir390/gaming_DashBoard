@@ -29,12 +29,13 @@ interface CreatePostModalProps {
 }
 
 const EditPostModal = ({ isOpen, onClose, refetchPost }: CreatePostModalProps) => {
-  const { register, handleSubmit, control, setValue, reset, formState: { errors } } = useForm<FormData>()
+  const { register, handleSubmit, control, setValue, reset, getValues, formState: { errors } } = useForm<FormData>()
   const [selectedDate, setSelectedDate] = useState<any>('')
   const [previewIMage, setPreVIewImage] = useState<any>(null)
   const fileInputRef = useRef<HTMLInputElement>(null)
   const {postData, singlePostData} = useGetSinglePostData()
   const {updatePost, updatePostIsSuccess, updatePostLoading} = useUpdatePost()
+  const value = getValues()
 
   useEffect(()=>{
     if(isOpen){
@@ -52,6 +53,7 @@ const EditPostModal = ({ isOpen, onClose, refetchPost }: CreatePostModalProps) =
         setValue('subject', subject)
         setSelectedDate(date)
         setPreVIewImage(image)
+        setValue("image", image)
     }
 
   },[singlePostData])
@@ -219,7 +221,7 @@ const EditPostModal = ({ isOpen, onClose, refetchPost }: CreatePostModalProps) =
                           <input
                             type="file"
                             accept="image/*"
-                            {...register('image')}
+                            {...register('image', { required: 'Image is required' })}
                             onChange={handleImageChange}
                             ref={fileInputRef}
                             className="hidden"
@@ -253,6 +255,9 @@ const EditPostModal = ({ isOpen, onClose, refetchPost }: CreatePostModalProps) =
                           )}
                         </div>
                       </div>
+                      {errors.image && value?.image === null &&  (
+                          <p className="text-red-500 text-sm mt-1">{"Image is required."}</p>
+                        )}
                     </div>
                   </div>
 
