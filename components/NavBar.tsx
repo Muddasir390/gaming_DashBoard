@@ -7,6 +7,7 @@ const NavBar = () => {
   const router = useRouter();
   const [isMobile, setIsMobile] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [username, setUserName] = useState('')
 
   const routes = {
     'Dashboard': '/DashBoard',
@@ -30,6 +31,10 @@ const NavBar = () => {
   const toggleMobileMenu = () => {
     setMobileMenuOpen(!mobileMenuOpen);
   };
+
+  useEffect(()=>{
+    setUserName(Cookies.get("user") || "Guest")
+  },[])
 
   return (
     <nav className="bg-gradient-to-r from-gray-900 via-blue-900 to-slate-900 shadow-md">
@@ -58,18 +63,26 @@ const NavBar = () => {
                 </svg>
               </button>
             ) : (
-              <img
-              src="/zoaverWhiteIcon.png"
-              alt="Logo"
-              className="h-12 w-auto "
-            />
-              // <h2 className="text-xl text-white font-bold">Zoaverse Analytics Dashboard</h2>
+            //   <img
+            //   src="/zoaverWhiteIcon.png"
+            //   alt="Logo"
+            //   className="h-12 w-auto "
+            // />
+            <div className="flex items-center justify-between px-6 py-4 shadow-lg">
+  <h1 className="text-2xl md:text-3xl font-bold text-white tracking-wide">
+    Welcome,{" "}
+    <span className="">
+      {username}
+    </span>
+    <span className="ml-3 animate-[wave_2.5s_infinite] inline-block origin-[70%_70%]">👋</span>
+  </h1>
+</div>
             )}
           </div>
 
           <Link
             href={'/'}
-            onClick={() => Cookies.remove("token")}
+            onClick={() => [Cookies.remove("token"), Cookies.remove("user")]}
             className="px-4 py-2 border border-white text-white rounded-lg transition-colors hover:bg-white hover:bg-opacity-10"
           >
             Log Out

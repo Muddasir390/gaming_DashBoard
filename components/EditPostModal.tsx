@@ -168,6 +168,7 @@ const EditPostModal = ({ isOpen, onClose, refetchPost }: CreatePostModalProps) =
                           className={`w-full px-4 py-2 rounded-lg border ${errors.title ? 'border-red-500' : 'border-gray-500'
                             } focus:ring-2 focus:ring-blue-500 focus:border-transparent`}
                           placeholder="Enter the UserName"
+                          disabled
                         />
                         {errors.username && (
                           <p className="text-red-500 text-sm mt-1">{errors.username.message}</p>

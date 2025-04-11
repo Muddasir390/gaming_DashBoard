@@ -160,6 +160,7 @@ const UserDetail = () => {
                     selectsRange
                     startDate={startDate}
                     endDate={endDate}
+                    maxDate={new Date()}
                     onChange={(update) => {
                       setJourneyDate(update as [Date | null, Date | null]);
                     }}

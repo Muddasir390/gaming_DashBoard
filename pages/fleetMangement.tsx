@@ -33,7 +33,7 @@ const FleetManagement = () => {
     function compareFleetData() {
         for (const fleetItem of fleetData()) {
           const fleetId = fleetItem.id;
-          const fleetEnabled = fleetItem.enabled === 1;
+          const fleetEnabled = (fleetItem.enabled === 1 || fleetItem.enabled === 2);
           if (!(fleetId in selectedFleets)) {
             return false; 
           }
@@ -50,7 +50,7 @@ const FleetManagement = () => {
         return true;
       }
       
-
+  
 
     useEffect(() => {
         const initialSelection: Record<string, boolean> = {};
@@ -108,11 +108,11 @@ const FleetManagement = () => {
 
     return (
         <div className="flex h-screen bg-gradient-to-br from-blue-50 to-purple-100">
-            <SideBar activeSection={activeSection} setActiveSection={setActiveSection} />
+            <SideBar activeSection={activeSection} setActiveSection={setActiveSection} fleetManagement={compareFleetData()} />
             <div className="flex-1 flex flex-col overflow-hidden">
                 <NavBar />
 
-                <div className="min-h-screen bg-gray-50 p-4">
+                <div className=" bg-gray-50 p-4 flex-1 overflow-y-auto ">
                     <div className=" bg-white rounded-xl shadow-lg overflow-hidden">
                         <div className="bg-gradient-to-r from-blue-100 to-purple-50 p-6">
                             <div className="flex justify-between items-center">

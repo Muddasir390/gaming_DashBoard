@@ -7,6 +7,7 @@ import 'react-datepicker/dist/react-datepicker.css'
 import moment from 'moment';
 import { useAddPost } from '../public/DashBoard/useAddPost'
 import { toast } from 'react-toastify'
+import Cookies from "js-cookie";
 
 
 
@@ -32,6 +33,8 @@ const CreatePostModal = ({ isOpen, onClose, refetchPost }: CreatePostModalProps)
   const [previewIMage, setPreVIewImage] = useState<any>(null)
   const fileInputRef = useRef<HTMLInputElement>(null)
   const { addPost, addPostIsSuccess, addPostLoading } = useAddPost()
+  const userName = Cookies.get("user")
+  setValue('username', userName || "")
 
   useEffect(() => {
     if (addPostIsSuccess) {
@@ -140,9 +143,10 @@ const CreatePostModal = ({ isOpen, onClose, refetchPost }: CreatePostModalProps)
                         </label>
                         <input
                           {...register('username', { required: 'Username is required' })}
-                          className={`w-full px-4 py-2 rounded-lg border ${errors.title ? 'border-red-500' : 'border-gray-500'
+                          className={`w-full px-4 py-2 opacity-50 rounded-lg border ${errors.title ? 'border-red-500' : 'border-gray-500'
                             } focus:ring-2 focus:ring-blue-500 focus:border-transparent`}
                           placeholder="Enter the UserName"
+                          disabled
                         />
                         {errors.username && (
                           <p className="text-red-500 text-sm mt-1">{errors.username.message}</p>

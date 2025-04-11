@@ -126,7 +126,7 @@ const Users = () => {
             <div className="mb-6 flex flex-row flex-wrap gap-2 justify-start items-start md:justify-center md:items-center">
               <input
                 type="text"
-                placeholder="Search players..."
+                placeholder="Search Players..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
                 className="w-full px-4 py-2 border-2 max-w-44 border-purple-100 rounded-lg focus:outline-none focus:border-purple-500 text-purple-500 focus:ring-2 focus:ring-purple-200 transition-all placeholder:text-purple-300"

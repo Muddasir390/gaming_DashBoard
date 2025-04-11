@@ -1,0 +1,387 @@
+body{
+    background-color: #ededed;
+    padding: 0 35px;
+    margin-right: 0px;
+}
+.coming-soon {
+  width: 100%;
+  height: 100vh;
+}
+.content-arabic {
+  display: none;
+  direction: rtl;
+  margin-top: 250px;
+
+}
+
+.content-arabic-2 {
+  direction: rtl;
+  margin:0 5rem;
+  display: none;
+  margin-top: 50px;
+
+}
+.content-english {
+  display: block;
+}
+.text-wrapper-arabic{
+  margin: 30px 0;
+}
+.arabic-p{
+  margin-top: 10px;
+  font-style: italic;
+}
+
+.coming-soon .div {
+  width: 100%;
+  height: 100%;
+  position: relative;
+}
+
+.overlap {
+  position: fixed;
+  width: 100%;
+  height: 100vh;
+  top: 0;
+  left: 0;
+  background-image: url(../img/image-7.png);
+  background-size: cover;
+  background-position: 50% 50%;
+}
+
+.coming-soon .overlap-group {
+  position: absolute;
+  width: calc(100% - 104px);
+  height: calc(100% - 197px);
+  top: 197px;
+  left: 104px;
+}
+
+.coming-soon .overlap-2 {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+}
+
+.coming-soon .overlap-3 {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+}
+
+.coming-soon .vector {
+  position: absolute;
+  width: 189px;
+  height: 269px;
+  right: 0;
+    bottom: 20%;
+}
+
+.coming-soon .description {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  gap: 104px;
+  position: absolute;
+  top: 512px;
+  left: 0;
+}
+
+.coming-soon .header-title {
+  display: flex;
+  flex-direction: column;
+  width: 320px;
+  align-items: flex-start;
+  gap: 32px;
+  left: 0;
+}
+
+.coming-soon .text-wrapper {
+  position: relative;
+  width: fit-content;
+  margin-top: -1px;
+  font-family: "Poppins", Helvetica;
+  font-weight: 900;
+  font-style: italic;
+  color: #131313;
+  font-size: 32px;
+  letter-spacing: -1.6px;
+  line-height: 30px;
+}
+
+.coming-soon .p {
+  position: relative;
+  align-self: stretch;
+  font-family: "Poppins", Helvetica;
+  font-weight: 400;
+  color: #131313;
+  font-size: 16px;
+  letter-spacing: 0;
+  line-height: normal;
+}
+
+.coming-soon .group {
+  position: absolute;
+  width: 50%;
+  height: 80%;
+  top: 0;
+  right: 12%;
+    background-image: url(../img/graphics.png);
+    background-size: contain;
+    background-repeat: no-repeat;
+}
+
+.coming-soon .overlap-group-2 {
+  position: relative;
+  height: 686px;
+}
+
+.coming-soon .silver {
+  position: absolute;
+  width: 687px;
+  height: 686px;
+  top: 0;
+  left: 141px;
+  object-fit: cover;
+}
+
+.coming-soon .img {
+  position: absolute;
+  width: 244px;
+  height: 154px;
+  top: 493px;
+  left: 189px;
+}
+
+.coming-soon .i-phone {
+  position: absolute;
+  width: 395px;
+  height: 395px;
+  top: 270px;
+  left: 0;
+}
+
+.coming-soon .header-title-2 {
+  display: flex;
+  flex-direction: column;
+  width: 581px;
+  align-items: flex-start;
+  gap: 32px;
+  position: absolute;
+  top: 54px;
+  left: 0;
+}
+
+.coming-soon .exciting-things-are {
+  position: relative;
+  width: fit-content;
+  margin-top: -1px;
+  margin-right: -272px;
+  font-family: "Poppins", Helvetica;
+  font-weight: 900;
+  font-style: italic;
+  color: #131313;
+  font-size: 104px;
+  letter-spacing: -5.2px;
+  line-height: 96px;
+}
+.exciting-things-arabic {
+  position: relative;
+  width: fit-content;
+  margin-bottom: 30px;
+
+  font-family: "Poppins", Helvetica;
+  font-weight: 900;
+  font-style: italic;
+  color: #131313;
+  font-size: 104px;
+  letter-spacing: -5.2px;
+  line-height: 96px;
+}
+
+.coming-soon .frame {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  padding: 16px 24px;
+  position: relative;
+  flex: 0 0 auto;
+  background-color: #e5c839;
+  border-radius: 100px;
+}
+
+.coming-soon .text-wrapper-2 {
+  position: relative;
+  width: fit-content;
+  margin-top: -1px;
+  font-family: "Poppins", Helvetica;
+  font-weight: 600;
+  font-style: italic;
+  color: #131313;
+  font-size: 20px;
+  text-align: center;
+  letter-spacing: -1px;
+  line-height: normal;
+  white-space: nowrap;
+}
+
+.coming-soon .vector-2 {
+  position: absolute;
+  width: 58px;
+  height: 58px;
+  top: 950px;
+  left: 368px;
+}
+
+.coming-soon .vector-3 {
+  position: absolute;
+  width: 109px;
+  height: 123px;
+  top: 62px;
+  left: 896px;
+}
+.coming-soon .frame-2 {
+  position: absolute;
+  width: 156px;
+  height: 167px;
+  top: 1168px;
+  left: 1346px;
+  overflow: hidden;
+}
+
+.coming-soon .file {
+  position: absolute;
+  width: 268px;
+  height: 268px;
+  top: 2427px;
+  left: 6294px;
+  object-fit: cover;
+}
+
+.coming-soon .asset {
+  position: absolute;
+  width: 32px;
+  height: 33px;
+  top: 2345px;
+  left: 6096px;
+  object-fit: cover;
+}
+
+.coming-soon .group-2 {
+  position: fixed;
+  width: 140px;
+  height: 50px;
+  top: 64px;
+}
+
+.coming-soon .group-v2 {
+  position: fixed;
+  width: 140px;
+  height: 50px;
+  top: 64px;
+  right: 37px;
+}
+
+.toggle-btn{
+  border-radius: 100px; background-color: black; padding: 4px 20px; position: absolute; top: 5rem; right:3rem; color: white; z-index: 999999; cursor: pointer;
+}
+.toggle-btn-v2 {
+  border-radius: 100px; background-color: black; padding: 4px 20px; position: absolute; top: 5rem; left:3rem; color: white; z-index: 999999; cursor: pointer;
+
+}
+
+@media screen and (max-width: 1550px) {
+        .coming-soon .description {
+    flex-direction: column;
+        padding-bottom: 100px;
+    }
+    .coming-soon .group {
+    top: 200px;
+    }
+}
+
+@media screen and (max-width: 1200px) {
+    .coming-soon .group {
+      width: 621px;
+  height: 515px;
+        top: 0;
+        left: 0;
+    }
+    
+    .coming-soon .vector-3 {
+  left: 80%;
+}
+    
+    .coming-soon .header-title-2 {
+  top: 600px;
+}
+    .coming-soon .description {
+        top:900px;
+    }
+    .coming-soon .exciting-things-are {
+        font-size: 48px;
+        line-height: 40px;
+    }
+    
+    .coming-soon .vector-2 {
+    left: 100px;
+        top: 687px;
+}
+}
+
+@media screen and (max-width: 900px) {
+    .coming-soon .group {
+        position: relative;
+      width: 90%;
+  height: 60%;
+        top: 0;
+        left: 0;
+        background-position: center;
+    }
+    
+    .coming-soon .group-2 {
+        /* left: calc(50% - 140px); */
+    }
+    
+    .coming-soon .overlap-group {
+    left: 0;
+        width: 100%;
+}
+    
+    .coming-soon .vector-3 {
+  left: 60%;
+        top: 60%;
+        z-index: -1;
+}
+ .coming-soon .vector {
+  display: none;
+}   
+    .coming-soon .header-title-2 {
+        position: relative;
+  top: 100px;
+        left: 32px;
+        width: 320px;
+}
+    .coming-soon .description {
+        position: relative;
+        top:200px;
+        left: 32px;
+        width:320px;
+    }
+    .coming-soon .exciting-things-are {
+      font-size: 40px;
+      line-height: 42px;
+      letter-spacing: -2px;
+      width: 100%;
+    }
+    
+    .coming-soon .vector-2 {
+    left: 20%;
+        top: 30%;
+}
+}
+

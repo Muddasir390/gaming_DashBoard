@@ -356,7 +356,7 @@ function SpecificUserDetail() {
                                             </div>
                                         </div>
                                     </div>
-                                )) : <div className="h-96 text-center flex items-center justify-center">No Record Found.</div> }
+                                )) : <div className="h-96 text-center flex items-center justify-center">No Record Found.</div>}
                             </>
                         )}
 
@@ -466,9 +466,19 @@ function SpecificUserDetail() {
                                 <div className="space-y-3">
                                     {filteredFriends && filteredFriends?.length ? filteredFriends?.map((friend: any, index: any) => (
                                         <div key={index} className="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
-                                            <div>
-                                                <p className="font-medium text-gray-800">{friend?.username}</p>
-                                                <p className="font-medium text-gray-800">{friend?.userId?.email}</p>
+                                            <div className="flex items-center">
+                                                <div className="flex-shrink-0 cursor-pointer relative mr-4">
+                                                    <div className="w-8 h-8 rounded-full bg-gradient-to-r from-blue-500 to-purple-600 flex items-center justify-center text-white text-xs font-bold">
+                                                        {friend?.username?.[0]?.toUpperCase()}
+                                                    </div>
+                                                    <span
+                                                        className={`absolute bottom-0 right-0 w-3 h-3 rounded-full border-2 border-white ${friend?.userId?.online ? "bg-green-500" : "bg-gray-200"}`}
+                                                    ></span>
+                                                </div>
+                                                <div>
+                                                    <p className="font-medium text-gray-800">{friend?.username}</p>
+                                                    <p className="font-medium text-gray-800">{friend?.userId?.email}</p>
+                                                </div>
                                             </div>
                                             <div>
                                                 <div className={`ml-3 inline-flex items-center px-2.5 py-2 rounded-full text-xs font-medium ${friend.status === 'accepted'
@@ -476,10 +486,6 @@ function SpecificUserDetail() {
                                                     : 'bg-red-100 text-red-800'
                                                     }`}>
                                                     {friend.status}
-                                                </div>
-                                                <div className={`ml-3 inline-flex items-center px-2.5 py-2 rounded-full text-xs font-medium ${friend?.userId?.online ? 'bg-green-100 text-green-800' : 'bg-gray-100 text-white'
-                                                    }`}>
-                                                    {friend?.userId?.online ? 'Online' : 'Offline'}
                                                 </div>
                                             </div>
                                         </div>
@@ -521,8 +527,8 @@ function SpecificUserDetail() {
                                                 </p>
                                             </div>
                                         )) : <div className="h-[100px] w-full flex items-center justify-center">
-                                        No Record Found.
-                                      </div>}
+                                            No Record Found.
+                                        </div>}
                                     </div>
                                 </div>
 
@@ -544,8 +550,8 @@ function SpecificUserDetail() {
                                                 </span>
                                             </div>
                                         )) : <div className="h-[100px] w-full flex items-center justify-center">
-                                        No Record Found.
-                                      </div>}
+                                            No Record Found.
+                                        </div>}
                                     </div>
                                 </div>
 
@@ -567,8 +573,8 @@ function SpecificUserDetail() {
                                                 </span>
                                             </div>
                                         )) : <div className="h-[100px] w-full flex items-center justify-center">
-                                        No Record Found.
-                                      </div>}
+                                            No Record Found.
+                                        </div>}
                                     </div>
                                 </div>
                             </>
@@ -609,8 +615,8 @@ function SpecificUserDetail() {
                                             </div>
                                         </div>
                                     )) : <div className="h-[100px] w-full flex items-center justify-center">
-                                    No Record Found.
-                                  </div>}
+                                        No Record Found.
+                                    </div>}
                                 </div>
                             </div>
                         )}
@@ -619,7 +625,7 @@ function SpecificUserDetail() {
                             <div className="bg-white rounded-2xl shadow-lg p-6 mb-10">
                                 <h2 className="text-xl font-semibold text-gray-800 mb-4 flex items-center gap-2">
                                     <Shield className="w-5 h-5 text-indigo-500" /> {/* Changed to more relevant icon */}
-                                   <div className=""> Login History </div>
+                                    <div className=""> Login History </div>
                                 </h2>
                                 <div className="space-y-4">
                                     {user?.loginHistory && user?.loginHistory?.length ? user?.loginHistory?.map((log: any, index: any) => (
@@ -640,8 +646,8 @@ function SpecificUserDetail() {
                                                     </p>
                                                 </div>
                                                 <span className={`px-2 py-1 rounded-full text-xs font-medium ${log.ipLogId.continent.code === 'EU' ? 'bg-indigo-100 text-indigo-800' :
-                                                        log.ipLogId.continent.code === 'AS' ? 'bg-green-100 text-green-800' :
-                                                            'bg-purple-100 text-purple-800'
+                                                    log.ipLogId.continent.code === 'AS' ? 'bg-green-100 text-green-800' :
+                                                        'bg-purple-100 text-purple-800'
                                                     }`}>
                                                     {log.ipLogId.continent.name}
                                                 </span>

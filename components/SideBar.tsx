@@ -6,10 +6,11 @@ import Link from "next/link";
 interface sideBarProps {
   activeSection?: any;
   setActiveSection?: any;
+  fleetManagement?:any
 }
 
 
-const sideBar: React.FC<sideBarProps> = ({ activeSection }) => {
+const sideBar: React.FC<sideBarProps> = ({ activeSection, fleetManagement }) => {
   const sectionIcons: any = {
     Dashboard: <LayoutDashboard size={20} className="mr-2" />,
     Post: <FileText size={20} className="mr-2" />,
@@ -41,9 +42,14 @@ const sideBar: React.FC<sideBarProps> = ({ activeSection }) => {
   return (
     <>
       {!isMobile ? <aside className="w-64 bg-gray-900 text-white overflow-y-auto">
-        <div className="p-6">
-          <h2 className="text-3xl font-bold mb-6">Performance Tracker</h2>
-          <nav className="space-y-2">
+        <div className="px-6 pt-2">
+        <img
+              src="/zoaverWhiteIcon.png"
+              alt="Logo"
+              className="h-12 w-auto "
+            />
+          {/* <h2 className="text-3xl font-bold mb-6">Performance Tracker</h2> */}
+          <nav className="space-y-2 mt-5">
             {Object.entries(routes).map(([section, route]) => (
               <Link
                 href={route}

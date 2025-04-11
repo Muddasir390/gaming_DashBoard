@@ -15,7 +15,7 @@ import NavBar from "../components/NavBar";
 import { dailyActiveUsers } from "../public/DashBoard/dailyActiveUsers";
 import { getVirtualStorePurchase } from "../public/DashBoard/getVirtualStorePurchase";
 import { useGetSession } from "../public/DashBoard/useGetSession";
-import {useGetRetentionData} from '../public/DashBoard/useGetRetentionData'
+import { useGetRetentionData } from '../public/DashBoard/useGetRetentionData'
 import { getStorePurchase } from "../public/DashBoard/getStorePurchase";
 import { getRoomInfo } from "../public/DashBoard/getRoomInfo";
 import { useRouter } from 'next/router';
@@ -29,8 +29,8 @@ const Dashboard = () => {
   const { roomINfo, roomInfoData } = getRoomInfo()
   const { sessionData } = useGetSession()
   const { userCountData } = getUserCount()
-  const {retentionData, retentionLoading} =useGetRetentionData(selectedDay?.toLowerCase())
-  
+  const { retentionData, retentionLoading } = useGetRetentionData(selectedDay?.toLowerCase())
+
 
   const [activeSection, setActiveSection] = useState("Dashboard");
   const [linkClicks, setLinkClicks] = useState('Line Chart')
@@ -112,7 +112,7 @@ const Dashboard = () => {
   }
 
   const updatedVirtualStoreData = () => {
-    if(virtualStoreData){
+    if (virtualStoreData) {
       const transformedData: any = {};
       Object.keys(virtualStoreData).forEach(category => {
         transformedData[category] = virtualStoreData[category].map((item: any) => {
@@ -127,7 +127,7 @@ const Dashboard = () => {
   };
 
   const transformPackPrice = () => {
-    return storePurchaseData?.packsData &&  storePurchaseData?.packsData.map((item : any) => {
+    return storePurchaseData?.packsData && storePurchaseData?.packsData.map((item: any) => {
       const transformedItem = { ...item };
       transformedItem["Pack Price"] = `${transformedItem?.packPrice?.toFixed(2)}`;
       delete transformedItem.packPrice;
@@ -190,8 +190,8 @@ const Dashboard = () => {
     }
   }, [virtualStoreData])
 
-  const DailyUsersData=()=>{
-    if(activeUsersData){
+  const DailyUsersData = () => {
+    if (activeUsersData) {
       let chartData = activeUsersData?.userData?.map((item: any) => {
         return ({ date: moment(item?.time).format('YYYY-MM-DD'), "Daily Active Users": item?.users?.length, "New Sign Ups": item?.newSignUP?.length })
       })
@@ -199,9 +199,9 @@ const Dashboard = () => {
     }
   }
 
-  const RetentionData=()=>{
-    if(retentionData){
-      let chartData = retentionData?.retention && retentionData?.retention?.length &&  retentionData?.retention?.map((item: any) => {
+  const RetentionData = () => {
+    if (retentionData) {
+      let chartData = retentionData?.retention && retentionData?.retention?.length && retentionData?.retention?.map((item: any) => {
         return ({ date: moment(item?.intervalKey).format('YYYY-MM-DD'), "Retention": item?.retentionRate })
       })
       return chartData
@@ -224,7 +224,7 @@ const Dashboard = () => {
                   className={`bg-white rounded-lg shadow-2xl p-6 px-20 transition-all duration-300 transform hover:scale-105 hover:shadow-xl ${item?.label === 'Average Session Length' ? 'cursor-not-allowed opacity-60' : 'cursor-pointer'}`}
                   whileHover={{ y: -5 }}
                   whileTap={{ scale: 0.95 }}
-                  onClick={() => item?.label === 'Total Players' ? route.push('/users') : item?.label === "Total Revenue" ? scrollToId("revenueGraph") : null}
+                  onClick={() => item?.label === 'Total Players' ? route.push('/users') : item?.label === "Total Revenue" ? scrollToId("revenueGraph") : (item?.label === 'Online Players' && item?.value >= 1) ? route.push('/users') : null}
                 >
                   <h3 className="text-lg font-semibold mb-2 text-center text-gray-700">
                     {item.label}
@@ -247,6 +247,7 @@ const Dashboard = () => {
                   <DatePicker
                     selectsRange
                     startDate={startDate}
+                    maxDate={new Date()}
                     endDate={endDate}
                     onChange={(update) => {
                       const [start, end] = update as [Date | null, Date | null];
@@ -277,11 +278,7 @@ const Dashboard = () => {
                     {selectDateDropDown("activeUsers")}
                   </div>
                 </div>
-                {DailyUsersData() && DailyUsersData()?.length ? <div>
-                  {linkClicks === 'Line Chart' && <LineChartComp data={DailyUsersData() ? DailyUsersData() : []} isLoading={activeUserLoading} />}
-                  {linkClicks === 'Bar Chart' && <BarChatComp data={DailyUsersData() ? DailyUsersData() : []} name={"date"} value={["Daily Active Users", "New Sign Ups"]} />}
-                  {linkClicks === 'Pie Chart' && <PieChartComp data={DailyUsersData() ? DailyUsersData() : []} />}
-                </div> : activeUserLoading ? <div className="w-full h-[300px] flex flex-col items-center justify-center space-y-4">
+                {activeUserLoading ? <div className="w-full h-[300px] flex flex-col items-center justify-center space-y-4">
                   <div className="w-full h-[250px] bg-gradient-to-br from-[#f8fafc] to-[#e2e8f0] rounded-lg relative overflow-hidden shadow-md animate-pulse">
                     <div className="absolute inset-0 bg-gradient-to-r from-[#f1f5f9] via-[#e2e8f0] to-[#f1f5f9] animate-[shimmer_1.8s_infinite]"></div>
 
@@ -292,7 +289,11 @@ const Dashboard = () => {
                     <div className="absolute bottom-0 left-[90%] w-[12%] h-[60%] bg-[#cbd5e1] opacity-60 rounded-lg"></div>
                   </div>
                   <div className="w-1/3 h-6 bg-[#e2e8f0] rounded-md animate-pulse shadow-sm"></div>
-                </div> : <div className="h-[300px] w-full flex items-center justify-center">
+                </div> : DailyUsersData() && DailyUsersData()?.length ? <div>
+                  {linkClicks === 'Line Chart' && <LineChartComp data={DailyUsersData() ? DailyUsersData() : []} isLoading={activeUserLoading} />}
+                  {linkClicks === 'Bar Chart' && <BarChatComp data={DailyUsersData() ? DailyUsersData() : []} name={"date"} value={["Daily Active Users", "New Sign Ups"]} />}
+                  {linkClicks === 'Pie Chart' && <PieChartComp data={DailyUsersData() ? DailyUsersData() : []} />}
+                </div> :  <div className="h-[300px] w-full flex items-center justify-center">
                   No Record Found.
                 </div>}
               </div>
@@ -312,6 +313,7 @@ const Dashboard = () => {
                     selectsRange
                     startDate={virtualStoreStartDate}
                     endDate={virtualStoreEndDate}
+                    maxDate={new Date()}
                     onChange={(update) => {
                       const [start, end] = update as [Date | null, Date | null];
                       setVirtualStoreDateRange(update as [Date | null, Date | null]);
@@ -371,6 +373,7 @@ const Dashboard = () => {
                       selectsRange
                       startDate={storeStartDate}
                       endDate={storeEndDate}
+                      maxDate={new Date()}
                       onChange={(update) => {
                         const [start, end] = update as [Date | null, Date | null];
                         setStoreDateRange(update as [Date | null, Date | null]);
@@ -419,6 +422,7 @@ const Dashboard = () => {
                       selectsRange
                       startDate={roomStartDate}
                       endDate={roomEndDate}
+                      maxDate={new Date()}
                       onChange={(update) => {
                         const [start, end] = update as [Date | null, Date | null];
                         setRoomDateRange(update as [Date | null, Date | null]);
@@ -433,7 +437,7 @@ const Dashboard = () => {
                     </div>
                   </div>
                 </div>
-                {virtualStoreData && selectedKey && virtualStoreData[selectedKey]?.length ? <div>
+                {roomInfoData?.eventRes && roomInfoData?.eventRes?.length ? <div>
                   <BarChatComp data={roomInfoData?.eventRes && roomInfoData?.eventRes?.length ? roomInfoData?.eventRes : []} name={"time"} value={roomInfoData?.roomNames?.length ? roomInfoData?.roomNames : []} loading={storePurchaseLoading} />
                 </div> : <div className="h-[300px] w-full flex items-center justify-center">
                   No Record Found.
@@ -443,7 +447,7 @@ const Dashboard = () => {
           </section>
 
 
-          
+
           {/* Retention Graph */}
 
           <section id="Retention Graph" className="mb-8">

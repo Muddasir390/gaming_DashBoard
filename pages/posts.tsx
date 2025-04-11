@@ -69,7 +69,7 @@ const Post = () => {
               </h1>
               <button 
                 onClick={() => setShowModal(true)}
-                className="bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700 text-white px-6 py-3 rounded-xl transition-all duration-300 flex items-center gap-2 shadow-lg w-52 hover:shadow-xl"
+                className="bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700 text-white px-5 py-3 rounded-xl transition-all duration-300 flex items-center gap-4 shadow-lg w-52 hover:shadow-xl"
               >
                 <span className="font-semibold">Create New Post</span>
                 <span className="w-5 h-5 rounded-full bg-white/20 flex items-center justify-center">+</span>
