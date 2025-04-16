@@ -14,12 +14,13 @@ interface chartProps {
 
   const CustomTooltip = ({ active, payload, activePie }:any) => {
     if (active && payload && payload.length) {
-      const data = payload[0].payload; 
+      const data = payload[0].payload;
+      
       return (
         <div className="custom-tooltip" style={{ background: '#fff', padding: '10px', border: '1px solid #ccc' }}>
           <p><strong>Date:</strong> {data.date}</p>
-          {activePie === 'daily' && <p><strong>Daily Active Users:</strong> {data.dailyActiveUsers}</p>}
-          {activePie === 'signups' && <p><strong>New Signups:</strong> {data.newSignUps}</p>}
+          {activePie === 'daily' && <p><strong>Daily Active Users:</strong> {data?.["Daily Active Users"]}</p>}
+          {activePie === 'signups' && <p><strong>New Signups:</strong> {data?.["New Sign Ups"]}</p>}
         </div>
       );
     }

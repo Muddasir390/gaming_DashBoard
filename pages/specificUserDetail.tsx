@@ -408,31 +408,35 @@ function SpecificUserDetail() {
                                         Purchased Items
                                     </h2>
                                     <div className="space-y-3">
-                                        <div className="flex gap-2" >
+                                        <div className="flex gap-2">
                                             <FilterButton id={"all"} label="All" />
                                             <FilterButton id={'emote'} label="Emote" />
                                             <FilterButton id={'pet'} label="Pet" />
                                             <FilterButton id={'headwear'} label="HeadWear" />
                                             <FilterButton id={'backDecoration'} label="Back Decoration" />
-
                                         </div>
-                                        {filterPurchasedItems() && filterPurchasedItems()?.length ? filterPurchasedItems()?.map((item: any, index: any) => (
-                                            <div key={index} className="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
-                                                <div>
-                                                    <p className="font-medium text-gray-800">{item?.name}</p>
-                                                    <p className="text-sm text-gray-600">{item?.description}</p>
-                                                    <p className="text-sm text-gray-500">{item?.price} {item?.currency}</p>
-                                                </div>
-                                                <div className="flex flex-col items-end gap-2">
-                                                    <span className="px-2 py-1 bg-gray-100 text-white rounded-full text-xs font-medium">
-                                                        {item.type}
-                                                    </span>
-                                                    <span className="px-2 py-1 bg-gray-100 text-white rounded-full text-xs font-medium">
-                                                        {item.rarity}
-                                                    </span>
-                                                </div>
+                                        {filterPurchasedItems() && filterPurchasedItems()?.length ? (
+                                            <div className="max-h-[450px] pr-5 overflow-y-auto">
+                                                {filterPurchasedItems()?.map((item: any, index: any) => (
+                                                    <div key={index} className="flex items-center justify-between p-3 bg-gray-50 rounded-lg mb-3 last:mb-0">
+                                                        <div>
+                                                            <p className="font-medium text-gray-800">{item?.name}</p>
+                                                            <p className="text-sm text-gray-600">{item?.description}</p>
+                                                            <p className="text-sm text-gray-500">{item?.price} {item?.currency}</p>
+                                                        </div>
+                                                        <div className="flex flex-col items-end gap-2">
+                                                            <span className="px-2 py-1 bg-indigo-300 text-white rounded-full text-xs font-medium">
+                                                                {item.type}
+                                                            </span>
+                                                        </div>
+                                                    </div>
+                                                ))}
                                             </div>
-                                        )) : <div className="h-96 text-center flex items-center justify-center">No Record Found.</div>}
+                                        ) : (
+                                            <div className="h-96 text-center flex items-center justify-center">
+                                                No Record Found.
+                                            </div>
+                                        )}
                                     </div>
                                 </div>
                             </>
@@ -463,7 +467,7 @@ function SpecificUserDetail() {
                                         }
                                     </button>
                                 </div>
-                                <div className="space-y-3">
+                                <div className="space-y-3 max-h-[450px] overflow-y-auto">
                                     {filteredFriends && filteredFriends?.length ? filteredFriends?.map((friend: any, index: any) => (
                                         <div key={index} className="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
                                             <div className="flex items-center">
@@ -538,7 +542,7 @@ function SpecificUserDetail() {
                                         <CheckCircle className="w-5 h-5 text-green-500" />
                                         Completed Tasks
                                     </h2>
-                                    <div className="space-y-3">
+                                    <div className="space-y-3 max-h-[450px] overflow-y-auto">
                                         {user?.tasksClaimed && user?.tasksClaimed?.length ? user?.tasksClaimed.map((task: any, index: any) => (
                                             <div key={index} className="flex items-center justify-between p-3 bg-green-50 rounded-lg">
                                                 <div>
@@ -561,7 +565,7 @@ function SpecificUserDetail() {
                                         <Ban className="w-5 h-5 text-pink-300" />
                                         UnClaimed Tasks
                                     </h2>
-                                    <div className="space-y-3">
+                                    <div className="space-y-3 max-h-96 overflow-y-auto">
                                         {user?.tasksUnclaimed && user?.tasksUnclaimed?.length ? user?.tasksUnclaimed?.map((task: any, index: any) => (
                                             <div key={index} className="flex items-center justify-between p-3 bg-pink-100 rounded-lg">
                                                 <div>
@@ -581,12 +585,12 @@ function SpecificUserDetail() {
                         )}
 
                         {activeTab === 'history' && (
-                            <div className="bg-white rounded-2xl shadow-lg p-6 mb-10">
+                            <div className="bg-white rounded-2xl shadow-lg p-6 px-10 mb-10">
                                 <h2 className="text-xl font-semibold text-gray-800 mb-4 flex items-center gap-2">
                                     <History className="w-5 h-5 text-indigo-500" />
                                     Recent Matches
                                 </h2>
-                                <div className="space-y-4">
+                                <div className="space-y-3 pr-5 max-h-[450px] overflow-y-auto">
                                     {user?.gameProfiles[0]?.history && user?.gameProfiles[0]?.history?.length ? user?.gameProfiles[0]?.history.map((match: any, index: any) => (
                                         <div key={index} className={`p-4 ${match.currentUserData.win ? 'bg-green-50' : 'bg-red-50'
                                             } rounded-lg`}>
@@ -627,7 +631,7 @@ function SpecificUserDetail() {
                                     <Shield className="w-5 h-5 text-indigo-500" /> {/* Changed to more relevant icon */}
                                     <div className=""> Login History </div>
                                 </h2>
-                                <div className="space-y-4">
+                                <div className="space-y-4 max-h-[450px] overflow-auto pr-5">
                                     {user?.loginHistory && user?.loginHistory?.length ? user?.loginHistory?.map((log: any, index: any) => (
                                         <div
                                             key={index}

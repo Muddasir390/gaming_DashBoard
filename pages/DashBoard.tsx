@@ -129,8 +129,8 @@ const Dashboard = () => {
   const transformPackPrice = () => {
     return storePurchaseData?.packsData && storePurchaseData?.packsData.map((item: any) => {
       const transformedItem = { ...item };
-      transformedItem["Pack Price"] = `${transformedItem?.packPrice?.toFixed(2)}`;
-      delete transformedItem.packPrice;
+      transformedItem["Purchase Count"] = `${transformedItem?.purchaseCount?.toFixed(2)}`;
+      delete transformedItem.purchaseCount;
       return transformedItem;
     });
   };
@@ -202,7 +202,7 @@ const Dashboard = () => {
   const RetentionData = () => {
     if (retentionData) {
       let chartData = retentionData?.retention && retentionData?.retention?.length && retentionData?.retention?.map((item: any) => {
-        return ({ date: moment(item?.intervalKey).format('YYYY-MM-DD'), "Retention": item?.retentionRate })
+        return ({ date: moment(item?.intervalKey).format('YYYY-MM-DD'), "Retention": item?.retentionRate?.toFixed(2) })
       })
       return chartData
     }
@@ -224,7 +224,7 @@ const Dashboard = () => {
                   className={`bg-white rounded-lg shadow-2xl p-6 px-20 transition-all duration-300 transform hover:scale-105 hover:shadow-xl ${item?.label === 'Average Session Length' ? 'cursor-not-allowed opacity-60' : 'cursor-pointer'}`}
                   whileHover={{ y: -5 }}
                   whileTap={{ scale: 0.95 }}
-                  onClick={() => item?.label === 'Total Players' ? route.push('/users') : item?.label === "Total Revenue" ? scrollToId("revenueGraph") : (item?.label === 'Online Players' && item?.value >= 1) ? route.push('/users') : null}
+                  onClick={() => item?.label === 'Total Players' ? route.push('/users') : item?.label === "Total Revenue" ? scrollToId("revenueGraph") : (item?.label === 'Online Players' && item?.value >= 1) ? route.push(`/users?status=${"online"}`) : null}
                 >
                   <h3 className="text-lg font-semibold mb-2 text-center text-gray-700">
                     {item.label}
@@ -401,7 +401,7 @@ const Dashboard = () => {
                   </motion.div>
                 </div>
                 {virtualStoreData && selectedKey && virtualStoreData[selectedKey]?.length ? <div>
-                  <BarChatComp data={transformPackPrice() && transformPackPrice()?.length ? transformPackPrice() : []} name={"packName"} value={["Pack Price"]} loading={storePurchaseLoading} />
+                  <BarChatComp data={transformPackPrice() && transformPackPrice()?.length ? transformPackPrice() : []} name={"packName"} value={["Purchase Count"]} loading={storePurchaseLoading} />
                 </div> : <div className="h-[300px] w-full flex items-center justify-center">
                   No Record Found.
                 </div>}
@@ -449,10 +449,6 @@ const Dashboard = () => {
 
 
           {/* Retention Graph */}
-
-          <section id="Retention Graph" className="mb-8">
-            <div className="flex flex-wrap gap-6 w-full flex-row">
-              <div className="bg-white rounded-2xl shadow-2xl p-6 w-full md:w-[calc(50%-12px)]">
                 <section id="Virtual Store Purchases" className="mb-8">
                   <div className="flex flex-wrap gap-6 w-full flex-row">
                     <div className="bg-white rounded-2xl shadow-2xl p-6 w-full md:w-[calc(50%-12px)]">
@@ -488,10 +484,6 @@ const Dashboard = () => {
                     </div>
                   </div>
                 </section>
-              </div>
-            </div>
-          </section>
-
 
         </main>
       </div>

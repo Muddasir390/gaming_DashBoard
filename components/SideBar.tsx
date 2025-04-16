@@ -1,12 +1,13 @@
 
 import { useEffect, useState } from "react";
 import { LayoutDashboard, FileText, Users, Image } from 'lucide-react';
+import { useTheme } from './ThemeProvider';
 import Link from "next/link";
 
 interface sideBarProps {
   activeSection?: any;
   setActiveSection?: any;
-  fleetManagement?:any
+  fleetManagement?: any
 }
 
 
@@ -25,7 +26,7 @@ const sideBar: React.FC<sideBarProps> = ({ activeSection, fleetManagement }) => 
     'Fleets Management': '/fleetMangement',
   };
 
-
+  const { theme, toggleTheme } = useTheme();
   const [isMobile, setIsMobile] = useState(false);
 
   useEffect(() => {
@@ -43,20 +44,25 @@ const sideBar: React.FC<sideBarProps> = ({ activeSection, fleetManagement }) => 
     <>
       {!isMobile ? <aside className="w-64 bg-gray-900 text-white overflow-y-auto">
         <div className="px-6 pt-2">
-        <img
-              src="/zoaverWhiteIcon.png"
-              alt="Logo"
-              className="h-12 w-auto "
-            />
-          {/* <h2 className="text-3xl font-bold mb-6">Performance Tracker</h2> */}
+          <img
+            src="/zoaverWhiteIcon.png"
+            alt="Logo"
+            className="h-12 w-auto "
+          />
           <nav className="space-y-2 mt-5">
+            <button
+              onClick={toggleTheme}
+              className="p-2 rounded-md bg-gray-200 dark:bg-gray-700"
+            >
+              {theme === 'light' ? '🌙' : '☀️'}
+            </button>
             {Object.entries(routes).map(([section, route]) => (
               <Link
                 href={route}
                 key={section}
-                className={`flex items-center w-full text-left py-3 px-4 rounded-lg transition-all text-white mb-2 ${activeSection === section
-                    ? "bg-blue-600 text-white"
-                    : "hover:text-black hover:bg-blue-100"
+                className={`flex items-center w-full text-left py-3 px-4 rounded-lg transition-all text-white dark:text-black mb-2 ${activeSection === section
+                  ? "bg-blue-600 text-white"
+                  : "hover:text-black hover:bg-blue-100"
                   }`}
               >
                 {sectionIcons[section]}

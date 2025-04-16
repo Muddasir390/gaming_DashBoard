@@ -18,29 +18,14 @@ const Users = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedUser, setSelectedUser] = useState('');
   const [dateRange, setDateRange] = useState<[Date | null | any, Date | null | any]>([null, null]);
-  const [selectedSort, setSelectedSort] = useState<string>('default');
+  const [sortField, setSortField] = useState<string>("");
+  const [selectedUsertype, setSelectedUserType] = useState<any>();
+  const [sortDirection, setSortDirection] = useState<"asc" | "desc">("asc");
 
   const { getUser, usersData, usersLoading } = useGetAllUsers();
   const [startDate, endDate] = dateRange;
   const router = useRouter();
-
-  const filteredUsers = usersData?.users?.filter((user: any) =>
-  user?.username?.toLowerCase().includes(searchQuery.toLowerCase())
-).sort((a: any, b: any) => {
-  if (selectedSort === 'lowToHigh') return a.points - b.points;
-  if (selectedSort === 'highToLow') return b.points - a.points;
-  return 0;
-})
-
-  const getSelectedUsers = (value: any) => {
-    setSelectedUser(value)
-    let apidata = {
-      "filter": value === "New SignUps" ? "NewSignUps" : "All",
-      "from": moment(dateRange[0]).format('YYYY-MM-DD'),
-      "to": moment(dateRange[1]).format('YYYY-MM-DD')
-    }
-    getUser(apidata)
-  }
+  const status = router?.query?.status
 
   useEffect(() => {
     if (dateRange && dateRange[1] !== null) {
@@ -53,15 +38,79 @@ const Users = () => {
     }
   }, [dateRange[1]])
 
-  const totalUsers = filteredUsers?.length;
-  const totalPages = Math.ceil(totalUsers / itemsPerPage);
-  const startIndex = (currentPage - 1) * itemsPerPage;
-  const endIndex = startIndex + itemsPerPage;
-  const displayedUsers = filteredUsers?.slice(startIndex, endIndex);
+  useEffect(() => {
+    if (status) {
+      setSelectedUserType(status)
+    }
+  }, [status])
 
   useEffect(() => {
     getTimestamps()
   }, [])
+
+  const filteredUsers = usersData?.users?.filter((user: any) =>
+    user?.username?.toLowerCase().includes(searchQuery.toLowerCase()) && user?.online === (selectedUsertype === "online" ? true : false)
+  );
+
+
+  const sortedUsers = React.useMemo(() => {
+    if (!filteredUsers || !sortField) return filteredUsers;
+
+    return [...filteredUsers].sort((a, b) => {
+      if (sortField === "timeSpent") {
+        const aValue = a.timeSpentPastWeek || 0;
+        const bValue = b.timeSpentPastWeek || 0;
+        return sortDirection === "asc" ? aValue - bValue : bValue - aValue;
+      }
+      if (sortField === "creationDate") {
+        const aValue = new Date(a.creationDate).getTime();
+        const bValue = new Date(b.creationDate).getTime();
+        return sortDirection === "asc" ? aValue - bValue : bValue - aValue;
+      }
+      if (sortField === "points") {
+        const aValue = a.points || 0;
+        const bValue = b.points || 0;
+        return sortDirection === "asc" ? aValue - bValue : bValue - aValue;
+      }
+      return 0;
+    });
+  }, [filteredUsers, sortField, sortDirection]);
+
+  const handleSort = (field: string) => {
+    if (sortField === field) {
+      setSortDirection(sortDirection === "asc" ? "desc" : "asc");
+    } else {
+      setSortField(field);
+      setSortDirection("asc");
+    }
+  };
+
+  const renderSortIndicator = (field: string) => {
+    if (sortField !== field) {
+      return <span className="ml-1 font-bold text-lg">↕</span>;
+    }
+    return sortDirection === "asc" ? <span className="ml-1 font-bold text-lg">↑</span> : <span className="ml-1 font-bold text-lg">↓</span>;
+  };
+
+  const getSelectedUsers = (value: any) => {
+    setSelectedUser(value)
+    let apidata = {
+      "filter": value === "New SignUps" ? "NewSignUps" : "All",
+      "from": moment(dateRange[0]).format('YYYY-MM-DD'),
+      "to": moment(dateRange[1]).format('YYYY-MM-DD')
+    }
+    getUser(apidata)
+  }
+
+ 
+
+  const totalUsers = sortedUsers?.length;
+  const totalPages = Math.ceil(totalUsers / itemsPerPage);
+  const startIndex = (currentPage - 1) * itemsPerPage;
+  const endIndex = startIndex + itemsPerPage;
+  const displayedUsers = sortedUsers?.slice(startIndex, endIndex);
+
+  
 
   function getTimestamps() {
     const currentDate = new Date();
@@ -142,13 +191,13 @@ const Users = () => {
               </select>
 
               <select
-                value={selectedSort}
-                onChange={(e) => setSelectedSort(e.target.value)}
+                value={selectedUsertype}
+                onChange={(e) => setSelectedUserType(e.target.value)}
                 className="w-full ml-6 bg-transparent px-4 py-2 border-2 max-w-52 border-purple-100 rounded-lg focus:outline-none focus:border-purple-500 text-purple-500 focus:ring-2 focus:ring-purple-200 transition-all"
               >
-                <option value="default">Sort by Points</option>
-                <option value="lowToHigh">Low to High</option>
-                <option value="highToLow">High to Low</option>
+                <option value="default">All Users</option>
+                <option value="online">Online Users</option>
+                <option value="offline">Offline Users</option>
               </select>
 
               {selectedUser === 'New SignUps' && <> <DatePicker
@@ -186,14 +235,26 @@ const Users = () => {
                     <th scope="col" className="px-6 py-3 text-left text-xs font-semibold text-white uppercase tracking-wider">
                       Email
                     </th>
-                    <th scope="col" className="px-6 py-3 text-left text-xs font-semibold text-white uppercase tracking-wider">
-                      Time Spent
+                    <th
+                      scope="col"
+                      className="px-6 py-3 text-left text-xs font-semibold text-white uppercase tracking-wider cursor-pointer"
+                      onClick={() => handleSort("timeSpent")}
+                    >
+                      Time Spent {renderSortIndicator("timeSpent")}
                     </th>
-                    <th scope="col" className="px-6 py-3 text-left text-xs font-semibold text-white uppercase tracking-wider">
-                      Creation Date
+                    <th
+                      scope="col"
+                      className="px-6 py-3 text-left text-xs font-semibold text-white uppercase tracking-wider cursor-pointer"
+                      onClick={() => handleSort("creationDate")}
+                    >
+                      Creation Date {renderSortIndicator("creationDate")}
                     </th>
-                    <th scope="col" className="px-6 py-3 text-left text-xs font-semibold text-white uppercase tracking-wider">
-                      Points
+                    <th
+                      scope="col"
+                      className="px-6 py-3 text-left text-xs font-semibold text-white uppercase tracking-wider cursor-pointer"
+                      onClick={() => handleSort("points")}
+                    >
+                      Points {renderSortIndicator("points")}
                     </th>
                     <th scope="col" className="px-6 py-3 text-right text-xs font-semibold text-white uppercase tracking-wider">
                       Actions
@@ -258,7 +319,7 @@ const Users = () => {
                         </td>
                         <td className="px-6 py-4 whitespace-nowrap">
                           <div className="text-sm text-gray-700">
-                         {moment(user?.creationDate).format('YYYY-MM-DD')}
+                            {moment(user?.creationDate).format('YYYY-MM-DD')}
                           </div>
                         </td>
                         <td className="px-6 py-4 whitespace-nowrap">
@@ -286,15 +347,15 @@ const Users = () => {
                         </td>
                       </tr>
                     ))
-                    : (
-                      <tr>
-                        <td colSpan={6} className="text-center py-8">
-                          <div className="flex items-center justify-center">
-                            <span className=" font-medium">No Record Found.</span>
-                          </div>
-                        </td>
-                      </tr>
-                    )
+                      : (
+                        <tr>
+                          <td colSpan={6} className="text-center py-8">
+                            <div className="flex items-center justify-center">
+                              <span className=" font-medium">No Record Found.</span>
+                            </div>
+                          </td>
+                        </tr>
+                      )
                   )}
                 </tbody>
               </table>

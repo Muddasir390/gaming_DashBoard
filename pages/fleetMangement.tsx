@@ -114,7 +114,7 @@ const FleetManagement = () => {
 
                 <div className=" bg-gray-50 p-4 flex-1 overflow-y-auto ">
                     <div className=" bg-white rounded-xl shadow-lg overflow-hidden">
-                        <div className="bg-gradient-to-r from-blue-100 to-purple-50 p-6">
+                        <div className="bg-gradient-to-r from-blue-100 to-purple-200 p-6">
                             <div className="flex justify-between items-center">
                                 <h1 className="text-2xl font-bold ">Fleets Management</h1>
                                 <button

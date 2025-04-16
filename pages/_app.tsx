@@ -1,6 +1,7 @@
 import { Fragment } from "react";
 import Head from "next/head";
 import type { AppProps } from "next/app";
+import { ThemeProvider } from '../components/ThemeProvider';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import 'react-toastify/dist/ReactToastify.css';
 import { ToastContainer, toast } from 'react-toastify';
@@ -10,6 +11,7 @@ function MyApp({ Component, pageProps }: AppProps) {
 const queryClient = new QueryClient();
 
   return (
+    <ThemeProvider>
     <Fragment>
          <div className="absolute !z-[999999999999999999999999] !left-20">
           <ToastContainer
@@ -50,6 +52,7 @@ const queryClient = new QueryClient();
       <Component {...pageProps} />
     </QueryClientProvider>
     </Fragment>
+    </ThemeProvider>
   );
 }
 
