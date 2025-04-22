@@ -10,7 +10,6 @@ import "react-datepicker/dist/react-datepicker.css";
 import moment from 'moment';
 
 
-
 const Users = () => {
   const [activeSection, setActiveSection] = useState("Users");
   const [currentPage, setCurrentPage] = useState(1);
@@ -102,7 +101,7 @@ const Users = () => {
     getUser(apidata)
   }
 
- 
+
 
   const totalUsers = sortedUsers?.length;
   const totalPages = Math.ceil(totalUsers / itemsPerPage);
@@ -110,7 +109,7 @@ const Users = () => {
   const endIndex = startIndex + itemsPerPage;
   const displayedUsers = sortedUsers?.slice(startIndex, endIndex);
 
-  
+
 
   function getTimestamps() {
     const currentDate = new Date();
@@ -160,14 +159,14 @@ const Users = () => {
   }
 
   return (
-    <div className="flex h-screen overflow-hidden bg-gradient-to-br from-blue-50 to-purple-100">
+    <div className="flex h-screen overflow-hidden bg-gradient-to-br from-blue-50 to-purple-100 dark:from-gray-900 dark:to-indigo-950">
       <SideBar activeSection={activeSection} setActiveSection={setActiveSection} />
       <div className="flex-1 flex flex-col overflow-hidden">
         <NavBar />
         <div className="flex-1 overflow-y-auto p-6">
-          <div className="bg-white rounded-2xl shadow-xl p-6">
+          <div className="bg-white dark:bg-gray-800/90 dark:backdrop-blur-sm dark:border dark:border-indigo-500/20 rounded-2xl shadow-xl p-6">
             <div className="mb-6">
-              <h1 className="text-2xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
+              <h1 className="text-2xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent dark:from-indigo-300 dark:to-purple-400">
                 Players List
               </h1>
             </div>
@@ -178,11 +177,11 @@ const Users = () => {
                 placeholder="Search Players..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                className="w-full px-4 py-2 border-2 max-w-44 border-purple-100 rounded-lg focus:outline-none focus:border-purple-500 text-purple-500 focus:ring-2 focus:ring-purple-200 transition-all placeholder:text-purple-300"
+                className="w-full px-4 py-2 border-2 max-w-44 border-purple-100 rounded-lg focus:outline-none focus:border-purple-500 text-purple-500 focus:ring-2 focus:ring-purple-200 transition-all placeholder:text-purple-300 dark:bg-gray-700 dark:text-indigo-100 dark:border-indigo-500/30 dark:focus:ring-2 dark:focus:ring-indigo-500/40 dark:placeholder:text-indigo-300/50"
               />
               <select
                 onChange={(e) => getSelectedUsers(e.target.value)}
-                className="w-full ml-6 bg-transparent px-4 py-2 border-2 max-w-44 border-purple-100 rounded-lg focus:outline-none focus:border-purple-500 text-purple-500 focus:ring-2 focus:ring-purple-200 transition-all placeholder:text-purple-300"
+                className="w-full ml-6 bg-transparent px-4 py-2 border-2 max-w-44 border-purple-100 rounded-lg focus:outline-none focus:border-purple-500 text-purple-500 focus:ring-2 focus:ring-purple-200 transition-all placeholder:text-purple-300 dark:bg-gray-700 dark:text-indigo-100 dark:border-indigo-500/30 dark:focus:ring-2 dark:focus:ring-indigo-500/40"
                 defaultValue=""
               >
                 <option value="" disabled>Select User Type</option>
@@ -193,41 +192,44 @@ const Users = () => {
               <select
                 value={selectedUsertype}
                 onChange={(e) => setSelectedUserType(e.target.value)}
-                className="w-full ml-6 bg-transparent px-4 py-2 border-2 max-w-52 border-purple-100 rounded-lg focus:outline-none focus:border-purple-500 text-purple-500 focus:ring-2 focus:ring-purple-200 transition-all"
+                className="w-full ml-6 bg-transparent px-4 py-2 border-2 max-w-52 border-purple-100 rounded-lg focus:outline-none focus:border-purple-500 text-purple-500 focus:ring-2 focus:ring-purple-200 transition-all dark:bg-gray-700 dark:text-indigo-100 dark:border-indigo-500/30 dark:focus:ring-2 dark:focus:ring-indigo-500/40"
               >
                 <option value="default">All Users</option>
                 <option value="online">Online Users</option>
                 <option value="offline">Offline Users</option>
               </select>
 
-              {selectedUser === 'New SignUps' && <> <DatePicker
-                selectsRange
-                startDate={startDate}
-                endDate={endDate}
-                onChange={(update) => {
-                  setDateRange(update as [Date | null, Date | null]);
-                }}
-                isClearable
-                placeholderText="Select Date Range"
-                className="w-full ml-6 bg-transparent px-4 py-2 border-2 max-w-64 border-purple-100 rounded-lg focus:outline-none focus:border-purple-500 text-purple-500 focus:ring-2 focus:ring-purple-200 transition-all placeholder:text-purple-300"
-              />
-                <select
-                  onChange={(e) => selectDays(e.target.value)}
-                  className="w-full ml-6 bg-transparent px-4 py-2 border-2 max-w-64 border-purple-100 rounded-lg focus:outline-none focus:border-purple-500 text-purple-500 focus:ring-2 focus:ring-purple-200 transition-all placeholder:text-purple-300"
-                  defaultValue=""
-                >
-                  <option value="" disabled>Please select days</option>
-                  <option>Today</option>
-                  <option>Yesterday</option>
-                  <option>Last 7 days</option>
-                  <option>Last 15 days</option>
-                </select>
-              </>}
+              {selectedUser === 'New SignUps' && (
+                <>
+                  <DatePicker
+                    selectsRange
+                    startDate={startDate}
+                    endDate={endDate}
+                    onChange={(update) => {
+                      setDateRange(update as [Date | null, Date | null]);
+                    }}
+                    isClearable
+                    placeholderText="Select Date Range"
+                    className="w-full ml-6 bg-transparent px-4 py-2 border-2 max-w-64 border-purple-100 rounded-lg focus:outline-none focus:border-purple-500 text-purple-500 focus:ring-2 focus:ring-purple-200 transition-all placeholder:text-purple-300 dark:bg-gray-700 dark:text-indigo-100 dark:border-indigo-500/30 dark:focus:ring-2 dark:focus:ring-indigo-500/40 dark:placeholder:text-indigo-300/50"
+                  />
+                  <select
+                    onChange={(e) => selectDays(e.target.value)}
+                    className="w-full ml-6 bg-transparent px-4 py-2 border-2 max-w-64 border-purple-100 rounded-lg focus:outline-none focus:border-purple-500 text-purple-500 focus:ring-2 focus:ring-purple-200 transition-all placeholder:text-purple-300 dark:bg-gray-700 dark:text-indigo-100 dark:border-indigo-500/30 dark:focus:ring-2 dark:focus:ring-indigo-500/40"
+                    defaultValue=""
+                  >
+                    <option value="" disabled>Please select days</option>
+                    <option>Today</option>
+                    <option>Yesterday</option>
+                    <option>Last 7 days</option>
+                    <option>Last 15 days</option>
+                  </select>
+                </>
+              )}
             </div>
 
             <div className="overflow-x-auto">
-              <table className="min-w-full divide-y divide-purple-50">
-                <thead className="bg-gradient-to-r from-blue-500 to-purple-600">
+              <table className="min-w-full divide-y divide-purple-50 dark:divide-indigo-500/20">
+                <thead className="bg-gradient-to-r from-blue-500 to-purple-600 dark:from-indigo-600 dark:to-purple-700">
                   <tr>
                     <th scope="col" className="px-6 py-3 text-left text-xs font-semibold text-white uppercase tracking-wider">
                       Player
@@ -261,116 +263,115 @@ const Users = () => {
                     </th>
                   </tr>
                 </thead>
-                <tbody className="bg-white divide-y divide-purple-50">
+                <tbody className="bg-white dark:bg-gray-800/80 divide-y divide-purple-50 dark:divide-indigo-500/20">
                   {usersLoading ? (
                     Array.from({ length: itemsPerPage }).map((_, index) => (
                       <tr key={index} className="animate-pulse">
                         <td className="px-6 py-4 whitespace-nowrap">
                           <div className="flex items-center">
-                            <div className="flex-shrink-0 h-8 w-8 bg-purple-100 rounded-full"></div>
+                            <div className="flex-shrink-0 h-8 w-8 bg-purple-100 dark:bg-indigo-600/40 rounded-full"></div>
                             <div className="ml-4">
-                              <div className="h-3 bg-purple-100 rounded w-32"></div>
+                              <div className="h-3 bg-purple-100 dark:bg-indigo-600/20 rounded w-32"></div>
                             </div>
                           </div>
                         </td>
                         <td className="px-6 py-4 whitespace-nowrap">
-                          <div className="h-3 bg-purple-100 rounded w-full"></div>
+                          <div className="h-3 bg-purple-100 dark:bg-indigo-600/20 rounded w-full"></div>
                         </td>
                         <td className="px-6 py-4 whitespace-nowrap">
-                          <div className="h-3 bg-purple-100 rounded w-full"></div>
+                          <div className="h-3 bg-purple-100 dark:bg-indigo-600/20 rounded w-full"></div>
                         </td>
                         <td className="px-6 py-4 whitespace-nowrap">
-                          <div className="h-3 bg-purple-100 rounded w-full"></div>
+                          <div className="h-3 bg-purple-100 dark:bg-indigo-600/20 rounded w-full"></div>
+                        </td>
+                        <td className="px-6 py-4 whitespace-nowrap">
+                          <div className="h-3 bg-purple-100 dark:bg-indigo-600/20 rounded w-full"></div>
                         </td>
                         <td className="px-6 py-4 whitespace-nowrap text-right">
-                          <div className="h-3 bg-purple-100 rounded w-24 float-right"></div>
+                          <div className="h-3 bg-purple-100 dark:bg-indigo-600/20 rounded w-24 float-right"></div>
                         </td>
                       </tr>
                     ))
                   ) : (
-                    displayedUsers && displayedUsers?.length ? displayedUsers?.map((user: any) => (
-                      <tr onClick={() => router.push(`/specificUserDetail?name=${user?.username}`)} key={user.id} className="hover:bg-purple-50 transition-colors cursor-pointer">
-                        <td className="px-6 py-4 whitespace-nowrap">
-                          <div className="flex items-center">
-                            <div className="flex-shrink-0 cursor-pointer relative">
-                              <div className="w-8 h-8 rounded-full bg-gradient-to-r from-blue-500 to-purple-600 flex items-center justify-center text-white text-xs font-bold">
-                                {user?.username?.[0]?.toUpperCase()}
+                    displayedUsers && displayedUsers?.length ? (
+                      displayedUsers?.map((user: any) => (
+                        <tr
+                          onClick={() => router.push(`/specificUserDetail?name=${user?.username}`)}
+                          key={user.id}
+                          className="hover:bg-purple-50 dark:hover:bg-indigo-900/30 transition-colors cursor-pointer"
+                        >
+                          <td className="px-6 py-4 whitespace-nowrap">
+                            <div className="flex items-center">
+                              <div className="flex-shrink-0 cursor-pointer relative">
+                                <div className="w-8 h-8 rounded-full bg-gradient-to-r from-blue-500 to-purple-600 dark:from-indigo-500 dark:to-purple-600 flex items-center justify-center text-white text-xs font-bold">
+                                  {user?.username?.[0]?.toUpperCase()}
+                                </div>
+                                <span
+                                  className={`absolute bottom-0 right-0 w-3 h-3 rounded-full border-2 border-white dark:border-gray-800 ${user.online ? "bg-green-500" : "bg-gray-200 dark:bg-gray-600"
+                                    }`}
+                                ></span>
                               </div>
-                              <span
-                                className={`absolute bottom-0 right-0 w-3 h-3 rounded-full border-2 border-white ${user.online ? "bg-green-500" : "bg-gray-200"}`}
-                              ></span>
-                            </div>
-                            <div className="ml-4">
-                              <div className="text-sm font-medium text-gray-800">
-                                {user.username}
+                              <div className="ml-4">
+                                <div className="text-sm font-medium text-gray-800 dark:text-indigo-200">{user.username}</div>
                               </div>
-                            </div>
-                          </div>
-                        </td>
-                        <td className="px-6 py-4 whitespace-nowrap">
-                          <div className="text-sm text-gray-700">
-                            {user?.email ? user?.email : "--"}
-                          </div>
-                        </td>
-                        <td className="px-6 py-4 whitespace-nowrap">
-                          <div className="text-sm text-gray-700">
-                            {user?.timeSpentPastWeek} Hours
-                          </div>
-                        </td>
-                        <td className="px-6 py-4 whitespace-nowrap">
-                          <div className="text-sm text-gray-700">
-                            {moment(user?.creationDate).format('YYYY-MM-DD')}
-                          </div>
-                        </td>
-                        <td className="px-6 py-4 whitespace-nowrap">
-                          <div className="text-sm text-gray-700">
-                            {user?.points}
-                          </div>
-                        </td>
-                        <td className="px-6 py-4 whitespace-nowrap text-right">
-                          <button
-                            onClick={(e) => [e.stopPropagation(), router.push(`userDetail?name=${user.username}`)]}
-                            className="inline-flex items-center space-x-1 group text-purple-600 hover:text-purple-800 transition-colors"
-                          >
-                            <span className="text-sm font-medium">
-                              View Journey
-                            </span>
-                            <svg
-                              className="w-3 h-3"
-                              fill="none"
-                              stroke="currentColor"
-                              viewBox="0 0 24 24"
-                            >
-                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-                            </svg>
-                          </button>
-                        </td>
-                      </tr>
-                    ))
-                      : (
-                        <tr>
-                          <td colSpan={6} className="text-center py-8">
-                            <div className="flex items-center justify-center">
-                              <span className=" font-medium">No Record Found.</span>
                             </div>
                           </td>
+                          <td className="px-6 py-4 whitespace-nowrap">
+                            <div className="text-sm text-gray-700 dark:text-indigo-100">{user?.email ? user?.email : "--"}</div>
+                          </td>
+                          <td className="px-6 py-4 whitespace-nowrap">
+                            <div className="text-sm text-gray-700 dark:text-indigo-100">{user?.timeSpentPastWeek} Hours</div>
+                          </td>
+                          <td className="px-6 py-4 whitespace-nowrap">
+                            <div className="text-sm text-gray-700 dark:text-indigo-100">
+                              {moment(user?.creationDate).format('YYYY-MM-DD')}
+                            </div>
+                          </td>
+                          <td className="px-6 py-4 whitespace-nowrap">
+                            <div className="text-sm text-gray-700 dark:text-indigo-100">{user?.points}</div>
+                          </td>
+                          <td className="px-6 py-4 whitespace-nowrap text-right">
+                            <button
+                              onClick={(e) => [e.stopPropagation(), router.push(`userDetail?name=${user.username}`)]}
+                              className="inline-flex items-center space-x-1 group text-purple-600 dark:text-indigo-400 hover:text-purple-800 dark:hover:text-indigo-300 transition-colors"
+                            >
+                              <span className="text-sm font-medium">View Journey</span>
+                              <svg
+                                className="w-3 h-3"
+                                fill="none"
+                                stroke="currentColor"
+                                viewBox="0 0 24 24"
+                              >
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                              </svg>
+                            </button>
+                          </td>
                         </tr>
-                      )
+                      ))
+                    ) : (
+                      <tr>
+                        <td colSpan={6} className="text-center py-8">
+                          <div className="flex items-center justify-center">
+                            <span className="font-medium dark:text-indigo-200">No Record Found.</span>
+                          </div>
+                        </td>
+                      </tr>
+                    )
                   )}
                 </tbody>
               </table>
             </div>
 
-            <div className="flex flex-col sm:flex-row justify-between items-center gap-4">
+            <div className="flex flex-col sm:flex-row justify-between items-center gap-4 mt-4">
               <div className="flex items-center gap-2">
-                <span className="text-sm text-purple-600">Show:</span>
+                <span className="text-sm text-purple-600 dark:text-indigo-300">Show:</span>
                 <select
                   value={itemsPerPage}
                   onChange={(e) => {
                     setItemsPerPage(Number(e.target.value));
                     setCurrentPage(1);
                   }}
-                  className="px-3 py-1 border-2 border-purple-100 rounded-lg text-sm bg-white focus:border-purple-500"
+                  className="px-3 py-1 border-2 border-purple-100 rounded-lg text-sm bg-white focus:border-purple-500 dark:bg-gray-700 dark:text-indigo-100 dark:border-indigo-500/30"
                 >
                   {[10, 25, 50, 100].map((size) => (
                     <option key={size} value={size}>
@@ -384,7 +385,7 @@ const Users = () => {
                 <button
                   onClick={() => handlePageChange(currentPage - 1)}
                   disabled={currentPage === 1}
-                  className="px-3 py-1 border-2 border-purple-100 rounded-lg hover:bg-purple-50 disabled:opacity-50 transition-colors text-sm"
+                  className="px-3 py-1 border-2 border-purple-100 rounded-lg hover:bg-purple-50 disabled:opacity-50 transition-colors text-sm dark:border-indigo-500/30 dark:hover:bg-indigo-900/30 dark:text-indigo-200"
                 >
                   ← Prev
                 </button>
@@ -394,8 +395,8 @@ const Users = () => {
                     key={page}
                     onClick={() => handlePageChange(page)}
                     className={`px-3 py-1 rounded-lg transition-all text-sm ${currentPage === page
-                      ? 'bg-gradient-to-r from-blue-500 to-purple-600 text-white'
-                      : 'border-2 border-purple-100 hover:bg-purple-50'
+                        ? 'bg-gradient-to-r from-blue-500 to-purple-600 dark:from-indigo-600 dark:to-purple-700 text-white'
+                        : 'border-2 border-purple-100 hover:bg-purple-50 dark:border-indigo-500/30 dark:hover:bg-indigo-900/30 dark:text-indigo-200'
                       }`}
                   >
                     {page}
@@ -405,13 +406,13 @@ const Users = () => {
                 <button
                   onClick={() => handlePageChange(currentPage + 1)}
                   disabled={currentPage === totalPages}
-                  className="px-3 py-1 border-2 border-purple-100 rounded-lg hover:bg-purple-50 disabled:opacity-50 transition-colors text-sm"
+                  className="px-3 py-1 border-2 border-purple-100 rounded-lg hover:bg-purple-50 disabled:opacity-50 transition-colors text-sm dark:border-indigo-500/30 dark:hover:bg-indigo-900/30 dark:text-indigo-200"
                 >
                   Next →
                 </button>
               </div>
 
-              <span className="text-sm text-purple-600">
+              <span className="text-sm text-purple-600 dark:text-indigo-300">
                 Page {currentPage} of {totalPages}
               </span>
             </div>

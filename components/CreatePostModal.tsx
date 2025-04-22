@@ -9,8 +9,6 @@ import { useAddPost } from '../public/DashBoard/useAddPost'
 import { toast } from 'react-toastify'
 import Cookies from "js-cookie";
 
-
-
 interface FormData {
   title: string
   subject: string
@@ -46,9 +44,8 @@ const CreatePostModal = ({ isOpen, onClose, refetchPost }: CreatePostModalProps)
       setPreVIewImage(null)
       setSelectedDate(new Date())
     }
-
   }, [addPostIsSuccess])
-  
+
   const onSubmit = (data: FormData) => {
     const formData = new FormData();
     formData.append("title", data.title);
@@ -109,8 +106,8 @@ const CreatePostModal = ({ isOpen, onClose, refetchPost }: CreatePostModalProps)
               leaveFrom="opacity-100 scale-100"
               leaveTo="opacity-0 scale-95"
             >
-              <Dialog.Panel className="w-full max-w-2xl transform overflow-hidden rounded-2xl bg-white p-6 text-left align-middle shadow-xl transition-all">
-                <div className="bg-gradient-to-r from-blue-600 to-purple-600 p-6 -m-6 mb-6">
+              <Dialog.Panel className="w-full max-w-2xl transform overflow-hidden rounded-2xl bg-white dark:bg-gray-800/90 dark:backdrop-blur-sm dark:border dark:border-indigo-500/20 p-6 text-left align-middle shadow-xl transition-all">
+                <div className="bg-gradient-to-r from-blue-600 to-purple-600 dark:from-indigo-600 dark:to-purple-700 p-6 -m-6 mb-6">
                   <Dialog.Title
                     as="h3"
                     className="text-2xl font-bold text-white leading-6"
@@ -124,60 +121,60 @@ const CreatePostModal = ({ isOpen, onClose, refetchPost }: CreatePostModalProps)
                     {/* Left Column */}
                     <div className="space-y-4">
                       <div>
-                        <label className="block text-sm font-medium text-gray-700 mb-1">
-                          Title <span className="text-red-500">*</span>
+                        <label className="block text-sm font-medium text-gray-700 dark:text-indigo-200 mb-1">
+                          Title <span className="text-red-500 dark:text-red-400">*</span>
                         </label>
                         <input
                           {...register('title', { required: 'Title is required' })}
-                          className={`w-full px-4 py-2 rounded-lg border ${errors.title ? 'border-red-500' : 'border-gray-500'
-                            } focus:ring-2 focus:ring-blue-500 focus:border-transparent`}
+                          className={`w-full px-4 py-2 rounded-lg border dark:text-indigo-300/50 ${errors.title ? 'border-red-500 dark:border-red-400' : 'border-gray-500 dark:border-indigo-500/30'
+                            } focus:ring-2 focus:ring-blue-500 dark:focus:ring-indigo-500/40 focus:border-transparent dark:bg-gray-700 dark:text-indigo-100`}
                           placeholder="Enter the title"
                         />
                         {errors.title && (
-                          <p className="text-red-500 text-sm mt-1">{errors.title.message}</p>
+                          <p className="text-red-500 dark:text-red-400 text-sm mt-1">{errors.title.message}</p>
                         )}
                       </div>
 
                       <div>
-                        <label className="block text-sm font-medium text-gray-700 mb-1">
-                          Username <span className="text-red-500">*</span>
+                        <label className="block text-sm font-medium text-gray-700 dark:text-indigo-200 mb-1">
+                          Username <span className="text-red-500 dark:text-red-400">*</span>
                         </label>
                         <input
                           {...register('username', { required: 'Username is required' })}
-                          className={`w-full px-4 py-2 opacity-50 rounded-lg border ${errors.title ? 'border-red-500' : 'border-gray-500'
-                            } focus:ring-2 focus:ring-blue-500 focus:border-transparent`}
+                          className={`w-full px-4 py-2 opacity-50 rounded-lg border dark:text-indigo-300/50 ${errors.title ? 'border-red-500 dark:border-red-400' : 'border-gray-500 dark:border-indigo-500/30'
+                            } focus:ring-2 focus:ring-blue-500 dark:focus:ring-indigo-500/40 focus:border-transparent dark:bg-gray-700 dark:text-indigo-100`}
                           placeholder="Enter the UserName"
                           disabled
                         />
                         {errors.username && (
-                          <p className="text-red-500 text-sm mt-1">{errors.username.message}</p>
+                          <p className="text-red-500 dark:text-red-400 text-sm mt-1">{errors.username.message}</p>
                         )}
                       </div>
 
                       <div>
-                        <label className="block text-sm font-medium text-gray-700 mb-1">
-                          Subject <span className="text-red-500">*</span>
+                        <label className="block text-sm font-medium text-gray-700 dark:text-indigo-200 mb-1">
+                          Subject <span className="text-red-500 dark:text-red-400">*</span>
                         </label>
                         <input
                           {...register('subject', { required: 'Subject is required' })}
-                          className={`w-full px-4 py-2 rounded-lg border ${errors.subject ? 'border-red-500' : 'border-gray-500'
-                            } focus:ring-2 focus:ring-blue-500 focus:border-transparent`}
+                          className={`w-full px-4 py-2 rounded-lg border dark:text-indigo-300/50 ${errors.subject ? 'border-red-500 dark:border-red-400' : 'border-gray-500 dark:border-indigo-500/30'
+                            } focus:ring-2 focus:ring-blue-500 dark:focus:ring-indigo-500/40 focus:border-transparent dark:bg-gray-700 dark:text-indigo-100`}
                           placeholder="Enter the subject"
                         />
                         {errors.subject && (
-                          <p className="text-red-500 text-sm mt-1">{errors.subject.message}</p>
+                          <p className="text-red-500 dark:text-red-400 text-sm mt-1">{errors.subject.message}</p>
                         )}
                       </div>
 
                       <div>
-                        <label className="block text-sm font-medium text-gray-700 mb-1">
-                          Date <span className="text-red-500">*</span>
+                        <label className="block text-sm font-medium text-gray-700 dark:text-indigo-200 mb-1">
+                          Date <span className="text-red-500 dark:text-red-400">*</span>
                         </label>
                         <DatePicker
                           selected={selectedDate}
                           onChange={(date) => setSelectedDate(date)}
-                          className={`w-full px-4 py-2 rounded-lg border ${errors.date ? 'border-red-500' : 'border-gray-500'
-                            } focus:ring-2 focus:ring-blue-500 focus:border-transparent`}
+                          className={`w-full px-4 py-2 rounded-lg border dark:text-indigo-300/50 ${errors.date ? 'border-red-500 dark:border-red-400' : 'border-gray-500 dark:border-indigo-500/30'
+                            } focus:ring-2 focus:ring-blue-500 dark:focus:ring-indigo-500/40 focus:border-transparent dark:bg-gray-700 dark:text-indigo-100`}
                           placeholderText="Select date"
                         />
                       </div>
@@ -186,13 +183,13 @@ const CreatePostModal = ({ isOpen, onClose, refetchPost }: CreatePostModalProps)
                     {/* Right Column */}
                     <div className="space-y-4">
                       <div>
-                        <label className="block text-sm font-medium text-gray-700 mb-1">
-                          Image Upload <span className="text-red-500">*</span>
+                        <label className="block text-sm font-medium  text-gray-700 dark:text-indigo-200 mb-1">
+                          Image Upload <span className="text-red-500 dark:text-red-400">*</span>
                         </label>
                         <div
                           className={`border-2 border-dashed rounded-lg p-4 text-center cursor-pointer
-                            hover:border-blue-500 transition-colors duration-200
-                            ${previewIMage ? 'border-blue-500' : 'border-gray-500'}`}
+                            hover:border-blue-500 dark:hover:border-indigo-400 transition-colors duration-200
+                            ${previewIMage ? 'border-blue-500 dark:border-indigo-400' : 'border-gray-500 dark:border-indigo-500/30'}`}
                           onClick={() => fileInputRef.current?.click()}
                         >
                           <input
@@ -221,58 +218,58 @@ const CreatePostModal = ({ isOpen, onClose, refetchPost }: CreatePostModalProps)
                             </div>
                           ) : (
                             <div className="space-y-2">
-                              <svg className="mx-auto h-12 w-12 text-gray-400" stroke="currentColor" fill="none" viewBox="0 0 48 48">
+                              <svg className="mx-auto h-12 w-12 text-gray-400 dark:text-indigo-300/50" stroke="currentColor" fill="none" viewBox="0 0 48 48">
                                 <path d="M28 8H12a4 4 0 00-4 4v20m32-12v8m0 0v8a4 4 0 01-4 4H12a4 4 0 01-4-4v-4m32-4l-3.172-3.172a4 4 0 00-5.656 0L28 28M8 32l9.172-9.172a4 4 0 015.656 0L28 28m0 0l4 4m4-24h8m-4-4v8m-12 4h.02" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
                               </svg>
-                              <p className="text-sm text-gray-600">
-                                <span className="text-blue-600 font-medium">Click to upload</span>
+                              <p className="text-sm text-gray-600 dark:text-indigo-200">
+                                <span className="text-blue-600 dark:text-indigo-400 font-medium">Click to upload</span>
                               </p>
-                              <p className="text-xs text-gray-500">PNG, JPG up to 5MB</p>
+                              <p className="text-xs text-gray-500 dark:text-indigo-300/50">PNG, JPG up to 5MB</p>
                             </div>
                           )}
                         </div>
                       </div>
-                      {errors.image && value?.image === null &&  (
-                          <p className="text-red-500 text-sm mt-1">{"Image is required."}</p>
-                        )}
+                      {errors.image && value?.image === null && (
+                        <p className="text-red-500 dark:text-red-400 text-sm mt-1">{"Image is required."}</p>
+                      )}
                     </div>
                   </div>
 
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1">
-                      Description <span className="text-red-500">*</span>
+                    <label className="block text-sm font-medium text-gray-700 dark:text-indigo-300/50 mb-1">
+                      Description <span className="text-red-500 dark:text-red-400">*</span>
                     </label>
                     <textarea
                       {...register('description', {
                         required: 'Description is required',
                         minLength: { value: 10, message: 'Minimum 10 characters required' }
                       })}
-                      className={`w-full px-4 py-2 rounded-lg border ${errors.description ? 'border-red-500' : 'border-gray-500'
-                        } focus:ring-2 focus:ring-blue-500 focus:border-transparent`}
+                      className={`w-full px-4 py-2 rounded-lg border dark:placeholder:text-indigo-100 ${errors.description ? 'border-red-500 dark:border-red-400' : 'border-gray-500 dark:border-indigo-500/30'
+                        } focus:ring-2 focus:ring-blue-500 dark:focus:ring-indigo-500/40 focus:border-transparent dark:bg-gray-700 dark:text-indigo-100`}
                       rows={3}
                       placeholder="Enter the description"
                     />
                     {errors.description && (
-                      <p className="text-red-500 text-sm mt-1">{errors.description.message}</p>
+                      <p className="text-red-500 dark:text-red-400 text-sm mt-1">{errors.description.message}</p>
                     )}
                   </div>
 
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-1">
-                        Type <span className="text-red-500">*</span>
+                      <label className="block text-sm font-medium text-gray-700 dark:text-indigo-200 mb-1">
+                        Type <span className="text-red-500 dark:text-red-400">*</span>
                       </label>
                       <select
                         {...register('type', { required: 'Type is required' })}
-                        className={`w-full px-4 py-2 rounded-lg border ${errors.type ? 'border-red-500' : 'border-gray-500'
-                          } focus:ring-2 focus:ring-blue-500 focus:border-transparent`}
+                        className={`w-full px-4 py-2 rounded-lg border dark:text-indigo-300/50 ${errors.type ? 'border-red-500 dark:border-red-400' : 'border-gray-500 dark:border-indigo-500/30'
+                          } focus:ring-2 focus:ring-blue-500 dark:focus:ring-indigo-500/40 focus:border-transparent dark:bg-gray-700 dark:text-indigo-100`}
                       >
                         <option value="" disabled>Select type</option>
                         <option value="News">News</option>
                         <option value="Event">Event</option>
                       </select>
                       {errors.type && (
-                        <p className="text-red-500 text-sm mt-1">{errors.type.message}</p>
+                        <p className="text-red-500 dark:text-red-400 text-sm mt-1">{errors.type.message}</p>
                       )}
                     </div>
                   </div>
@@ -281,13 +278,13 @@ const CreatePostModal = ({ isOpen, onClose, refetchPost }: CreatePostModalProps)
                     <button
                       type="button"
                       onClick={onClose}
-                      className="px-4 py-2 text-gray-600 hover:bg-gray-50 rounded-lg transition-colors border border-gray-500"
+                      className="px-4 py-2 text-gray-600 dark:text-indigo-200 hover:bg-gray-50 dark:hover:bg-indigo-900/30 rounded-lg transition-colors border border-gray-500 dark:border-indigo-500/30"
                     >
                       Cancel
                     </button>
                     <button
                       type="submit"
-                      className="px-6 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition-colors shadow-sm transform hover:scale-105 active:scale-95"
+                      className="px-6 py-2 bg-blue-600 dark:bg-indigo-600 hover:bg-blue-700 dark:hover:bg-indigo-700 text-white rounded-lg transition-colors shadow-sm transform hover:scale-105 active:scale-95"
                     >
                       {addPostLoading ? (
                         <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-white"></div>

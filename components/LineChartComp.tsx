@@ -7,7 +7,6 @@ import {
   LineChart,
   Line,
 } from "recharts";
-import { useRouter } from "next/navigation";
 
 interface chartProps {
   data?: any[]
@@ -16,28 +15,13 @@ interface chartProps {
 }
 
 
-const LineChartComp = ({ data, isLoading, rentation }: chartProps) => {
-
-  const router = useRouter()
+const LineChartComp = ({ data, rentation }: chartProps) => {
 
   return (
     <>
-      {isLoading ?
-        <div className="w-full h-[300px] flex flex-col items-center justify-center space-y-4">
-          <div className="w-full h-[250px] bg-gradient-to-br from-[#f8fafc] to-[#e2e8f0] rounded-lg relative overflow-hidden shadow-md animate-pulse">
-            <div className="absolute inset-0 bg-gradient-to-r from-[#f1f5f9] via-[#e2e8f0] to-[#f1f5f9] animate-[shimmer_1.8s_infinite]"></div>
-
-            <div className="absolute bottom-0 left-[10%] w-[12%] h-[50%] bg-[#cbd5e1] opacity-60 rounded-lg"></div>
-            <div className="absolute bottom-0 left-[30%] w-[12%] h-[70%] bg-[#94a3b8] opacity-50 rounded-lg"></div>
-            <div className="absolute bottom-0 left-[50%] w-[12%] h-[40%] bg-[#cbd5e1] opacity-60 rounded-lg"></div>
-            <div className="absolute bottom-0 left-[70%] w-[12%] h-[80%] bg-[#94a3b8] opacity-50 rounded-lg"></div>
-            <div className="absolute bottom-0 left-[90%] w-[12%] h-[60%] bg-[#cbd5e1] opacity-60 rounded-lg"></div>
-          </div>
-          <div className="w-1/3 h-6 bg-[#e2e8f0] rounded-md animate-pulse shadow-sm"></div>
-        </div> :
+      {
         <ResponsiveContainer width="100%" height={300}>
           <LineChart data={data}
-          //  onClick={(data) => router.push(`users?date=${data?.activePayload?.[1]?.payload?.date}`)}
            >
             <defs>
               <linearGradient
