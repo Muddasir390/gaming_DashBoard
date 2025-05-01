@@ -160,6 +160,7 @@ const UserDetail = () => {
                     selectsRange
                     startDate={startDate}
                     endDate={endDate}
+                    dateFormat="d-MMM-YYYY"
                     maxDate={new Date()}
                     onChange={(update) => {
                       setJourneyDate(update as [Date | null, Date | null]);
@@ -210,7 +211,7 @@ const UserDetail = () => {
                   ) : currentData.map((event: any, index: number) => (
                     <tr key={index} className="hover:bg-purple-50 dark:hover:bg-indigo-900/30 transition-colors">
                       <td className="px-4 py-2 whitespace-nowrap text-xs text-gray-700 dark:text-indigo-200 font-mono">
-                        {moment(event?.eventTime).format('YYYY-MM-DD') || "--"}
+                        {moment(event?.eventTime).format('DD-MMM-YYYY') || "--"}
                       </td>
                       <td className="px-4 py-2 text-xs text-gray-600 dark:text-indigo-200">
                         {event?.eventData?.eventName || "--"}

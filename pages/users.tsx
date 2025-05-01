@@ -20,11 +20,24 @@ const Users = () => {
   const [sortField, setSortField] = useState<string>("");
   const [selectedUsertype, setSelectedUserType] = useState<any>();
   const [sortDirection, setSortDirection] = useState<"asc" | "desc">("asc");
+  const [dropDownDate, setDropDownDate] = useState<any>("")
 
   const { getUser, usersData, usersLoading } = useGetAllUsers();
   const [startDate, endDate] = dateRange;
   const router = useRouter();
   const status = router?.query?.status
+
+  const reset = selectedUser === "New SignUps" ||  selectedUser === "All" || searchQuery !== "" || selectedUsertype === "online" || selectedUsertype === "offline" || sortField !== ""
+
+  const handleReset=()=>{
+    if(reset){
+      setSelectedUser("")
+      setSearchQuery("")
+      setSelectedUserType("")
+      getTimestamps()
+      setSortField("")
+    }
+  }
 
   useEffect(() => {
     if (dateRange && dateRange[1] !== null) {
@@ -101,15 +114,11 @@ const Users = () => {
     getUser(apidata)
   }
 
-
-
   const totalUsers = sortedUsers?.length;
   const totalPages = Math.ceil(totalUsers / itemsPerPage);
   const startIndex = (currentPage - 1) * itemsPerPage;
   const endIndex = startIndex + itemsPerPage;
   const displayedUsers = sortedUsers?.slice(startIndex, endIndex);
-
-
 
   function getTimestamps() {
     const currentDate = new Date();
@@ -141,6 +150,7 @@ const Users = () => {
   };
 
   function selectDays(data: string) {
+    setDropDownDate(data)
     const currentDate = new Date();
     const pastDate = new Date(currentDate);
     if (data === 'Last 7 days') {
@@ -170,6 +180,29 @@ const Users = () => {
                 Players List
               </h1>
             </div>
+            <div className="flex justify-end">
+            <button
+              onClick={() => handleReset()}
+              className={`px-3 py-1.5 mb-4 flex items-center gap-1.5 rounded-lg border-2 border-purple-100 text-purple-600 hover:bg-purple-50 transition-colors dark:border-indigo-500/30 dark:text-indigo-300 dark:hover:bg-indigo-900/30 ${!reset && 'opacity-50 cursor-not-allowed'}`}
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="16"
+                height="16"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              >
+                <path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8" />
+                <path d="M3 3v5h5" />
+              </svg>
+              <span className="text-sm font-medium">Reset Filters</span>
+            </button>
+            </div>
+
 
             <div className="mb-6 flex flex-row flex-wrap gap-2 justify-start items-start md:justify-center md:items-center">
               <input
@@ -183,6 +216,7 @@ const Users = () => {
                 onChange={(e) => getSelectedUsers(e.target.value)}
                 className="w-full ml-6 bg-transparent px-4 py-2 border-2 max-w-44 border-purple-100 rounded-lg focus:outline-none focus:border-purple-500 text-purple-500 focus:ring-2 focus:ring-purple-200 transition-all placeholder:text-purple-300 dark:bg-gray-700 dark:text-indigo-100 dark:border-indigo-500/30 dark:focus:ring-2 dark:focus:ring-indigo-500/40"
                 defaultValue=""
+                value={selectedUser}
               >
                 <option value="" disabled>Select User Type</option>
                 <option>New SignUps</option>
@@ -205,8 +239,9 @@ const Users = () => {
                     selectsRange
                     startDate={startDate}
                     endDate={endDate}
+                    dateFormat="d-MMM-YYYY"
                     onChange={(update) => {
-                      setDateRange(update as [Date | null, Date | null]);
+                      [setDateRange(update as [Date | null, Date | null]), setDropDownDate("")];
                     }}
                     isClearable
                     placeholderText="Select Date Range"
@@ -215,13 +250,14 @@ const Users = () => {
                   <select
                     onChange={(e) => selectDays(e.target.value)}
                     className="w-full ml-6 bg-transparent px-4 py-2 border-2 max-w-64 border-purple-100 rounded-lg focus:outline-none focus:border-purple-500 text-purple-500 focus:ring-2 focus:ring-purple-200 transition-all placeholder:text-purple-300 dark:bg-gray-700 dark:text-indigo-100 dark:border-indigo-500/30 dark:focus:ring-2 dark:focus:ring-indigo-500/40"
-                    defaultValue=""
+                    // defaultValue={dropDownDate}
+                    value={dropDownDate}
                   >
                     <option value="" disabled>Please select days</option>
-                    <option>Today</option>
-                    <option>Yesterday</option>
-                    <option>Last 7 days</option>
-                    <option>Last 15 days</option>
+                    <option value="Today">Today</option>
+                    <option value="Yesterday">Yesterday</option>
+                    <option value="Last 7 days" >Last 7 days</option>
+                    <option value="Last 15 days">Last 15 days</option>
                   </select>
                 </>
               )}
@@ -324,7 +360,7 @@ const Users = () => {
                           </td>
                           <td className="px-6 py-4 whitespace-nowrap">
                             <div className="text-sm text-gray-700 dark:text-indigo-100">
-                              {moment(user?.creationDate).format('YYYY-MM-DD')}
+                              {moment(user?.creationDate).format('DD-MMM-YYYY')}
                             </div>
                           </td>
                           <td className="px-6 py-4 whitespace-nowrap">
@@ -395,8 +431,8 @@ const Users = () => {
                     key={page}
                     onClick={() => handlePageChange(page)}
                     className={`px-3 py-1 rounded-lg transition-all text-sm ${currentPage === page
-                        ? 'bg-gradient-to-r from-blue-500 to-purple-600 dark:from-indigo-600 dark:to-purple-700 text-white'
-                        : 'border-2 border-purple-100 hover:bg-purple-50 dark:border-indigo-500/30 dark:hover:bg-indigo-900/30 dark:text-indigo-200'
+                      ? 'bg-gradient-to-r from-blue-500 to-purple-600 dark:from-indigo-600 dark:to-purple-700 text-white'
+                      : 'border-2 border-purple-100 hover:bg-purple-50 dark:border-indigo-500/30 dark:hover:bg-indigo-900/30 dark:text-indigo-200'
                       }`}
                   >
                     {page}

@@ -270,6 +270,7 @@ const Dashboard = () => {
                 startDate={startDate}
                 maxDate={new Date()}
                 endDate={endDate}
+                dateFormat="d-MMM-YYYY"
                 onChange={(update) => {
                   const [start, end] = update as [Date | null, Date | null];
                   if (start && end && (end.getTime() - start.getTime()) / (1000 * 60 * 60 * 24) > 15) {
@@ -337,6 +338,7 @@ const Dashboard = () => {
                 selectsRange
                 startDate={virtualStoreStartDate}
                 endDate={virtualStoreEndDate}
+                dateFormat="d-MMM-YYYY"
                 maxDate={new Date()}
                 onChange={(update) => {
                   const [start, end] = update as [Date | null, Date | null];
@@ -410,6 +412,7 @@ const Dashboard = () => {
                   startDate={storeStartDate}
                   endDate={storeEndDate}
                   maxDate={new Date()}
+                  dateFormat="d-MMM-YYYY"
                   onChange={(update) => {
                     const [start, end] = update as [Date | null, Date | null];
                     setStoreDateRange(update as [Date | null, Date | null]);
@@ -466,6 +469,7 @@ const Dashboard = () => {
                   startDate={roomStartDate}
                   endDate={roomEndDate}
                   maxDate={new Date()}
+                  dateFormat="d-MMM-YYYY"
                   onChange={(update) => {
                     const [start, end] = update as [Date | null, Date | null];
                     setRoomDateRange(update as [Date | null, Date | null]);
