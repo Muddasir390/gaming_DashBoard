@@ -22,7 +22,7 @@ import { useRouter } from 'next/router';
 
 
 const Dashboard = () => {
-  const [selectedDay, setSelectedDay] = useState('weekly')
+  const [selectedDay, setSelectedDay] = useState('monthly-weekly')
   const { activeUsers, activeUserLoading, activeUsersData } = dailyActiveUsers()
   const { virtualStore, virtualStoreData, virtualStoreLoading } = getVirtualStorePurchase()
   const { storePurchase, storePurchaseLoading, storePurchaseData } = getStorePurchase()
@@ -514,8 +514,8 @@ const Dashboard = () => {
                   className="border rounded-lg cursor-pointer p-2 w-full md:max-w-52 bg-white dark:bg-gray-700 dark:text-indigo-100 dark:border-indigo-500/30 shadow-sm"
                   defaultValue=""
                 >
-                  <option>Weekly</option>
-                  <option>Monthly</option>
+                  <option value={"monthly-weekly"}>Weekly</option>
+                  <option value={"monthly-monthly"}>Monthly</option>
                 </select>
               </div>
             </div>

@@ -12,5 +12,5 @@ export function middleware(request : any) {
   return NextResponse.next();
 }
 export const config = {
-  matcher: ['/DashBoard/:path*', '/profile/:path*', '/settings/:path*', '/users/:path*',  '/specificUserDetail/:path*', '/posts/:path*', '/fleetMangement/:path*', '/userDetail/:path*' ],
+  matcher: ['/DashBoard/:path*', '/profile/:path*', '/settings/:path*', '/users/:path*',  '/specificUserDetail/:path*', '/posts/:path*', '/fleetMangement/:path*', '/userDetail/:path*', '/acquisition/:path*'],
 };

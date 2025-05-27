@@ -1,6 +1,6 @@
 
 import { useEffect, useState } from "react";
-import { LayoutDashboard, FileText, Users, Image } from 'lucide-react';
+import { LayoutDashboard, FileText, Users, Image, NotebookIcon, Ribbon, Shield, ShieldAlertIcon, ShieldCheck } from 'lucide-react';
 import { useTheme } from './ThemeProvider';
 import Link from "next/link";
 
@@ -16,12 +16,23 @@ const sideBar: React.FC<sideBarProps> = ({ activeSection, fleetManagement }) => 
     Dashboard: <LayoutDashboard size={20} className="mr-2" />,
     Post: <FileText size={20} className="mr-2" />,
     Users: <Users size={20} className="mr-2" />,
+    Acquisition: <NotebookIcon size={20} className="mr-2" />,
+    Awareness: <Ribbon size={20} className="mr-2" />,
+    Activation: <Shield size={20} className="mr-2" />,
+    Retention: <ShieldAlertIcon size={20} className="mr-2" />,
+    Revenue: <ShieldCheck size={20} className="mr-2" />,
+
     'Fleets Management': <Image size={20} className="mr-2" />
   };
 
   const routes = {
     'Dashboard': '/DashBoard',
     'Users': '/users',
+    'Acquisition': '/acquisition',
+    'Awareness': '/awareness',
+    'Activation': '/activation',
+    'Retention': '/retention',
+    'Revenue': '/revenue',
     'Post': '/posts',
     'Fleets Management': '/fleetMangement',
   };

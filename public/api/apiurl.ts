@@ -18,13 +18,6 @@ export const apisEndpoint = {
   storePurchaseURL: `${config.BASE_URL}/api/getPurchases`,
   roomInfoURL: `${config.BASE_URL}/api/GetRoomsInfo`,
   specificUserDetailURL: `${config.BASE_URL}/api/users`,
-  getRetentionURL: `${config.BASE_URL}/api/retention`
-
-
-
-
-
-
-
-
+  getRetentionURL: `${config.BASE_URL}/api/retention`,
+  getDownloadsURL: `${config.BASE_URL}/api/retention`
 };
