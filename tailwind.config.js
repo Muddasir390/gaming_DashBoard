@@ -87,38 +87,38 @@ module.exports = {
       "25xl": "44px",
       inherit: "inherit",
   	},
-  	screens: {
-  		mq1600: {
-        raw: "screen and (max-width: 1600px)",
-  		},
-  		mq1325: {
-        raw: "screen and (max-width: 1325px)",
-  		},
-  		mq1275: {
-        raw: "screen and (max-width: 1275px)",
-  		},
-  		lg: {
-        max: "1200px",
-  		},
-  		mq1125: {
-        raw: "screen and (max-width: 1125px)",
-  		},
-  		mq1050: {
-        raw: "screen and (max-width: 1050px)",
-  		},
-  		mq900: {
-        raw: "screen and (max-width: 900px)",
-  		},
-  		mq800: {
-        raw: "screen and (max-width: 800px)",
-  		},
-  		mq750: {
-        raw: "screen and (max-width: 750px)",
-  		},
-  		mq450: {
-        raw: "screen and (max-width: 450px)",
-      },
-    },
+  	// screens: {
+  	// 	mq1600: {
+    //     raw: "screen and (max-width: 1600px)",
+  	// 	},
+  	// 	mq1325: {
+    //     raw: "screen and (max-width: 1325px)",
+  	// 	},
+  	// 	mq1275: {
+    //     raw: "screen and (max-width: 1275px)",
+  	// 	},
+  		// lg: {
+      //   max: "1200px",
+  		// },
+  	// 	mq1125: {
+    //     raw: "screen and (max-width: 1125px)",
+  	// 	},
+  	// 	mq1050: {
+    //     raw: "screen and (max-width: 1050px)",
+  	// 	},
+  	// 	mq900: {
+    //     raw: "screen and (max-width: 900px)",
+  	// 	},
+  	// 	mq800: {
+    //     raw: "screen and (max-width: 800px)",
+  	// 	},
+  	// 	mq750: {
+    //     raw: "screen and (max-width: 750px)",
+  	// 	},
+  	// 	mq450: {
+    //     raw: "screen and (max-width: 450px)",
+    //   },
+    // },
   },
   corePlugins: {
     preflight: true,

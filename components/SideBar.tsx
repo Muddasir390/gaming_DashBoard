@@ -26,7 +26,7 @@ const sideBar: React.FC<sideBarProps> = ({ activeSection, fleetManagement }) => 
   };
 
   const routes = {
-    'Dashboard': '/DashBoard',
+    'Dashboard': '/dashboard',
     'Users': '/users',
     'Acquisition': '/acquisition',
     'Awareness': '/awareness',
@@ -34,7 +34,7 @@ const sideBar: React.FC<sideBarProps> = ({ activeSection, fleetManagement }) => 
     'Retention': '/retention',
     'Revenue': '/revenue',
     'Post': '/posts',
-    'Fleets Management': '/fleetMangement',
+    'Fleets Management': '/fleetmangement',
   };
 
   const { theme, toggleTheme } = useTheme();

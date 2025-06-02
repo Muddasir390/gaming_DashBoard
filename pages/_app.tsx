@@ -13,7 +13,7 @@ const queryClient = new QueryClient();
   return (
     <ThemeProvider>
     <Fragment>
-         <div className="absolute !z-[999999999999999999999999] !left-20">
+         <div className="absolute !z-[999999] !left-20">
           <ToastContainer
             position="top-right"
             autoClose={5000}

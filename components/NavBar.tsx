@@ -10,10 +10,15 @@ const NavBar = () => {
   const [username, setUserName] = useState('')
 
   const routes = {
-    'Dashboard': '/DashBoard',
+    'Dashboard': '/dashboard',
     'Users': '/users',
+    'Acquisition': '/acquisition',
+    'Awareness': '/awareness',
+    'Activation': '/activation',
+    'Retention': '/retention',
+    'Revenue': '/revenue',
     'Post': '/posts',
-    'Fleets Management': '/fleetMangement',
+    'Fleets Management': '/fleetmangement',
   };
 
   useEffect(() => {
@@ -37,8 +42,8 @@ const NavBar = () => {
   },[])
 
   return (
-    <nav className="bg-gradient-to-r from-gray-900 via-blue-900 to-slate-900 shadow-md">
-      <div className="container mx-auto">
+    <nav className="bg-gradient-to-r from-gray-900 via-blue-900 to-slate-900 shadow-md w-full">
+      <div className="">
         <div className="flex justify-between items-center h-16 px-4">
           <div className="flex items-center">
             {isMobile ? (
@@ -117,8 +122,7 @@ const NavBar = () => {
           </div>
         )}
 
-        {/* Desktop Menu */}
-        {!isMobile && (
+        {isMobile && (
           <div className="hidden md:flex space-x-1 pb-2 px-4">
             {Object.entries(routes).map(([name, path]) => (
               <Link

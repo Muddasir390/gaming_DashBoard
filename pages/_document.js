@@ -1,4 +1,3 @@
-// pages/_document.js
 import { Html, Head, Main, NextScript } from 'next/document'
 
 export default function Document() {
@@ -19,7 +18,6 @@ export default function Document() {
           type="font/ttf"
           crossOrigin=""
         />
-        {/* Optional: Add a font-loading script */}
         <script
           dangerouslySetInnerHTML={{
             __html: `

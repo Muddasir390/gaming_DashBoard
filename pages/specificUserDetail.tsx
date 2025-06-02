@@ -139,7 +139,7 @@ function SpecificUserDetail() {
                             <div>
                                 <h1 className="text-2xl font-bold text-gray-800 dark:text-indigo-200">
                                     {user?.username}
-                                    <span className={`ml-3 inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${user?.online ? 'bg-green-100 text-green-800 dark:bg-green-900/50 dark:text-green-300' : 'bg-gray-100 text-gray-800 dark:bg-gray-700 dark:text-indigo-200'}`}>
+                                    <span className={`ml-3 inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${user?.online ? 'bg-green-100 text-green-800 dark:bg-green-900/50 dark:text-green-300' : 'bg-gray-100 text-white dark:bg-gray-700 dark:text-indigo-200'}`}>
                                         {user?.online ? 'Online' : 'Offline'}
                                     </span>
                                 </h1>
@@ -213,7 +213,7 @@ function SpecificUserDetail() {
                     </div>
 
                     {/* Content */}
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div className="grid grid-cols-1 gap-6">
                         {activeTab === 'profile' && (
                             <div className="space-y-4">
                                 <div className="bg-white dark:bg-gray-800/90 dark:border dark:border-indigo-500/20 rounded-2xl shadow-lg p-6">
@@ -345,7 +345,7 @@ function SpecificUserDetail() {
                                             </div>
                                         </div>
                                     </div>
-                                )) : <div className="h-96 text-center flex items-center justify-center dark:text-indigo-200">No Record Found.</div>}
+                                )) : <div className="min-h-[400px] bg-white rounded-xl text-center flex items-center justify-center dark:text-indigo-200">No Record Found.</div>}
                             </>
                         )}
 
@@ -433,7 +433,7 @@ function SpecificUserDetail() {
 
                         {activeTab === 'friends' && (
                             <div className="bg-white dark:bg-gray-800/90 dark:border dark:border-indigo-500/20 rounded-2xl shadow-lg p-6 mb-10">
-                                <div className="mb-6 flex flex-row flex-wrap gap-2 justify-start items-center md:justify-center md:items-center">
+                                {filteredFriends && filteredFriends?.length ?   <div className="mb-6 flex flex-row flex-wrap gap-2 justify-start items-center md:justify-center md:items-center">
                                     <h2 className="text-xl font-semibold text-gray-800 dark:text-indigo-200 flex items-center gap-2">
                                         <UserPlus className="w-5 h-5 text-blue-500" />
                                         Friends List
@@ -455,7 +455,8 @@ function SpecificUserDetail() {
                                             <ArrowDown className="w-4 h-4" />
                                         }
                                     </button>
-                                </div>
+                                </div>: null }
+                              
                                 <div className="space-y-3 max-h-[450px] overflow-y-auto">
                                     {filteredFriends && filteredFriends?.length ? filteredFriends?.map((friend: any, index: any) => (
                                         <div key={index} className="flex items-center justify-between p-3 bg-gray-50 dark:bg-gray-700/50 rounded-lg">
@@ -482,7 +483,7 @@ function SpecificUserDetail() {
                                                 </div>
                                             </div>
                                         </div>
-                                    )) : <div className="flex items-center justify-center">
+                                    )) : <div className="flex items-center min-h-[400px] justify-center">
                                         <span className="font-medium dark:text-indigo-200">No Record Found.</span>
                                     </div>}
                                 </div>
@@ -519,7 +520,7 @@ function SpecificUserDetail() {
                                                     {task.progress.current} / {task.progress.rewardAt}
                                                 </p>
                                             </div>
-                                        )) : <div className="h-[100px] w-full flex items-center justify-center dark:text-indigo-200">
+                                        )) : <div className="min-h-[400px] w-full flex items-center justify-center dark:text-indigo-200">
                                             No Record Found.
                                         </div>}
                                     </div>
@@ -542,7 +543,7 @@ function SpecificUserDetail() {
                                                     {task.points} points
                                                 </span>
                                             </div>
-                                        )) : <div className="h-[100px] w-full flex items-center justify-center dark:text-indigo-200">
+                                        )) : <div className="min-h-[400px] w-full flex items-center justify-center dark:text-indigo-200">
                                             No Record Found.
                                         </div>}
                                     </div>
@@ -565,7 +566,7 @@ function SpecificUserDetail() {
                                                     {task?.points} points
                                                 </span>
                                             </div>
-                                        )) : <div className="h-[100px] w-full flex items-center justify-center dark:text-indigo-200">
+                                        )) : <div className="min-h-[400px] w-full flex items-center justify-center dark:text-indigo-200">
                                             No Record Found.
                                         </div>}
                                     </div>
@@ -606,7 +607,7 @@ function SpecificUserDetail() {
                                                 </div>
                                             </div>
                                         </div>
-                                    )) : <div className="h-[100px] w-full flex items-center justify-center dark:text-indigo-200">
+                                    )) : <div className="min-h-[400px] w-full flex items-center justify-center dark:text-indigo-200">
                                         No Record Found.
                                     </div>}
                                 </div>
@@ -675,7 +676,7 @@ function SpecificUserDetail() {
                                                 </div>
                                             )}
                                         </div>
-                                    )) : <div className="h-96 text-center flex items-center justify-center dark:text-indigo-200">No Record Found.</div>}
+                                    )) : <div className="min-h-[400px] text-center flex items-center justify-center dark:text-indigo-200">No Record Found.</div>}
                                 </div>
                             </div>
                         )}

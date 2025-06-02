@@ -11,7 +11,6 @@ const LocalImagePreloader = ({ children }) => {
       return r.keys().map(r);
     };
 
-    // Import all images from the public/images directory
     const images = importAll(require.context('../public', false, /\.(png|jpe?g|svg)$/));
     setImageUrls(images.map((image) => image.default.src));
   }, []);
@@ -63,9 +62,9 @@ const LocalImagePreloader = ({ children }) => {
         <svg className="animate-spin-slow" width="200" height="200" viewBox="0 0 100 100">
           <defs>
             <linearGradient id="loader-gradient" x1="0%" y1="0%" x2="100%" y2="0%">
-              <stop offset="0%" stopColor="#4FD1C5" /> {/* Teal */}
-              <stop offset="50%" stopColor="#63B3ED" /> {/* Light Blue */}
-              <stop offset="100%" stopColor="#B794F4" /> {/* Light Purple */}
+              <stop offset="0%" stopColor="#4FD1C5" />
+              <stop offset="50%" stopColor="#63B3ED" /> 
+              <stop offset="100%" stopColor="#B794F4" />
             </linearGradient>
           </defs>
           <path d="M50 10 A40 40 0 0 1 50 90 A40 40 0 0 1 50 10" fill="none" stroke="url(#loader-gradient)" strokeWidth="8" strokeLinecap="round" strokeDasharray="251.2" strokeDashoffset="251.2">

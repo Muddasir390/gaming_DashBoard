@@ -204,7 +204,7 @@ const Users = () => {
             </div>
 
 
-            <div className="mb-6 flex flex-row flex-wrap gap-2 justify-start items-start md:justify-center md:items-center">
+            <div className="mb-6 flex flex-row flex-wrap gap-2 justify-start items-start ">
               <input
                 type="text"
                 placeholder="Search Players..."

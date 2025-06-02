@@ -118,7 +118,6 @@ const CreatePostModal = ({ isOpen, onClose, refetchPost }: CreatePostModalProps)
 
                 <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    {/* Left Column */}
                     <div className="space-y-4">
                       <div>
                         <label className="block text-sm font-medium text-gray-700 dark:text-indigo-200 mb-1">
@@ -180,7 +179,6 @@ const CreatePostModal = ({ isOpen, onClose, refetchPost }: CreatePostModalProps)
                       </div>
                     </div>
 
-                    {/* Right Column */}
                     <div className="space-y-4">
                       <div>
                         <label className="block text-sm font-medium  text-gray-700 dark:text-indigo-200 mb-1">

@@ -259,12 +259,12 @@ const Dashboard = () => {
         </div>
       </section>
 
-      <section id="dailyUsers" className="mb-8">
+      <section id="dailyUsers" className="mb-8 w-full">
         <h2 className="text-2xl font-bold mb-6 dark:text-indigo-300">Analytics Dashboard</h2>
         <div className="flex flex-wrap gap-6 w-full flex-row">
-          <div className="bg-white dark:bg-gray-800/90 dark:backdrop-blur-sm dark:border dark:border-indigo-500/20 rounded-2xl shadow-2xl p-6 w-full md:w-[calc(50%-12px)]">
+          <div className="bg-white dark:bg-gray-800/90 dark:backdrop-blur-sm dark:border dark:border-indigo-500/20 rounded-2xl shadow-2xl p-6 w-full">
             <h3 className="text-lg font-semibold mb-4 dark:text-indigo-200">Users Data</h3>
-            <div className="flex flex-wrap gap-6 flex-row sm:justify-center mb-5">
+            <div className="flex flex-wrap gap-6 flex-row  mb-5">
               <DatePicker
                 selectsRange
                 startDate={startDate}
@@ -282,13 +282,13 @@ const Dashboard = () => {
                 }}
                 isClearable
                 placeholderText="Select Date Range"
-                className="border py-2 px-5 rounded w-full md:w-auto dark:bg-gray-700 dark:text-indigo-100 dark:border-indigo-500/30 dark:focus:ring-2 dark:focus:ring-indigo-500/40"
+                className="border py-2 px-5 rounded w-full  dark:bg-gray-700 dark:text-indigo-100 dark:border-indigo-500/30 dark:focus:ring-2 dark:focus:ring-indigo-500/40"
               />
 
               <div className="max-w-64">
                 <select
                   onChange={(e) => setLinkClicks(e.target.value)}
-                  className="border rounded-lg p-2 cursor-pointer w-full md:max-w-52 bg-white dark:bg-gray-700 dark:text-indigo-100 dark:border-indigo-500/30 shadow-sm"
+                  className="border rounded-lg p-2 cursor-pointer w-full bg-white dark:bg-gray-700 dark:text-indigo-100 dark:border-indigo-500/30 shadow-sm"
                 >
                   <option>Line Chart</option>
                   <option>Bar Chart</option>
@@ -329,9 +329,9 @@ const Dashboard = () => {
       </section>
 
       {/* virtual store purchases section */}
-      <section id="Virtual Store Purchases" className="mb-8">
+      {/* <section id="Virtual Store Purchases" className="mb-8">
         <div className="flex flex-wrap gap-6 w-full flex-row">
-          <div className="bg-white dark:bg-gray-800/90 dark:backdrop-blur-sm dark:border dark:border-indigo-500/20 rounded-2xl shadow-2xl p-6 w-full md:w-[calc(50%-12px)]">
+          <div className="bg-white dark:bg-gray-800/90 dark:backdrop-blur-sm dark:border dark:border-indigo-500/20 rounded-2xl shadow-2xl p-6 w-full ">
             <h3 className="text-lg font-semibold mb-4 dark:text-indigo-200">In Game Items</h3>
             <div className="flex flex-wrap gap-6 flex-row sm:justify-center mb-5">
               <DatePicker
@@ -346,7 +346,7 @@ const Dashboard = () => {
                 }}
                 isClearable
                 placeholderText="Select Date Range"
-                className="border py-2 px-5 rounded w-full md:w-auto dark:bg-gray-700 dark:text-indigo-100 dark:border-indigo-500/30 dark:focus:ring-2 dark:focus:ring-indigo-500/40"
+                className="border py-2 px-5 rounded w-full  dark:bg-gray-700 dark:text-indigo-100 dark:border-indigo-500/30 dark:focus:ring-2 dark:focus:ring-indigo-500/40"
               />
 
               {virtualStoreLoading ? (
@@ -355,7 +355,7 @@ const Dashboard = () => {
                 <div className="max-w-64">
                   <select
                     onChange={handleSelectChange}
-                    className="border rounded-lg p-2 w-full md:max-w-52 bg-white dark:bg-gray-700 dark:text-indigo-100 dark:border-indigo-500/30 shadow-sm"
+                    className="border rounded-lg p-2 w-full  bg-white dark:bg-gray-700 dark:text-indigo-100 dark:border-indigo-500/30 shadow-sm"
                   >
                     {virtualStoreData && Object.keys(virtualStoreData).map((key) => (
                       <option key={key} value={key}>
@@ -398,12 +398,12 @@ const Dashboard = () => {
             )}
           </div>
         </div>
-      </section>
+      </section> */}
 
       {/* store purchases */}
-      <section id="revenueGraph" className="mb-8">
+      {/* <section id="revenueGraph" className="mb-8">
         <div className="flex flex-wrap gap-6 w-full flex-row">
-          <div className="bg-white dark:bg-gray-800/90 dark:backdrop-blur-sm dark:border dark:border-indigo-500/20 rounded-2xl shadow-2xl p-6 w-full md:w-[calc(50%-12px)]">
+          <div className="bg-white dark:bg-gray-800/90 dark:backdrop-blur-sm dark:border dark:border-indigo-500/20 rounded-2xl shadow-2xl p-6 w-full ">
             <h3 className="text-lg font-semibold mb-4 dark:text-indigo-200">Bundle Purchases</h3>
             <div className="flex row items-center justify-between">
               <div className="flex flex-wrap gap-6 flex-row sm:justify-center">
@@ -419,7 +419,7 @@ const Dashboard = () => {
                   }}
                   isClearable
                   placeholderText="Select Date Range"
-                  className="border py-2 px-5 rounded w-full md:w-auto dark:bg-gray-700 dark:text-indigo-100 dark:border-indigo-500/30 dark:focus:ring-2 dark:focus:ring-indigo-500/40"
+                  className="border py-2 px-5 rounded w-full  dark:bg-gray-700 dark:text-indigo-100 dark:border-indigo-500/30 dark:focus:ring-2 dark:focus:ring-indigo-500/40"
                 />
 
                 <div className="max-w-64">
@@ -455,12 +455,12 @@ const Dashboard = () => {
             )}
           </div>
         </div>
-      </section>
+      </section> */}
 
       {/* Room Information */}
       <section id="storePurchase" className="mb-8">
         <div className="flex flex-wrap gap-6 w-full flex-row">
-          <div className="bg-white dark:bg-gray-800/90 dark:backdrop-blur-sm dark:border dark:border-indigo-500/20 rounded-2xl shadow-2xl p-6 w-full md:w-[calc(50%-12px)]">
+          <div className="bg-white dark:bg-gray-800/90 dark:backdrop-blur-sm dark:border dark:border-indigo-500/20 rounded-2xl shadow-2xl p-6 w-full ">
             <h3 className="text-lg font-semibold mb-4 dark:text-indigo-200">Room Information</h3>
             <div className="flex row items-center justify-between mb-5">
               <div className="flex flex-wrap gap-6 flex-row sm:justify-center">
@@ -476,7 +476,7 @@ const Dashboard = () => {
                   }}
                   isClearable
                   placeholderText="Select Date Range"
-                  className="border py-2 px-5 rounded w-full md:w-auto dark:bg-gray-700 dark:text-indigo-100 dark:border-indigo-500/30 dark:focus:ring-2 dark:focus:ring-indigo-500/40"
+                  className="border py-2 px-5 rounded w-full  dark:bg-gray-700 dark:text-indigo-100 dark:border-indigo-500/30 dark:focus:ring-2 dark:focus:ring-indigo-500/40"
                 />
 
                 <div className="max-w-64">
@@ -503,9 +503,9 @@ const Dashboard = () => {
       </section>
 
       {/* Retention Graph */}
-      <section id="Virtual Store Purchases" className="mb-8">
+      {/* <section id="Virtual Store Purchases" className="mb-8">
         <div className="flex flex-wrap gap-6 w-full flex-row">
-          <div className="bg-white dark:bg-gray-800/90 dark:backdrop-blur-sm dark:border dark:border-indigo-500/20 rounded-2xl shadow-2xl p-6 w-full md:w-[calc(50%-12px)]">
+          <div className="bg-white dark:bg-gray-800/90 dark:backdrop-blur-sm dark:border dark:border-indigo-500/20 rounded-2xl shadow-2xl p-6 w-full ">
             <h3 className="text-lg font-semibold mb-4 dark:text-indigo-200">Retention</h3>
             <div className="flex flex-wrap gap-6 flex-row sm:justify-center">
               <div className="max-w-64 mb-16">
@@ -543,7 +543,7 @@ const Dashboard = () => {
             )}
           </div>
         </div>
-      </section>
+      </section> */}
     </main>
   </div>
 </div>
